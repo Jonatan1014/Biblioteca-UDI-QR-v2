@@ -39,11 +39,8 @@ if (
 
         // Redireccionar si la operación es exitosa
         if ($operar) {
-            session_start(); // Iniciar la sesión
-            $_SESSION['usuario_email'] = $email;
             echo "<script>
-                    alert('Usuario registrado correctamente');
-                    window.location.href = '../index.php';
+                    window.location.href = '../pages-logout.php';
                   </script>";
             exit(); // Asegurarse de detener la ejecución después de la redirección
         } else {

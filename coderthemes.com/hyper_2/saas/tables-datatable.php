@@ -1,4 +1,23 @@
-<!DOCTYPE html>
+
+<?php
+session_start(); // Iniciar la sesión
+
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['usuario_email'])) {
+    // Si no ha iniciado sesión, redirigir a la página de inicio de sesión
+    header('Location: login.php');
+    exit();
+}
+
+require('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
+$usuario = new Usuario();
+$usuario = $usuario->datosUser_rol($_SESSION['usuario_email']); // Obtener los datos de los libros
+if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
+    header('Location: view-student.php');
+    exit();
+
+}
+?><!DOCTYPE html>
 <html lang="en">
 
 
