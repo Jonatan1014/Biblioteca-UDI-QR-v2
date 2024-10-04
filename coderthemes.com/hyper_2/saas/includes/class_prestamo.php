@@ -1,0 +1,77 @@
+<?php
+require('conn.php');
+
+class Prestamo extends conectarDB {
+
+    public function __construct() {
+        parent::__construct();
+    }
+
+    // Método para registrar un nuevo préstamo
+    public function registrarPrestamo($idLibro, $idUser, $fecha_prestamo, $fecha_vencimiento) {
+        $sql = "INSERT INTO prestamos (idLibro, idUser, fecha_prestamo, fecha_vencimiento, estado) 
+                VALUES (:idLibro, :idUser, :fecha_prestamo, :fecha_vencimiento, 'Prestado')";
+        $stmt = $this->conn_db->prepare($sql);
+        $stmt->bindParam(':idLibro', $idLibro, PDO::PARAM_INT);
+        $stmt->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $stmt->bindParam(':fecha_prestamo', $fecha_prestamo);
+        $stmt->bindParam(':fecha_vencimiento', $fecha_vencimiento);
+        $stmt->execute();
+        $stmt->closeCursor();
+        return true;
+    }
+    
+
+    // Método para actualizar la fecha de devolución de un préstamo
+    public function devolverLibro($idPrestamo) {
+        $fecha_devolucion = date('Y-m-d');
+        $sql = "UPDATE prestamos 
+                SET fecha_devolucion = :fecha_devolucion, estado = 'Devuelto' 
+                WHERE idPrestamo = :idPrestamo";
+        $stmt = $this->conn_db->prepare($sql);
+        $stmt->bindParam(':fecha_devolucion', $fecha_devolucion);
+        $stmt->bindParam(':idPrestamo', $idPrestamo, PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt->closeCursor();
+        return true;
+    }
+
+    // Método para obtener el historial de préstamos de un usuario
+    public function historialPrestamosUsuario($idUser) {
+        $sql = "SELECT l.titulo, l.autor, p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, p.estado
+                FROM prestamos p
+                JOIN libros l ON p.idLibro = l.idLibro
+                WHERE p.idUser = :idUser";
+        $stmt = $this->conn_db->prepare($sql);
+        $stmt->bindParam(':idUser', $idUser, PDO::PARAM_INT);
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $resultados;
+    }
+
+    // Método para verificar si un libro está prestado
+    public function verificarDisponibilidad($idLibro) {
+        $sql = "SELECT * FROM prestamos WHERE idLibro = :idLibro AND estado = 'Prestado'";
+        $stmt = $this->conn_db->prepare($sql);
+        $stmt->bindParam(':idLibro', $idLibro, PDO::PARAM_INT);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $resultado ? false : true; // Devuelve falso si está prestado, verdadero si está disponible
+    }
+
+    // Método para listar todos los préstamos
+    public function listarPrestamos() {
+        $sql = "SELECT p.idPrestamo, u.name, l.titulo, p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, p.estado
+                FROM prestamos p
+                JOIN usuarios u ON p.idUser = u.idUser
+                JOIN libros l ON p.idLibro = l.idLibro";
+        $stmt = $this->conn_db->prepare($sql);
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $resultados;
+    }
+}
+?>
