@@ -54,55 +54,75 @@
             </li>
 
 
+            <?php
 
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false"
-                    aria-controls="sidebarEcommerce" class="side-nav-link collapsed">
-                    <i class="uil-books"></i>
-                    <span> Libros </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarEcommerce" style="">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="book_loan.php">Libros Prestados</a>
-                        </li>
-                        <li>
-                            <a href="form-elements.php">Registrar Libros</a>
-                        </li>
-                        <li>
-                            <a href="tables-datatable-book.php">Lista Libros</a>
-                        </li>
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['usuario_email'])) {
+    // Si no ha iniciado sesión, redirigir a la página de inicio de sesión
+    header('Location: login.php');
+    exit();
+}
 
-                    </ul>
-                </div>
+require_once('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
+$usuario = new Usuario();
+$usuario = $usuario->datosUser_rol($_SESSION['usuario_email']); // Obtener los datos de los libros
+
+if ($usuario && isset($usuario["rol"]) && $usuario["rol"] !== "Estudiante") {
+    
+
+?>
+
+
+
+
+<li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false" aria-controls="sidebarEcommerce" class="side-nav-link collapsed">
+        <i class="uil-books"></i>
+        <span> Libros </span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="sidebarEcommerce" style="">
+        <ul class="side-nav-second-level">
+            <li>
+                <a href="book_loan.php">Libros Prestados</a>
             </li>
-
-            <li class="side-nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail"
-                    class="side-nav-link collapsed">
-                    <i class="uil-user"></i>
-                    <span> Usuarios </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse" id="sidebarEmail" style="">
-                    <ul class="side-nav-second-level">
-                        <li>
-                            <a href="tables-datatable.php">Lista Usuarios</a>
-                        </li>
-                        <li>
-                            <a href="form-elements-user.php">Registrar Administrador</a>
-                        </li>
-                        <li>
-                            <a href="form-elements-student.php">Registrar Estudiante</a>
-                        </li>
-                    </ul>
-                </div>
+            <li>
+                <a href="form-elements.php">Registrar Libros</a>
             </li>
+            <li>
+                <a href="tables-datatable-book.php">Lista Libros</a>
+            </li>
+        </ul>
+    </div>
+</li>
+
+<li class="side-nav-item">
+    <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link collapsed">
+        <i class="uil-user"></i>
+        <span> Usuarios </span>
+        <span class="menu-arrow"></span>
+    </a>
+    <div class="collapse" id="sidebarEmail" style="">
+        <ul class="side-nav-second-level">
+            <li>
+                <a href="tables-datatable.php">Lista Usuarios</a>
+            </li>
+            <li>
+                <a href="form-elements-user.php">Registrar Administrador</a>
+            </li>
+            <li>
+                <a href="form-elements-student.php">Registrar Estudiante</a>
+            </li>
+        </ul>
+    </div>
+</li>
+
+
 
             
-
-
+<?php
+}
+            ?>
 
 
 
