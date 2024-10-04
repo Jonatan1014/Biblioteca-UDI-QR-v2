@@ -123,7 +123,7 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
                             // Cuerpo inferior de la tarjeta con resumen (si se desea agregar más detalles)
                             echo '        <div class="card-body">';
                             echo '            <p class="card-text">' . substr(htmlspecialchars($book['resena']), 0, 100) . '...</p>';  // Resumen del libro (puedes modificar si deseas mostrar otra cosa)
-                            echo '            <a href="details_book.php?id=' . htmlspecialchars($book['idLibro']) . '" class="card-link text-custom">Más Información</a>';  // Enlace a detalles del libro
+                            echo '            <a href="details-book.php?id=' . htmlspecialchars($book['idLibro']) . '" class="card-link text-custom">Más Información</a>';  // Enlace a detalles del libro
                             echo '        </div>';  // Cierre del cuerpo de la tarjeta
 
                             echo '    </div>';  // Cierre de la tarjeta
