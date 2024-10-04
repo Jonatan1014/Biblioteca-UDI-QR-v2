@@ -20,7 +20,7 @@
                         <img src="assets/images/logo_udi.png" alt="dark logo">
                     </span>
                     <span class="logo-sm">
-                        <img src="assets/images/logo_udi.png" alt="small logo" >
+                        <img src="assets/images/logo_udi.png" alt="small logo">
                     </span>
                 </a>
             </div>
@@ -40,26 +40,34 @@
             </button>
 
             <!-- Topbar Search Form -->
-           
+
         </div>
 
         <ul class="topbar-menu d-flex align-items-center gap-3">
 
 
+            <li class="dropdown notification-list">
+                
 
-
-
-
-
-
-
-
-            <li class="d-none d-sm-inline-block">
                 <div class="nav-link" id="light-dark-mode" data-bs-toggle="tooltip" data-bs-placement="left"
                     title="Theme Mode">
                     <i class="ri-moon-line font-22"></i>
                 </div>
+                
             </li>
+
+
+
+
+
+
+
+            <!-- <li class="d-none d-sm-inline-block">
+                <div class="nav-link" id="light-dark-mode" data-bs-toggle="tooltip" data-bs-placement="left"
+                    title="Theme Mode">
+                    <i class="ri-moon-line font-22"></i>
+                </div>
+            </li> -->
 
 
 
@@ -80,6 +88,7 @@
                     <div class=" dropdown-header noti-title">
                         <h6 class="text-overflow m-0">Welcome !</h6>
                     </div>
+
 
                     <!-- item-->
                     <a href="pages-profile-2.php" class="dropdown-item">
