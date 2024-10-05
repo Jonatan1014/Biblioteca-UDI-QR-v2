@@ -7,6 +7,14 @@ if (!isset($_SESSION['usuario_email'])) {
     header('Location: login.php');
     exit();
 }
+require('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
+$usuario = new Usuario();
+$usuario = $usuario->datosUser_rol($_SESSION['usuario_email']); // Obtener los datos de los libros
+if ($usuario["rol"]=="Admin" || $usuario["rol"]=="Root") {
+    header('Location: index.php');
+    exit();
+
+}
 
 
 require('includes/class_prestamo.php'); // Asegúrate de incluir la clase correcta
