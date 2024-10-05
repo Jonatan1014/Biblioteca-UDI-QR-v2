@@ -85,7 +85,7 @@ class Prestamo extends conectarDB {
 
     // Método para listar todos los préstamos
     public function listarPrestamos() {
-        $sql = "SELECT p.idPrestamo, u.name, l.titulo, p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, p.estado
+        $sql = "SELECT p.idPrestamo, u.name, u.carrera, l.isbn, l.titulo, p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, p.estado
                 FROM prestamos p
                 JOIN usuarios u ON p.idUser = u.idUser
                 JOIN libros l ON p.idLibro = l.idLibro";

@@ -96,20 +96,41 @@ $datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
                     </div>
 
                     <div class="row">
-
-
+                        <?php
+foreach ($datos as $prestamoL) {
+    ?>
                         <div class="col-md-4">
                             <div class="card border-primary border">
                                 <div class="card-body">
-                                    <h5 class="card-title text-primary">Special title treatment</h5>
-                                    <h7 class="card-title text-body-emphasis">Special title treatment</h7>
-                                    <p class="card-text">With supporting text below as a natural lead-in to
-                                        additional content.</p>
-                                    <a href="javascript: void(0);" class="btn btn-primary btn-sm">Button</a>
+                                    <h5 class="card-title text-primary" style="text-align: center;">
+                                        <?php echo htmlspecialchars($prestamoL["titulo"]); ?>
+                                    </h5>
+                                    <h7 class="card-title text-body-emphasis">
+                                        ISBN: <?php echo htmlspecialchars($prestamoL["isbn"]); ?>
+                                    </h7>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="card-text mb-0"><?php echo htmlspecialchars($prestamoL["name"]); ?>
+                                        </p>
+                                        <p class="card-text mb-0"><?php echo htmlspecialchars($prestamoL["carrera"]); ?>
+                                        </p>
+                                    </div>
+                                    <br>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="javascript: void(0);" class="btn btn-primary btn-sm">Regresar libro</a>
+                                        <div style="text-align: right;">
+                                            <?php echo htmlspecialchars($prestamoL["fecha_vencimiento"]); ?></p>
+                                        
+                                        </div>
+                                    </div>
+
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
                         </div> <!-- end col-->
-                        
+                        <?php
+}
+?>
+
+
                     </div>
                     <!-- end row -->
 
