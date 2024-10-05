@@ -25,7 +25,7 @@ if (
         if (!$estadoLibro) {
             echo "<script>
                     alert('El libro seleccionado no está disponible.');
-                    window.location.href = '../loan_student.php';
+                    window.location.href = '../details-book.php';
                   </script>";
             exit();
         }
@@ -36,7 +36,7 @@ if (
             // Si el usuario no existe, redirigir con un mensaje de error
             echo "<script>
                     alert('El usuario no está registrado.');
-                    window.location.href = '../loan_student.php';
+                    window.location.href = '../details-book.php';
                   </script>";
             exit();
         }
@@ -55,7 +55,7 @@ if (
         } else {
             echo "<script>
                     alert('Error al registrar el préstamo.');
-                    window.location.href = '../loan_student.php';
+                    window.location.href = '../details-book.php';
                   </script>";
             exit();
         }
@@ -71,16 +71,17 @@ if (
         );
         echo "<script>
                 alert('Error: " . $e->getMessage() . "');
-                
+                window.location.href = '../details-book.php';
               </script>";
         exit();
     }
 } else {
     // Si algún campo está vacío, mostrar una alerta y redirigir
     
+    
     echo "<script>
             alert('Por favor, completa todos los campos.');
-            window.location.href = '../loan_student.php';
+            window.location.href = '../details-book.php';
           </script>";
     exit();
 }

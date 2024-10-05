@@ -13,6 +13,8 @@ CREATE TABLE usuarios (
 );
 INSERT INTO usuarios (code_cc, name, email, password, rol, carrera, estado) 
 VALUES ("101010", "Jonatan Cantillo", "jonatan@gmail.com", "$2y$10$4ch8QBRsDGBW119RzOTpM.t2.tjaTYJVYc7hOcWKWzn17SUUlRMJi", "Root", "Admin", "Activo");
+INSERT INTO usuarios (code_cc, name, email, password, rol, carrera, estado) 
+VALUES ("202020", "Laura Perez", "laura@gmail.com", "$2y$10$4ch8QBRsDGBW119RzOTpM.t2.tjaTYJVYc7hOcWKWzn17SUUlRMJi", "Admin", "Admin", "Activo");
 
 -- Tabla de libros
 CREATE TABLE libros (

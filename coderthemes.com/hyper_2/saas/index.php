@@ -107,7 +107,6 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
                         <?php
                         // Iterar sobre los datos de los libros
                         foreach ($datos as $book) {
-                            // Suponiendo que tienes el ID del libro en $book['idLibro']
                             echo '<div class="col-sm-6 col-lg-3">';
                             echo '    <div class="card d-block">';
 
@@ -120,69 +119,23 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
                             // Imagen (código QR del libro)
                             echo '        <img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($book["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($book['titulo']) . '" class="qr-code">';
 
-                            // Cuerpo inferior de la tarjeta con resumen (si se desea agregar más detalles)
+                            // Cuerpo inferior de la tarjeta con resumen
                             echo '        <div class="card-body">';
-                            echo '            <p class="card-text">' . substr(htmlspecialchars($book['resena']), 0, 100) . '...</p>';  // Resumen del libro (puedes modificar si deseas mostrar otra cosa)
-                            echo '            <a href="details-book.php?id=' . htmlspecialchars($book['idLibro']) . '" class="card-link text-custom">Más Información</a>';  // Enlace a detalles del libro
-                            echo '        </div>';  // Cierre del cuerpo de la tarjeta
+                            echo '            <p class="card-text">' . substr(htmlspecialchars($book['resena']), 0, 100) . '...</p>';  // Resumen del libro
 
+                            // Formulario para enviar el idLibro por método POST
+                            echo '            <form action="details-book.php" method="POST">';
+                            echo '                <input type="hidden" name="idLibro" value="' . htmlspecialchars($book['idLibro']) . '">';
+                            echo '                <button type="submit" class="btn btn-primary">Más Información</button>';
+                            echo '            </form>';
+                            
+                            echo '        </div>';  // Cierre del cuerpo de la tarjeta
                             echo '    </div>';  // Cierre de la tarjeta
                             echo '</div>';  // Cierre de la columna
                         }
-                    ?>
+                        ?>
 
 
-
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="card d-block">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-                                </div>
-                                <img class="img-fluid" src="assets/images/small/small-4.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make
-                                        up the bulk of the card's content.</p>
-                                    <a href="details-book.php" class="card-link text-custom">Mas Informacion
-                                    </a>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div><!-- end col -->
-
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="card d-block">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-                                </div>
-                                <img class="img-fluid" src="assets/images/small/small-4.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make
-                                        up the bulk of the card's content.</p>
-                                    <a href="javascript: void(0);" class="card-link text-custom">Card link</a>
-                                    <a href="javascript: void(0);" class="card-link text-custom">Another link</a>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div><!-- end col -->
-
-
-                        <div class="col-sm-6 col-lg-3">
-                            <div class="card d-block">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-                                </div>
-                                <img class="img-fluid" src="assets/images/small/small-4.jpg" alt="Card image cap">
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make
-                                        up the bulk of the card's content.</p>
-                                    <a href="javascript: void(0);" class="card-link text-custom">Card link</a>
-                                    <a href="javascript: void(0);" class="card-link text-custom">Another link</a>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-
-                        </div>
-                        <!-- end row -->
 
 
 

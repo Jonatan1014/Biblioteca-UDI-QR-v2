@@ -96,7 +96,11 @@ $usuario = $usuario->datosUser_email($_SESSION['usuario_email']);
                     </ul>
                 </div>
             </li>
+            <?php
+            if($usuario["rol"]=="Root"){
 
+            
+            ?>
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail"
                     class="side-nav-link collapsed">
@@ -121,6 +125,7 @@ $usuario = $usuario->datosUser_email($_SESSION['usuario_email']);
 
             
         <?php
+            }
         }
 ?>
 

@@ -87,6 +87,7 @@ $datos = $prestamo->librosPrestados_email($_SESSION['usuario_email']); // Obtene
 
 
                             <?php 
+                            // var_dump($datos);
                             if (!$datos){
                                 echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                                                             <div class="toast-header">
@@ -105,19 +106,19 @@ $datos = $prestamo->librosPrestados_email($_SESSION['usuario_email']); // Obtene
 
                             
                             
-                            foreach($datosllibros as $datos) {
+                            foreach($datos as $datosllibros) {
                                 
                                 ?>
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="card d-block">
                                         <div class="card-body">
-                                            <h6 class="card-subtitle text-muted"><?php echo $datosllibros["autor"] ?></h6>
-                                            <h5 class="card-title"> <?php echo $datosllibros["titulo"] ?></h5>
+                                            <h5 class="card-title"> <?php echo $datos[0]["titulo"] ?></h5>
+                                            <h6 class="card-subtitle text-muted"><?php echo $datos[0]["autor"] ?></h6>
                                         </div>
                                         <img class="img-fluid" src="assets/images/small/small-4.jpg"
                                             alt="Card image cap">
                                         <div class="card-body">
-                                            <p class="card-text"><?php echo $datosllibros["fecha_vencimiento"] ?></p>
+                                            <p class="card-text">Fecha de devolucion: <?php echo $datos[0]["fecha_vencimiento"] ?></p>
                                           
                                         </div> <!-- end card-body-->
                                     </div> <!-- end card-->

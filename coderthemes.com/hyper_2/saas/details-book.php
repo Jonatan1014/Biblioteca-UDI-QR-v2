@@ -16,6 +16,13 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
     exit();
 
 }
+if (empty($_POST['idLibro'])){
+    header('Location: index.php');
+    exit();
+} 
+require('includes/class_libroqr.php');
+$libro = new Libroqr();
+$datos = $libro->detallarLibro($_POST['idLibro']); // Obtener los datos de un libro específico
 ?>
 
 <!DOCTYPE html>
@@ -112,8 +119,11 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
 
                                     <div class="col-sm-6 col-lg-3">
                                         <div class="card">
-                                            <img src="assets/images/small/small-2.jpg" class="card-img-top" alt="..."
-                                                style="width: 100%; height: 300px; object-fit: cover;">
+                                            <?php // Imagen (código QR del libro)
+                                                echo '<img class="card-img-top" src="data:image/jpeg;base64,' . base64_encode($datos["portada"]) . '" alt="Código QR de ' . htmlspecialchars($datos['titulo']) . '" style="width: 100%; height: 400px; object-fit: cover;">';
+                                            ?>
+                                           
+                                          
                                         </div> <!-- end card -->
                                     </div>
 
@@ -129,42 +139,43 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
                                                 <div class="">
                                                     <!-- Título del libro -->
                                                     <h5 class="mt-1 mb-1">Titulo:</h5>
-                                                    <h7 class="text-muted"> {{titulo}} </h7>
+                                                    <h7 class="text-muted"> <?php echo $datos['titulo']?> </h7>
                                                     <!-- Variable para el título del libro -->
 
                                                     <!-- Autor del libro -->
                                                     <h5 class="mt-1 mb-1">Autor:</h5>
-                                                    <h7 class="text-muted"> {{autor}} </h7>
+                                                    <h7 class="text-muted"> <?php echo $datos['autor']?> </h7>
                                                     <!-- Variable para el autor -->
 
                                                     <!-- Editorial del libro -->
                                                     <h5 class="mb-1">Editorial:</h5>
-                                                    <h7 class="text-muted"> {{editorial}} </h7>
+                                                    <h7 class="text-muted"> <?php echo $datos['editorial']?></h7>
                                                     <!-- Variable para la editorial -->
 
                                                     <!-- Categoría del libro -->
                                                     <h5 class="mb-1">Categoría:</h5>
-                                                    <h7 class="text-muted"> {{categoria}} </h7>
+                                                    <h7 class="text-muted"> <?php echo $datos['categoria']?> </h7>
                                                     <!-- Variable para la categoría -->
 
                                                     <!-- Fecha de publicación -->
                                                     <h5 class="mb-1">Fecha de publicación:</h5>
-                                                    <h7 class="text-muted"> {{fecha_publicacion}} </h7>
+                                                    <h7 class="text-muted"> <?php echo $datos['año_publicacion']?>
+                                                    </h7>
                                                     <!-- Variable para la fecha de publicación -->
 
                                                     <!-- Idioma del libro -->
                                                     <h5 class="mb-1">Idioma:</h5>
-                                                    <h7 class="text-muted"> {{idioma}} </h7>
+                                                    <h7 class="text-muted"> <?php echo $datos['idioma']?></h7>
                                                     <!-- Variable para el idioma -->
 
                                                     <!-- ISBN del libro -->
                                                     <h5 class="mb-1">ISBN:</h5>
-                                                    <h7 class="text-muted"> {{isbn}} </h7>
+                                                    <h7 class="text-muted"> <?php echo $datos['isbn']?> </h7>
                                                     <!-- Variable para el ISBN -->
 
                                                     <!-- Edición del libro -->
                                                     <h5 class="mb-1">Edición:</h5>
-                                                    <h7 class="text-muted"> {{edicion}} </h7>
+                                                    <h7 class="text-muted"> <?php echo $datos['edicion']?> </h7>
                                                     <!-- Variable para la edición -->
                                                 </div>
 
@@ -181,14 +192,15 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
 
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <form>
+                                            <form action="action/register_loan.php" method="post">
                                                 <div class="row">
                                                     <!-- Primera columna -->
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
                                                             <label for="simpleinput" class="form-label">Codigo
                                                                 estudiante</label>
-                                                            <input type="text" id="simpleinput" class="form-control">
+                                                            <input type="text" name="cedula" id="simpleinput"
+                                                                class="form-control" required>
                                                         </div>
 
                                                         <div class="mb-3">
@@ -205,13 +217,18 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
                                                         <div class="mb-3">
                                                             <label for="example-date" class="form-label">fecha de
                                                                 devolucion</label>
-                                                            <input class="form-control" id="example-date" type="date"
-                                                                name="date">
+                                                            <input class="form-control" name="fecha_entrega" id="example-date" type="date"
+                                                                name="date" required>
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="simpleinput" class="form-label">Titulo de
                                                                 libro</label>
-                                                            <input type="text" id="simpleinput" class="form-control">
+                                                            <input type="text"  id="simpleinput"
+                                                                class="form-control" value="<?php echo $datos['titulo']?>" readonly>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <input type="hidden" name="idLibro" value="<?php echo $datos['idLibro']?>" id="simpleinput"
+                                                                class="form-control">
                                                         </div>
 
                                                     </div>

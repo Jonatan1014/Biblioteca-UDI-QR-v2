@@ -55,7 +55,7 @@ class Prestamo extends conectarDB {
                 FROM prestamos p
                 JOIN libros l ON p.idLibro = l.idLibro
                 JOIN usuarios u ON p.idUser = u.idUser
-                WHERE u.email = :email AND p.estado = 'Activo';"; // Elimina las comillas de :email
+                WHERE u.email = :email"; // Elimina las comillas de :email
         $stmt = $this->conn_db->prepare($sql);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
