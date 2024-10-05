@@ -85,16 +85,8 @@ if (validarCamposRequeridos([
         exit();
     }
 } else {
-    var_dump(
-
-
-        $_POST['titulo'], $_POST['autor'], $_POST['editorial'], 
-    $_POST['categoria'], $_POST['ano'], $_POST['idioma'], 
-    $_POST['isbn'], $_POST['edicion'], $_POST['descripcion'], 
-    $_FILES['portada']['tmp_name'], // Verificar que se haya subido una portada
-    );
     // Manejar el caso en que algún campo obligatorio esté vacío
-    echo "<script>alert('Por favor, completa todos los campos.'); </script>";
+    echo "<script>alert('Por favor, completa todos los campos.'); window.location.href = '../form-elements.php'; </script>";
     exit();
 }
 ?>
