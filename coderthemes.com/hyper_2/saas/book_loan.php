@@ -16,6 +16,13 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
     exit();
 
 }
+
+require('includes/class_prestamo.php'); // Asegúrate de incluir la clase correcta
+
+$prestamo = new Prestamo();
+
+$datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
+
 ?>
 
 <!DOCTYPE html>
@@ -89,6 +96,8 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
                     </div>
 
                     <div class="row">
+
+                    
                         <div class="col-md-4">
                             <div class="card border-primary border">
                                 <div class="card-body">
@@ -99,46 +108,7 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
                         </div> <!-- end col-->
-                        <div class="col-md-4">
-                            <div class="card border-primary border">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Special title treatment</h5>
-                                    <p class="card-text">With supporting text below as a natural lead-in to
-                                        additional content.</p>
-                                    <a href="javascript: void(0);" class="btn btn-primary btn-sm">Button</a>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div> <!-- end col-->
-                        <div class="col-md-4">
-                            <div class="card border-primary border">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Special title treatment</h5>
-                                    <p class="card-text">With supporting text below as a natural lead-in to
-                                        additional content.</p>
-                                    <a href="javascript: void(0);" class="btn btn-primary btn-sm">Button</a>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div> <!-- end col-->
-                        <div class="col-md-4">
-                            <div class="card border-primary border">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Special title treatment</h5>
-                                    <p class="card-text">With supporting text below as a natural lead-in to
-                                        additional content.</p>
-                                    <a href="javascript: void(0);" class="btn btn-primary btn-sm">Button</a>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div> <!-- end col-->
-                        <div class="col-md-4">
-                            <div class="card border-primary border">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Special title treatment</h5>
-                                    <p class="card-text">With supporting text below as a natural lead-in to
-                                        additional content.</p>
-                                    <a href="javascript: void(0);" class="btn btn-primary btn-sm">Button</a>
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div> <!-- end col-->
+                        
                     </div>
                     <!-- end row -->
 

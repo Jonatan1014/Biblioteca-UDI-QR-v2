@@ -122,8 +122,8 @@ $datos = $libro->detallarLibro($_POST['idLibro']); // Obtener los datos de un li
                                             <?php // Imagen (código QR del libro)
                                                 echo '<img class="card-img-top" src="data:image/jpeg;base64,' . base64_encode($datos["portada"]) . '" alt="Código QR de ' . htmlspecialchars($datos['titulo']) . '" style="width: 100%; height: 400px; object-fit: cover;">';
                                             ?>
-                                           
-                                          
+
+
                                         </div> <!-- end card -->
                                     </div>
 
@@ -197,7 +197,7 @@ $datos = $libro->detallarLibro($_POST['idLibro']); // Obtener los datos de un li
                                                     <!-- Primera columna -->
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
-                                                            <label for="simpleinput" class="form-label">Codigo
+                                                            <label for="simpleinput" class="form-label">Código
                                                                 estudiante</label>
                                                             <input type="text" name="cedula" id="simpleinput"
                                                                 class="form-control" required>
@@ -206,32 +206,35 @@ $datos = $libro->detallarLibro($_POST['idLibro']); // Obtener los datos de un li
                                                         <div class="mb-3">
                                                             <label for="example-date" class="form-label">Fecha de
                                                                 entrega</label>
-                                                            <input class="form-control" id="example-date" type="date"
+                                                            <input class="form-control" id="fecha-entrega" type="date"
                                                                 name="date" value="<?php echo date('Y-m-d'); ?>"
                                                                 readonly>
                                                         </div>
-
                                                     </div>
+
                                                     <!-- Segunda columna -->
                                                     <div class="col-lg-6">
                                                         <div class="mb-3">
-                                                            <label for="example-date" class="form-label">fecha de
-                                                                devolucion</label>
-                                                            <input class="form-control" name="fecha_entrega" id="example-date" type="date"
-                                                                name="date" required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="simpleinput" class="form-label">Titulo de
-                                                                libro</label>
-                                                            <input type="text"  id="simpleinput"
-                                                                class="form-control" value="<?php echo $datos['titulo']?>" readonly>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <input type="hidden" name="idLibro" value="<?php echo $datos['idLibro']?>" id="simpleinput"
-                                                                class="form-control">
+                                                            <label for="example-date" class="form-label">Fecha de
+                                                                devolución</label>
+                                                            <input class="form-control" name="fecha_entrega"
+                                                                id="fecha-devolucion" type="date" required>
                                                         </div>
 
+                                                        <div class="mb-3">
+                                                            <label for="simpleinput" class="form-label">Título del
+                                                                libro</label>
+                                                            <input type="text" id="simpleinput" class="form-control"
+                                                                value="<?php echo $datos['titulo']?>" readonly>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <input type="hidden" name="idLibro"
+                                                                value="<?php echo $datos['idLibro']?>" id="simpleinput"
+                                                                class="form-control">
+                                                        </div>
                                                     </div>
+
                                                     <!-- Botón de envío -->
                                                     <div class="mb-3 text-center">
                                                         <br><br><br>
@@ -241,6 +244,32 @@ $datos = $libro->detallarLibro($_POST['idLibro']); // Obtener los datos de un li
                                             </form>
                                         </div>
                                     </div>
+
+                                    <script>
+                                    // Obtenemos las fechas de entrega y devolución
+                                    const fechaEntregaInput = document.getElementById('fecha-entrega');
+                                    const fechaDevolucionInput = document.getElementById('fecha-devolucion');
+
+                                    // Convertir la fecha actual a un formato válido de input (YYYY-MM-DD)
+                                    const fechaEntrega = new Date(fechaEntregaInput.value);
+
+                                    // Calcular fecha mínima y máxima para la devolución
+                                    const fechaMinimaDevolucion = new Date(fechaEntrega);
+                                    fechaMinimaDevolucion.setDate(fechaMinimaDevolucion.getDate() +
+                                    1); // Al menos 1 día después
+
+                                    const fechaMaximaDevolucion = new Date(fechaEntrega);
+                                    fechaMaximaDevolucion.setDate(fechaMaximaDevolucion.getDate() +
+                                    3); // Máximo 3 días después
+
+                                    // Convertir las fechas a formato de input (YYYY-MM-DD)
+                                    const formatoFecha = (fecha) => fecha.toISOString().split('T')[0];
+
+                                    // Establecer los valores de mínimo y máximo en el campo de fecha de devolución
+                                    fechaDevolucionInput.min = formatoFecha(fechaMinimaDevolucion);
+                                    fechaDevolucionInput.max = formatoFecha(fechaMaximaDevolucion);
+                                    </script>
+
 
                                     </p>
                                 </div>

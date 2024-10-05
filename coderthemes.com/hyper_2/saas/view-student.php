@@ -86,50 +86,92 @@ $datos = $prestamo->librosPrestados_email($_SESSION['usuario_email']); // Obtene
                             <div class="row">
 
 
-                            <?php 
-                            // var_dump($datos);
-                            if (!$datos){
-                                echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-                                                            <div class="toast-header">
-                                                                <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">
-                                                                <strong class="me-auto">Notificacion</strong>
-                                                                <small>1 mins</small>
-                                                                <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="toast-body">
-                                                                No tienes ningun libro.
-                                                            </div>
-                                                        </div>';
+                                <?php 
 
-                                
-                            }else{
 
-                            
-                            
-                            foreach($datos as $datosllibros) {
-                                
-                                ?>
+if (!$datos) {
+    // Mostrar notificación si no hay libros prestados
+    echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">
+                <strong class="me-auto">Notificación</strong>
+                <small>1 min</small>
+                <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                No tienes ningún libro prestado.
+            </div>
+        </div>';
+} else {
+    foreach ($datos as $datosllibros) {
+        // Obtener la fecha de vencimiento desde la base de datos
+        try {
+            $fecha_vencimiento = new DateTime($datosllibros["fecha_vencimiento"]);
+        } catch (Exception $e) {
+            echo "Error en el formato de la fecha: " . $e->getMessage();
+            continue;
+        }
+        
+        // Obtener la fecha y hora actual
+        $fecha_actual = new DateTime();
+
+        // Calcular la diferencia en días, horas y minutos
+        $intervalo = $fecha_actual->diff($fecha_vencimiento);
+        $dias_restantes = $intervalo->days;
+        $horas_restantes = $intervalo->h;
+        $minutos_restantes = $intervalo->i;
+
+        // Revisar si la fecha de vencimiento ya pasó
+        if ($fecha_actual > $fecha_vencimiento) {
+            $mensaje_dias_restantes = "¡Plazo vencido!";
+        } 
+        // Si la fecha es exactamente hoy
+        elseif ($fecha_actual->format('Y-m-d') == $fecha_vencimiento->format('Y-m-d')) {
+            $mensaje_dias_restantes = "¡Hoy!";
+
+            // Si quedan menos de un día, mostrar horas y minutos
+            if ($horas_restantes > 0 || $minutos_restantes > 0) {
+                $mensaje_dias_restantes = "Quedan $horas_restantes horas y $minutos_restantes minutos.";
+            }
+        } 
+        // Si faltan días
+        else {
+            // Mostrar días, horas y minutos restantes
+            $mensaje_dias_restantes = "$dias_restantes días y $horas_restantes horas.";
+        }
+
+        // Mostrar la tarjeta con la información del libro
+        ?>
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="card d-block">
                                         <div class="card-body">
-                                            <h5 class="card-title"> <?php echo $datos[0]["titulo"] ?></h5>
-                                            <h6 class="card-subtitle text-muted"><?php echo $datos[0]["autor"] ?></h6>
+                                            <h5 class="card-title">
+                                                <?php echo htmlspecialchars($datosllibros["titulo"]); ?>
+                                            </h5>
+                                            <h6 class="card-subtitle text-muted">
+                                                <?php echo htmlspecialchars($datosllibros["autor"]); ?>
+                                            </h6>
                                         </div>
                                         <img class="img-fluid" src="assets/images/small/small-4.jpg"
                                             alt="Card image cap">
                                         <div class="card-body">
-                                            <p class="card-text">Fecha de devolucion: <?php echo $datos[0]["fecha_vencimiento"] ?></p>
-                                          
+                                            <p class="card-text">Fecha de devolución:
+                                                <?php echo htmlspecialchars($datosllibros["fecha_vencimiento"]); ?>
+                                            </p>
+                                            <p class="card-text">Tiempo restante:
+                                                <?php echo $mensaje_dias_restantes; ?>
+                                            </p>
                                         </div> <!-- end card-body-->
                                     </div> <!-- end card-->
                                 </div><!-- end col -->
-                                <?php 
-                            }
-                        }
-                                ?>
+                                <?php
+    }
+}
+?>
 
-                               
-                                
+
+
+
                             </div>
                             <!-- end row -->
 
