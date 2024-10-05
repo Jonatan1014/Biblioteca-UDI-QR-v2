@@ -1,3 +1,14 @@
+<?php
+
+// Verificar si la sesión no está activa antes de iniciar una nueva
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Iniciar la sesión si no está ya activa
+}
+require_once('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
+$usuario = new Usuario();
+$usuario = $usuario->datosUser_email($_SESSION['usuario_email']);
+
+?>
 <div class="navbar-custom">
     <div class="topbar container-fluid">
         <div class="d-flex align-items-center gap-lg-2 gap-1">
@@ -47,13 +58,13 @@
 
 
             <li class="dropdown notification-list">
-                
+
 
                 <div class="nav-link" id="light-dark-mode" data-bs-toggle="tooltip" data-bs-placement="left"
                     title="Theme Mode">
                     <i class="ri-moon-line font-22"></i>
                 </div>
-                
+
             </li>
 
 
@@ -79,8 +90,8 @@
                         <img src="assets/images/users/avatar-1.jpg" alt="user-image" width="32" class="rounded-circle">
                     </span>
                     <span class="d-lg-flex flex-column gap-1 d-none">
-                        <h5 class="my-0">Dominic Keller</h5>
-                        <h6 class="my-0 fw-normal">Founder</h6>
+                        <h5 class="my-0"><?php echo $usuario["name"] ?></h5>
+                        <h6 class="my-0 fw-normal"><?php echo $usuario["rol"] ?></h6>
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">

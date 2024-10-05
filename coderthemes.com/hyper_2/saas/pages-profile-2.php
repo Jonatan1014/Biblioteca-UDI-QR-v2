@@ -1,3 +1,25 @@
+<?php
+session_start(); // Iniciar la sesión
+
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['usuario_email'])) {
+    // Si no ha iniciado sesión, redirigir a la página de inicio de sesión
+    header('Location: login.php');
+    exit();
+}
+
+require('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
+$usuario = new Usuario();
+// $usuario = $usuario->datosUser_rol($_SESSION['usuario_email']); // Obtener los datos de los libros
+// if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
+//     header('Location: view-student.php');
+//     exit();
+
+// }
+$usuario = $usuario->datosUser_email($_SESSION['usuario_email']);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +28,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Profile | Hyper - Responsive Bootstrap 5 Admin Dashboard</title>
+    <title>Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -74,18 +96,18 @@
                             <img src="assets/images/users/avatar-1.jpg" class="rounded-circle avatar-lg img-thumbnail"
                                 alt="profile-image">
 
-                            <h4 class="mb-0 mt-2">Dominic Keller</h4>
-                            <p class="text-muted font-14">Administrador</p>
+                                <p class="text-muted font-14"><?php echo $usuario["rol"] ?></p>
+                            <h4 class="mb-0 mt-2"><?php echo $usuario["name"] ?> </h4>
 
 
                             <div class="text-start mt-3">
                                
 
                                 <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span
-                                        class="ms-2 ">user@email.domain</span></p>
+                                        class="ms-2 "><?php echo $usuario["email"] ?></span></p>
 
                                 <p class="text-muted mb-1 font-13"><strong>Codigo :</strong> <span
-                                        class="ms-2">101010</span></p>
+                                        class="ms-2"><?php echo $usuario["code_cc"] ?></span></p>
                             </div>
 
                             
