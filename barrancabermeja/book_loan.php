@@ -39,7 +39,7 @@ $datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="assets/images/logo-dark-.png">
 
     <!-- Daterangepicker css -->
     <link href="assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">

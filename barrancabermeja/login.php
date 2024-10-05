@@ -25,7 +25,7 @@ if (isset($_SESSION['usuario_email'])) {
     <meta content="Coderthemes" name="author" />
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="assets/images/logo-dark-.png">
 
     <!-- Theme Config Js -->
     <script src="assets/js/hyper-config.js"></script>

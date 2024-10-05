@@ -1,31 +1,14 @@
-<?php
-session_start(); // Iniciar la sesión
 
-// Verificar si el usuario ha iniciado sesión
-if (!isset($_SESSION['usuario_email'])) {
-    // Si no ha iniciado sesión, redirigir a la página de inicio de sesión
-    header('Location: login.php');
-    exit();
-}
-
-
-require('includes/class_prestamo.php'); // Asegúrate de incluir la clase correcta
-
-$prestamo = new Prestamo();
-
-$datos = $prestamo->librosPrestados_email($_SESSION['usuario_email']); // Obtener los datos de los libros
-?>
 
 
 <!DOCTYPE html>
 <html lang="en">
 
 
-<!-- Mirrored from coderthemes.com/hyper_2/saas/pages-starter.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Oct 2024 17:04:15 GMT -->
-
+<!-- Mirrored from coderthemes.com/hyper_2/saas/pages-invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Oct 2024 17:04:10 GMT -->
 <head>
     <meta charset="utf-8" />
-    <title>Home Student </title>
+    <title>Libro QR</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -47,16 +30,16 @@ $datos = $prestamo->librosPrestados_email($_SESSION['usuario_email']); // Obtene
     <!-- Begin page -->
     <div class="wrapper">
 
-
+        
         <!-- ========== Topbar Start ========== -->
         <?php
-        include ("navbar.php");
+        // include ("navbar.php");
         ?>
         <!-- ========== Topbar End ========== -->
 
         <!-- ========== Left Sidebar Start ========== -->
         <?php
-        include ("leftSidebar.php");
+        // include ("leftSidebar.php");
         ?>
         <!-- ========== Left Sidebar End ========== -->
 
@@ -76,111 +59,171 @@ $datos = $prestamo->librosPrestados_email($_SESSION['usuario_email']); // Obtene
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                                        <li class="breadcrumb-item active">Libros Prestados</li>
+                                        <li class="breadcrumb-item"><a >Barrancabermeja</a></li>
+                                        <li class="breadcrumb-item"><a >UDI</a></li>
+                                        <li class="breadcrumb-item active">QR</li>
                                     </ol>
                                 </div>
-                                <h4 class="page-title">Libros Prestados</h4>
+                                <h4 class="page-title">QR</h4>
                             </div>
-
-                            <div class="row">
-
-
-                                <?php 
-
-
-if (!$datos) {
-    // Mostrar notificación si no hay libros prestados
-    echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">
-                <strong class="me-auto">Notificación</strong>
-                <small>1 min</small>
-                <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-            <div class="toast-body">
-                No tienes ningún libro prestado.
-            </div>
-        </div>';
-} else {
-    foreach ($datos as $datosllibros) {
-        // Obtener la fecha de vencimiento desde la base de datos
-        try {
-            $fecha_vencimiento = new DateTime($datosllibros["fecha_vencimiento"]);
-        } catch (Exception $e) {
-            echo "Error en el formato de la fecha: " . $e->getMessage();
-            continue;
-        }
-        
-        // Obtener la fecha y hora actual
-        $fecha_actual = new DateTime();
-
-        // Calcular la diferencia en días, horas y minutos
-        $intervalo = $fecha_actual->diff($fecha_vencimiento);
-        $dias_restantes = $intervalo->days;
-        $horas_restantes = $intervalo->h;
-        $minutos_restantes = $intervalo->i;
-
-        // Revisar si la fecha de vencimiento ya pasó
-        if ($fecha_actual > $fecha_vencimiento) {
-            $mensaje_dias_restantes = "¡Plazo vencido!";
-        } 
-        // Si la fecha es exactamente hoy
-        elseif ($fecha_actual->format('Y-m-d') == $fecha_vencimiento->format('Y-m-d')) {
-            $mensaje_dias_restantes = "¡Hoy!";
-
-            // Si quedan menos de un día, mostrar horas y minutos
-            if ($horas_restantes > 0 || $minutos_restantes > 0) {
-                $mensaje_dias_restantes = "Quedan $horas_restantes horas y $minutos_restantes minutos.";
-            }
-        } 
-        // Si faltan días
-        else {
-            // Mostrar días, horas y minutos restantes
-            $mensaje_dias_restantes = "$dias_restantes días y $horas_restantes horas.";
-        }
-
-        // Mostrar la tarjeta con la información del libro
-        ?>
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card d-block">
-                                        <div class="card-body">
-                                            <h5 class="card-title">
-                                                <?php echo htmlspecialchars($datosllibros["titulo"]); ?>
-                                            </h5>
-                                            <h6 class="card-subtitle text-muted">
-                                                <?php echo htmlspecialchars($datosllibros["autor"]); ?>
-                                            </h6>
-                                        </div>
-                                        <img class="img-fluid" src="assets/images/small/small-4.jpg"
-                                            alt="Card image cap">
-                                        <div class="card-body">
-                                            <p class="card-text">Fecha de devolución:
-                                                <?php echo htmlspecialchars($datosllibros["fecha_vencimiento"]); ?>
-                                            </p>
-                                            <p class="card-text">Tiempo restante:
-                                                <?php echo $mensaje_dias_restantes; ?>
-                                            </p>
-                                        </div> <!-- end card-body-->
-                                    </div> <!-- end card-->
-                                </div><!-- end col -->
-                                <?php
-    }
-}
-?>
-
-
-
-
-                            </div>
-                            <!-- end row -->
-
-
-
-
                         </div>
                     </div>
                     <!-- end page title -->
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <!-- Invoice Logo-->
+                                    <div class="clearfix">
+                                        <div class="float-start mb-3">
+                                            <img src="assets/images/logo-dark.png" alt="dark logo" height="22">
+                                        </div>
+                                        <div class="float-end">
+                                            <h4 class="m-0 d-print-none">Invoice</h4>
+                                        </div>
+                                    </div>
+
+                                    <!-- Invoice Detail-->
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="float-end mt-3">
+                                                <p><b>Hello, Cooper Hobson</b></p>
+                                                <p class="text-muted font-13">Please find below a cost-breakdown for the recent work completed. Please make payment at your earliest convenience, and do not hesitate to contact me with any questions.</p>
+                                            </div>
+
+                                        </div><!-- end col -->
+                                        <div class="col-sm-4 offset-sm-2">
+                                            <div class="mt-3 float-sm-end">
+                                                <p class="font-13"><strong>Order Date: </strong> &nbsp;&nbsp;&nbsp; Jan 17, 2018</p>
+                                                <p class="font-13"><strong>Order Status: </strong> <span class="badge bg-success float-end">Paid</span></p>
+                                                <p class="font-13"><strong>Order ID: </strong> <span class="float-end">#123456</span></p>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
+                                    <!-- end row -->
+
+                                    <div class="row mt-4">
+                                        <div class="col-sm-4">
+                                            <h6>Billing Address</h6>
+                                            <address>
+                                                Lynne K. Higby<br>
+                                                795 Folsom Ave, Suite 600<br>
+                                                San Francisco, CA 94107<br>
+                                                <abbr title="Phone">P:</abbr> (123) 456-7890
+                                            </address>
+                                        </div> <!-- end col-->
+
+                                        <div class="col-sm-4">
+                                            <h6>Shipping Address</h6>
+                                            <address>
+                                                Cooper Hobson<br>
+                                                795 Folsom Ave, Suite 600<br>
+                                                San Francisco, CA 94107<br>
+                                                <abbr title="Phone">P:</abbr> (123) 456-7890
+                                            </address>
+                                        </div> <!-- end col-->
+
+                                        <div class="col-sm-4">
+                                            <div class="text-sm-end">
+                                                <img src="assets/images/barcode.png" alt="barcode-image" class="img-fluid me-2" />
+                                            </div>
+                                        </div> <!-- end col-->
+                                    </div>
+                                    <!-- end row -->
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="table-responsive">
+                                                <table class="table mt-4">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Item</th>
+                                                            <th>Quantity</th>
+                                                            <th>Unit Cost</th>
+                                                            <th class="text-end">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>
+                                                                <b>Laptop</b> <br />
+                                                                Brand Model VGN-TXN27N/B
+                                                                11.1" Notebook PC
+                                                            </td>
+                                                            <td>1</td>
+                                                            <td>$1799.00</td>
+                                                            <td class="text-end">$1799.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>
+                                                                <b>Warranty</b> <br />
+                                                                Two Year Extended Warranty -
+                                                                Parts and Labor
+                                                            </td>
+                                                            <td>3</td>
+                                                            <td>$499.00</td>
+                                                            <td class="text-end">$1497.00</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>
+                                                                <b>LED</b> <br />
+                                                                80cm (32) HD Ready LED TV
+                                                            </td>
+                                                            <td>2</td>
+                                                            <td>$412.00</td>
+                                                            <td class="text-end">$824.00</td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div> <!-- end table-responsive-->
+                                        </div> <!-- end col -->
+                                    </div>
+                                    <!-- end row -->
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="clearfix pt-3">
+                                                <h6 class="text-muted">Notes:</h6>
+                                                <small>
+                                                    All accounts are to be paid within 7 days from receipt of
+                                                    invoice. To be paid by cheque or credit card or direct payment
+                                                    online. If account is not paid within 7 days the credits details
+                                                    supplied as confirmation of work undertaken will be charged the
+                                                    agreed quoted fee noted above.
+                                                </small>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-sm-6">
+                                            <div class="float-end mt-3 mt-sm-0">
+                                                <p><b>Sub-total:</b> <span class="float-end">$4120.00</span></p>
+                                                <p><b>VAT (12.5):</b> <span class="float-end">$515.00</span></p>
+                                                <h3>$4635.00 USD</h3>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div> <!-- end col -->
+                                    </div>
+                                    <!-- end row-->
+
+                                    <div class="d-print-none mt-4">
+                                        <div class="text-end">
+                                            <a href="javascript:window.print()" class="btn btn-primary"><i class="mdi mdi-printer"></i> Print</a>
+                                            <a href="javascript: void(0);" class="btn btn-info">Submit</a>
+                                        </div>
+                                    </div>
+                                    <!-- end buttons -->
+
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card -->
+                        </div> <!-- end col-->
+                    </div>
+                    <!-- end row -->
 
                 </div> <!-- container -->
 
@@ -205,8 +248,7 @@ if (!$datos) {
     <div class="offcanvas offcanvas-end" tabindex="-1" id="theme-settings-offcanvas">
         <div class="d-flex align-items-center bg-primary p-3 offcanvas-header">
             <h5 class="text-white m-0">Theme Settings</h5>
-            <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
 
         <div class="offcanvas-body p-0">
@@ -216,21 +258,16 @@ if (!$datos) {
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check card-radio">
-                                <input id="customizer-layout01" name="data-layout" type="radio" value="vertical"
-                                    class="form-check-input">
+                                <input id="customizer-layout01" name="data-layout" type="radio" value="vertical" class="form-check-input">
                                 <label class="form-check-label p-0 avatar-md w-100" for="customizer-layout01">
                                     <span class="d-flex h-100">
                                         <span class="flex-shrink-0">
                                             <span class="bg-light d-flex h-100 border-end flex-column p-1 px-2">
                                                 <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                             </span>
                                         </span>
                                         <span class="flex-grow-1">
@@ -245,21 +282,15 @@ if (!$datos) {
                         </div>
                         <div class="col-4">
                             <div class="form-check card-radio">
-                                <input id="customizer-layout02" name="data-layout" type="radio" value="horizontal"
-                                    class="form-check-input">
+                                <input id="customizer-layout02" name="data-layout" type="radio" value="horizontal" class="form-check-input">
                                 <label class="form-check-label p-0 avatar-md w-100" for="customizer-layout02">
                                     <span class="d-flex h-100 flex-column">
-                                        <span
-                                            class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
+                                        <span class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
                                             <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                            <span
-                                                class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
-                                            <span
-                                                class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                            <span
-                                                class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                            <span
-                                                class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                            <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
+                                            <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                            <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                            <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
                                         </span>
                                         <span class="bg-light d-block p-1"></span>
                                     </span>
@@ -275,22 +306,17 @@ if (!$datos) {
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-check card-radio">
-                                    <input class="form-check-input" type="radio" name="data-bs-theme"
-                                        id="layout-color-light" value="light">
+                                    <input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-light" value="light">
                                     <label class="form-check-label p-0 avatar-md w-100" for="layout-color-light">
                                         <div id="sidebar-size">
                                             <span class="d-flex h-100">
                                                 <span class="flex-shrink-0">
                                                     <span class="bg-light d-flex h-100 border-end flex-column p-1 px-2">
                                                         <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                     </span>
                                                 </span>
                                                 <span class="flex-grow-1">
@@ -303,17 +329,12 @@ if (!$datos) {
 
                                         <div id="topnav-color" class="bg-white rounded-2 h-100">
                                             <span class="d-flex h-100 flex-column">
-                                                <span
-                                                    class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
+                                                <span class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
                                                     <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
                                                 </span>
                                                 <span class="d-flex h-100 flex-column bg-white rounded-2">
                                                     <span class="bg-light d-block p-1"></span>
@@ -327,23 +348,17 @@ if (!$datos) {
 
                             <div class="col-4">
                                 <div class="form-check card-radio">
-                                    <input class="form-check-input" type="radio" name="data-bs-theme"
-                                        id="layout-color-dark" value="dark">
-                                    <label class="form-check-label p-0 avatar-md w-100 bg-black"
-                                        for="layout-color-dark">
+                                    <input class="form-check-input" type="radio" name="data-bs-theme" id="layout-color-dark" value="dark">
+                                    <label class="form-check-label p-0 avatar-md w-100 bg-black" for="layout-color-dark">
                                         <div id="sidebar-size">
                                             <span class="d-flex h-100">
                                                 <span class="flex-shrink-0">
                                                     <span class="bg-light d-flex h-100 flex-column p-1 px-2">
                                                         <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-secondary border-opacity-25 border-3 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-secondary border-opacity-25 border-3 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-secondary border-opacity-25 border-3 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-secondary border-opacity-25 border-3 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-secondary border-opacity-25 border-3 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-secondary border-opacity-25 border-3 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-secondary border-opacity-25 border-3 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-secondary border-opacity-25 border-3 rounded w-100 mb-1"></span>
                                                     </span>
                                                 </span>
                                                 <span class="flex-grow-1">
@@ -356,17 +371,12 @@ if (!$datos) {
 
                                         <div id="topnav-color">
                                             <span class="d-flex h-100 flex-column">
-                                                <span
-                                                    class="bg-light-lighten d-flex p-1 align-items-center border-bottom border-opacity-25 border-primary border-opacity-25">
+                                                <span class="bg-light-lighten d-flex p-1 align-items-center border-bottom border-opacity-25 border-primary border-opacity-25">
                                                     <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                                    <span
-                                                        class="d-block border border-primary border-opacity-25 border-3 rounded ms-auto"></span>
-                                                    <span
-                                                        class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
+                                                    <span class="d-block border border-primary border-opacity-25 border-3 rounded ms-auto"></span>
+                                                    <span class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
+                                                    <span class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
+                                                    <span class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
                                                 </span>
                                                 <span class="bg-light-lighten d-block p-1"></span>
                                             </span>
@@ -384,22 +394,17 @@ if (!$datos) {
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-check card-radio">
-                                    <input class="form-check-input" type="radio" name="data-layout-mode"
-                                        id="layout-mode-fluid" value="fluid">
+                                    <input class="form-check-input" type="radio" name="data-layout-mode" id="layout-mode-fluid" value="fluid">
                                     <label class="form-check-label p-0 avatar-md w-100" for="layout-mode-fluid">
                                         <div id="sidebar-size">
                                             <span class="d-flex h-100">
                                                 <span class="flex-shrink-0">
                                                     <span class="bg-light d-flex h-100 border-end flex-column p-1 px-2">
                                                         <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                     </span>
                                                 </span>
                                                 <span class="flex-grow-1">
@@ -412,17 +417,12 @@ if (!$datos) {
 
                                         <div id="topnav-color">
                                             <span class="d-flex h-100 flex-column">
-                                                <span
-                                                    class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
+                                                <span class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
                                                     <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
                                                 </span>
                                                 <span class="bg-light d-block p-1"></span>
                                             </span>
@@ -433,22 +433,17 @@ if (!$datos) {
                             </div>
                             <div class="col-4" id="layout-boxed">
                                 <div class="form-check card-radio">
-                                    <input class="form-check-input" type="radio" name="data-layout-mode"
-                                        id="layout-mode-boxed" value="boxed">
+                                    <input class="form-check-input" type="radio" name="data-layout-mode" id="layout-mode-boxed" value="boxed">
                                     <label class="form-check-label p-0 avatar-md w-100 px-2" for="layout-mode-boxed">
                                         <div id="sidebar-size" class="border-start border-end">
                                             <span class="d-flex h-100">
                                                 <span class="flex-shrink-0">
                                                     <span class="bg-light d-flex h-100 border-end flex-column p-1 px-2">
                                                         <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                     </span>
                                                 </span>
                                                 <span class="flex-grow-1">
@@ -461,17 +456,12 @@ if (!$datos) {
 
                                         <div id="topnav-color" class="border-start border-end h-100">
                                             <span class="d-flex h-100 flex-column">
-                                                <span
-                                                    class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
+                                                <span class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
                                                     <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
                                                 </span>
                                                 <span class="bg-light d-block p-1"></span>
                                             </span>
@@ -483,30 +473,22 @@ if (!$datos) {
 
                             <div class="col-4" id="layout-detached">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-layout-mode"
-                                        id="data-layout-detached" value="detached">
+                                    <input class="form-check-input" type="radio" name="data-layout-mode" id="data-layout-detached" value="detached">
                                     <label class="form-check-label p-0 avatar-md w-100" for="data-layout-detached">
                                         <span class="d-flex h-100 flex-column">
                                             <span class="bg-light d-flex p-1 align-items-center border-bottom ">
                                                 <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
                                             </span>
                                             <span class="d-flex h-100 p-1 px-2">
                                                 <span class="flex-shrink-0">
                                                     <span class="bg-light d-flex h-100 flex-column p-1 px-2">
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100"></span>
                                                     </span>
                                                 </span>
                                             </span>
@@ -525,22 +507,17 @@ if (!$datos) {
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check card-radio">
-                                <input class="form-check-input" type="radio" name="data-topbar-color"
-                                    id="topbar-color-light" value="light">
+                                <input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-light" value="light">
                                 <label class="form-check-label p-0 avatar-md w-100" for="topbar-color-light">
                                     <div id="sidebar-size">
                                         <span class="d-flex h-100">
                                             <span class="flex-shrink-0">
                                                 <span class="bg-light d-flex h-100 border-end  flex-column p-1 px-2">
                                                     <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                 </span>
                                             </span>
                                             <span class="flex-grow-1">
@@ -553,17 +530,12 @@ if (!$datos) {
 
                                     <div id="topnav-color">
                                         <span class="d-flex h-100 flex-column">
-                                            <span
-                                                class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
+                                            <span class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
                                                 <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
                                             </span>
                                             <span class="bg-light d-block p-1"></span>
                                         </span>
@@ -575,22 +547,17 @@ if (!$datos) {
 
                         <div class="col-4" style="--ct-dark-rgb: 64,73,84;">
                             <div class="form-check card-radio">
-                                <input class="form-check-input" type="radio" name="data-topbar-color"
-                                    id="topbar-color-dark" value="dark">
+                                <input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-dark" value="dark">
                                 <label class="form-check-label p-0 avatar-md w-100" for="topbar-color-dark">
                                     <div id="sidebar-size">
                                         <span class="d-flex h-100">
                                             <span class="flex-shrink-0">
                                                 <span class="bg-light d-flex h-100 border-end  flex-column p-1 px-2">
                                                     <span class="d-block p-1 bg-primary-lighten rounded mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                 </span>
                                             </span>
                                             <span class="flex-grow-1">
@@ -603,17 +570,12 @@ if (!$datos) {
 
                                     <div id="topnav-color">
                                         <span class="d-flex h-100 flex-column">
-                                            <span
-                                                class="bg-dark d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
+                                            <span class="bg-dark d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
                                                 <span class="d-block p-1 bg-primary-lighten rounded me-1"></span>
-                                                <span
-                                                    class="d-block border border-primary border-opacity-25 border-3 rounded ms-auto"></span>
-                                                <span
-                                                    class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
-                                                <span
-                                                    class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
-                                                <span
-                                                    class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
+                                                <span class="d-block border border-primary border-opacity-25 border-3 rounded ms-auto"></span>
+                                                <span class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
+                                                <span class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
+                                                <span class="d-block border border-primary border-opacity-25 border-3 rounded ms-1"></span>
                                             </span>
                                             <span class="bg-light d-block p-1"></span>
                                         </span>
@@ -625,22 +587,17 @@ if (!$datos) {
 
                         <div class="col-4">
                             <div class="form-check card-radio">
-                                <input class="form-check-input" type="radio" name="data-topbar-color"
-                                    id="topbar-color-brand" value="brand">
+                                <input class="form-check-input" type="radio" name="data-topbar-color" id="topbar-color-brand" value="brand">
                                 <label class="form-check-label p-0 avatar-md w-100" for="topbar-color-brand">
                                     <div id="sidebar-size">
                                         <span class="d-flex h-100">
                                             <span class="flex-shrink-0">
                                                 <span class="bg-light d-flex h-100 border-end  flex-column p-1 px-2">
                                                     <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                 </span>
                                             </span>
                                             <span class="flex-grow-1">
@@ -653,17 +610,12 @@ if (!$datos) {
 
                                     <div id="topnav-color">
                                         <span class="d-flex h-100 flex-column">
-                                            <span
-                                                class="bg-primary bg-gradient d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
+                                            <span class="bg-primary bg-gradient d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
                                                 <span class="d-block p-1 bg-light opacity-25 rounded me-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border opacity-25 rounded ms-auto"></span>
-                                                <span
-                                                    class="d-block border border-3 border opacity-25 rounded ms-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border opacity-25 rounded ms-1"></span>
-                                                <span
-                                                    class="d-block border border-3 border opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border opacity-25 rounded ms-auto"></span>
+                                                <span class="d-block border border-3 border opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border opacity-25 rounded ms-1"></span>
+                                                <span class="d-block border border-3 border opacity-25 rounded ms-1"></span>
                                             </span>
                                             <span class="bg-light d-block p-1"></span>
                                         </span>
@@ -680,23 +632,17 @@ if (!$datos) {
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-menu-color"
-                                        id="leftbar-color-light" value="light">
+                                    <input class="form-check-input" type="radio" name="data-menu-color" id="leftbar-color-light" value="light">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-color-light">
                                         <div id="sidebar-size">
                                             <span class="d-flex h-100">
                                                 <span class="flex-shrink-0">
-                                                    <span
-                                                        class="bg-light d-flex h-100 border-end  flex-column p-1 px-2">
+                                                    <span class="bg-light d-flex h-100 border-end  flex-column p-1 px-2">
                                                         <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                        <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                     </span>
                                                 </span>
                                                 <span class="flex-grow-1">
@@ -709,17 +655,12 @@ if (!$datos) {
 
                                         <div id="topnav-color">
                                             <span class="d-flex h-100 flex-column">
-                                                <span
-                                                    class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
+                                                <span class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-opacity-25">
                                                     <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
                                                 </span>
                                                 <span class="bg-light d-block p-1"></span>
                                             </span>
@@ -731,22 +672,17 @@ if (!$datos) {
 
                             <div class="col-4" style="--ct-dark-rgb: 64,73,84;">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-menu-color"
-                                        id="leftbar-color-dark" value="dark">
+                                    <input class="form-check-input" type="radio" name="data-menu-color" id="leftbar-color-dark" value="dark">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-color-dark">
                                         <div id="sidebar-size">
                                             <span class="d-flex h-100">
                                                 <span class="flex-shrink-0">
                                                     <span class="bg-dark d-flex h-100 flex-column p-1 px-2">
                                                         <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-secondary rounded border-opacity-25 border-3 w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-secondary rounded border-opacity-25 border-3 w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-secondary rounded border-opacity-25 border-3 w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border border-secondary rounded border-opacity-25 border-3 w-100 mb-1"></span>
+                                                        <span class="d-block border border-secondary rounded border-opacity-25 border-3 w-100 mb-1"></span>
+                                                        <span class="d-block border border-secondary rounded border-opacity-25 border-3 w-100 mb-1"></span>
+                                                        <span class="d-block border border-secondary rounded border-opacity-25 border-3 w-100 mb-1"></span>
+                                                        <span class="d-block border border-secondary rounded border-opacity-25 border-3 w-100 mb-1"></span>
                                                     </span>
                                                 </span>
                                                 <span class="flex-grow-1">
@@ -759,17 +695,12 @@ if (!$datos) {
 
                                         <div id="topnav-color">
                                             <span class="d-flex h-100 flex-column">
-                                                <span
-                                                    class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-primary border-opacity-25">
+                                                <span class="bg-light d-flex p-1 align-items-center border-bottom border-secondary border-primary border-opacity-25">
                                                     <span class="d-block p-1 bg-primary-lighten rounded me-1"></span>
-                                                    <span
-                                                        class="d-block border border-secondary rounded border-opacity-25 border-3 ms-auto"></span>
-                                                    <span
-                                                        class="d-block border border-secondary rounded border-opacity-25 border-3 ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-secondary rounded border-opacity-25 border-3 ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-secondary rounded border-opacity-25 border-3 ms-1"></span>
+                                                    <span class="d-block border border-secondary rounded border-opacity-25 border-3 ms-auto"></span>
+                                                    <span class="d-block border border-secondary rounded border-opacity-25 border-3 ms-1"></span>
+                                                    <span class="d-block border border-secondary rounded border-opacity-25 border-3 ms-1"></span>
+                                                    <span class="d-block border border-secondary rounded border-opacity-25 border-3 ms-1"></span>
                                                 </span>
                                                 <span class="bg-dark d-block p-1"></span>
                                             </span>
@@ -780,23 +711,17 @@ if (!$datos) {
                             </div>
                             <div class="col-4">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-menu-color"
-                                        id="leftbar-color-brand" value="brand">
+                                    <input class="form-check-input" type="radio" name="data-menu-color" id="leftbar-color-brand" value="brand">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-color-brand">
                                         <div id="sidebar-size">
                                             <span class="d-flex h-100">
                                                 <span class="flex-shrink-0">
-                                                    <span
-                                                        class="bg-primary bg-gradient d-flex h-100 flex-column p-1 px-2">
+                                                    <span class="bg-primary bg-gradient d-flex h-100 flex-column p-1 px-2">
                                                         <span class="d-block p-1 bg-light-lighten rounded mb-1"></span>
-                                                        <span
-                                                            class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
-                                                        <span
-                                                            class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
+                                                        <span class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
+                                                        <span class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
+                                                        <span class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
+                                                        <span class="d-block border opacity-25 rounded border-3 w-100 mb-1"></span>
                                                     </span>
                                                 </span>
                                                 <span class="flex-grow-1">
@@ -809,17 +734,12 @@ if (!$datos) {
 
                                         <div id="topnav-color">
                                             <span class="d-flex h-100 flex-column">
-                                                <span
-                                                    class="bg-light d-flex p-1 align-items-center border-bottom border-secondary">
+                                                <span class="bg-light d-flex p-1 align-items-center border-bottom border-secondary">
                                                     <span class="d-block p-1 bg-dark-lighten rounded me-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-auto"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded ms-1"></span>
                                                 </span>
                                                 <span class="bg-primary bg-gradient d-block p-1"></span>
                                             </span>
@@ -838,21 +758,16 @@ if (!$datos) {
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-sidenav-size"
-                                        id="leftbar-size-default" value="default">
+                                    <input class="form-check-input" type="radio" name="data-sidenav-size" id="leftbar-size-default" value="default">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-size-default">
                                         <span class="d-flex h-100">
                                             <span class="flex-shrink-0">
                                                 <span class="bg-light d-flex h-100 border-end  flex-column p-1 px-2">
                                                     <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                 </span>
                                             </span>
                                             <span class="flex-grow-1">
@@ -868,21 +783,16 @@ if (!$datos) {
 
                             <div class="col-4">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-sidenav-size"
-                                        id="leftbar-size-compact" value="compact">
+                                    <input class="form-check-input" type="radio" name="data-sidenav-size" id="leftbar-size-compact" value="compact">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-size-compact">
                                         <span class="d-flex h-100">
                                             <span class="flex-shrink-0">
                                                 <span class="bg-light d-flex h-100 border-end  flex-column p-1">
                                                     <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                 </span>
                                             </span>
                                             <span class="flex-grow-1">
@@ -898,22 +808,16 @@ if (!$datos) {
 
                             <div class="col-4">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-sidenav-size"
-                                        id="leftbar-size-small" value="condensed">
+                                    <input class="form-check-input" type="radio" name="data-sidenav-size" id="leftbar-size-small" value="condensed">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-size-small">
                                         <span class="d-flex h-100">
                                             <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 border-end flex-column"
-                                                    style="padding: 2px;">
+                                                <span class="bg-light d-flex h-100 border-end flex-column" style="padding: 2px;">
                                                     <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                 </span>
                                             </span>
                                             <span class="flex-grow-1">
@@ -929,22 +833,16 @@ if (!$datos) {
 
                             <div class="col-4">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-sidenav-size"
-                                        id="leftbar-size-small-hover" value="sm-hover">
+                                    <input class="form-check-input" type="radio" name="data-sidenav-size" id="leftbar-size-small-hover" value="sm-hover">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-size-small-hover">
                                         <span class="d-flex h-100">
                                             <span class="flex-shrink-0">
-                                                <span class="bg-light d-flex h-100 border-end flex-column"
-                                                    style="padding: 2px;">
+                                                <span class="bg-light d-flex h-100 border-end flex-column" style="padding: 2px;">
                                                     <span class="d-block p-1 bg-dark-lighten rounded mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
-                                                    <span
-                                                        class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
+                                                    <span class="d-block border border-3 border-secondary border-opacity-25 rounded w-100 mb-1"></span>
                                                 </span>
                                             </span>
                                             <span class="flex-grow-1">
@@ -960,8 +858,7 @@ if (!$datos) {
 
                             <div class="col-4">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-sidenav-size"
-                                        id="leftbar-size-full" value="full">
+                                    <input class="form-check-input" type="radio" name="data-sidenav-size" id="leftbar-size-full" value="full">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-size-full">
                                         <span class="d-flex h-100">
                                             <span class="flex-shrink-0">
@@ -982,8 +879,7 @@ if (!$datos) {
 
                             <div class="col-4">
                                 <div class="form-check sidebar-setting card-radio">
-                                    <input class="form-check-input" type="radio" name="data-sidenav-size"
-                                        id="leftbar-size-fullscreen" value="fullscreen">
+                                    <input class="form-check-input" type="radio" name="data-sidenav-size" id="leftbar-size-fullscreen" value="fullscreen">
                                     <label class="form-check-label p-0 avatar-md w-100" for="leftbar-size-fullscreen">
                                         <span class="d-flex h-100">
                                             <span class="flex-grow-1">
@@ -1003,14 +899,11 @@ if (!$datos) {
                         <h5 class="my-3 font-16 fw-bold">Layout Position</h5>
 
                         <div class="btn-group radio" role="group">
-                            <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-fixed"
-                                value="fixed">
+                            <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-fixed" value="fixed">
                             <label class="btn btn-soft-primary w-sm" for="layout-position-fixed">Fixed</label>
 
-                            <input type="radio" class="btn-check" name="data-layout-position"
-                                id="layout-position-scrollable" value="scrollable">
-                            <label class="btn btn-soft-primary w-sm ms-0"
-                                for="layout-position-scrollable">Scrollable</label>
+                            <input type="radio" class="btn-check" name="data-layout-position" id="layout-position-scrollable" value="scrollable">
+                            <label class="btn btn-soft-primary w-sm ms-0" for="layout-position-scrollable">Scrollable</label>
                         </div>
                     </div>
 
@@ -1018,8 +911,7 @@ if (!$datos) {
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <label class="font-16 fw-bold m-0" for="sidebaruser-check">Sidebar User Info</label>
                             <div class="form-check form-switch">
-                                <input type="checkbox" class="form-check-input" name="sidebar-user"
-                                    id="sidebaruser-check">
+                                <input type="checkbox" class="form-check-input" name="sidebar-user" id="sidebaruser-check">
                             </div>
                         </div>
                     </div>
@@ -1034,8 +926,7 @@ if (!$datos) {
                     <button type="button" class="btn btn-light w-100" id="reset-layout">Reset</button>
                 </div>
                 <div class="col-6">
-                    <a href="https://themes.getbootstrap.com/product/hyper-responsive-admin-dashboard-template/"
-                        target="_blank" role="button" class="btn btn-primary w-100">Buy Now</a>
+                    <a href="https://themes.getbootstrap.com/product/hyper-responsive-admin-dashboard-template/" target="_blank" role="button" class="btn btn-primary w-100">Buy Now</a>
                 </div>
             </div>
         </div>
@@ -1050,6 +941,5 @@ if (!$datos) {
 </body>
 
 
-<!-- Mirrored from coderthemes.com/hyper_2/saas/pages-starter.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Oct 2024 17:04:15 GMT -->
-
+<!-- Mirrored from coderthemes.com/hyper_2/saas/pages-invoice.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Oct 2024 17:04:11 GMT -->
 </html>
