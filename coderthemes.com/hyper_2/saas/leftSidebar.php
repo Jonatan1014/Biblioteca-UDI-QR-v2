@@ -44,7 +44,7 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            <li class="side-nav-title">Navigation</li>
+            <li class="side-nav-title">Navegacion</li>
 
             <li class="side-nav-item">
                 <a href="index.php" class="side-nav-link">
