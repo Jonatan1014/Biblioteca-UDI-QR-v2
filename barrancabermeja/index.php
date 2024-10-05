@@ -105,8 +105,9 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
 
 
                         <?php
-                        if (!$datos) {
-                            // Mostrar notificación si no hay libros prestados
+                        $total_libros = $datos[0]['disponibles'];
+                        // Mostrar notificación si no hay libros prestados
+                        if ($total_libros<0) {
                             echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                                     <div class="toast-header">
                                         <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">

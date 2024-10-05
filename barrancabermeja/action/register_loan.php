@@ -60,15 +60,7 @@ if (
             exit();
         }
     } catch (Exception $e) {
-        var_dump(
-            $cedula = $_POST['cedula'],
-            
-            $fecha_prestamo = date('Y-m-d'), // Fecha actual
-            $fecha_entrega = $_POST['fecha_entrega'],
-            $idlibro = intval($_POST['idLibro']) // Asegúrate de validar el ID del libro
-            
 
-        );
         echo "<script>
                 alert('Error: " . $e->getMessage() . "');
                 window.location.href = '../details-book.php';

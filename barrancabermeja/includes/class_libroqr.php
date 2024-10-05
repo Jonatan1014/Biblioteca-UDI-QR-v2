@@ -30,7 +30,9 @@ class Libroqr extends conectarDB {
 
     // Método para listar todos los registros de la tabla 'libros'
     public function listarLibros() {
-        $sql = "SELECT * FROM libros";                
+        $sql = "SELECT *, 
+                   (SELECT COUNT(*) FROM libros WHERE estado = 'Disponible') AS disponibles 
+            FROM libros";              
         $stmt = $this->conn_db->prepare($sql);                        
         $stmt->execute();            
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);            

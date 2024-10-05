@@ -116,10 +116,14 @@ foreach ($datos as $prestamoL) {
                                     </div>
                                     <br>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <a href="javascript: void(0);" class="btn btn-primary btn-sm">Regresar libro</a>
+                                        <form action="action/register_loan-return.php" method="post">
+                                            <input type="hidden" name="idLibro" value="<?php echo htmlspecialchars($prestamoL["idLibro"]); ?>">
+
+                                            <button class="btn btn-primary btn-sm">Regresar libro</button>
+                                        </form>
                                         <div style="text-align: right;">
                                             <?php echo htmlspecialchars($prestamoL["fecha_vencimiento"]); ?></p>
-                                        
+
                                         </div>
                                     </div>
 

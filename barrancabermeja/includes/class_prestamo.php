@@ -22,19 +22,16 @@ class Prestamo extends conectarDB {
     }
     
 
-    // Método para actualizar la fecha de devolución de un préstamo
-    public function devolverLibro($idPrestamo) {
-        $fecha_devolucion = date('Y-m-d');
-        $sql = "UPDATE prestamos 
-                SET fecha_devolucion = :fecha_devolucion, estado = 'Devuelto' 
-                WHERE idPrestamo = :idPrestamo";
+    // Método para eliminar un préstamo
+    public function eliminarPrestamo($idLibro) {
+        $sql = "DELETE FROM prestamos WHERE idLibro = :idLibro";
         $stmt = $this->conn_db->prepare($sql);
-        $stmt->bindParam(':fecha_devolucion', $fecha_devolucion);
-        $stmt->bindParam(':idPrestamo', $idPrestamo, PDO::PARAM_INT);
+        $stmt->bindParam(':idLibro', $idLibro, PDO::PARAM_INT);
         $stmt->execute();
         $stmt->closeCursor();
         return true;
     }
+
 
     // Método para obtener el historial de préstamos de un usuario
     public function historialPrestamosUsuario($idUser) {
@@ -85,7 +82,7 @@ class Prestamo extends conectarDB {
 
     // Método para listar todos los préstamos
     public function listarPrestamos() {
-        $sql = "SELECT p.idPrestamo, u.name, u.carrera, l.isbn, l.titulo, p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, p.estado
+        $sql = "SELECT p.idPrestamo, u.name, l.idLibro, u.carrera, l.isbn, l.titulo, p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, p.estado
                 FROM prestamos p
                 JOIN usuarios u ON p.idUser = u.idUser
                 JOIN libros l ON p.idLibro = l.idLibro";
