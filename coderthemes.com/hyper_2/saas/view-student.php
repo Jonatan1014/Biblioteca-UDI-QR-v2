@@ -1,3 +1,22 @@
+<?php
+session_start(); // Iniciar la sesión
+
+// Verificar si el usuario ha iniciado sesión
+if (!isset($_SESSION['usuario_email'])) {
+    // Si no ha iniciado sesión, redirigir a la página de inicio de sesión
+    header('Location: login.php');
+    exit();
+}
+
+
+require('includes/class_prestamo.php'); // Asegúrate de incluir la clase correcta
+
+$prestamo = new Prestamo();
+
+$datos = $prestamo->librosPrestados_email($_SESSION['usuario_email']); // Obtener los datos de los libros
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,41 +84,50 @@
                             </div>
 
                             <div class="row">
+
+
+                            <?php 
+                            if (!$datos){
+                                echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                                            <div class="toast-header">
+                                                                <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">
+                                                                <strong class="me-auto">Notificacion</strong>
+                                                                <small>1 mins</small>
+                                                                <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="toast-body">
+                                                                No tienes ningun libro.
+                                                            </div>
+                                                        </div>';
+
+                                
+                            }else{
+
+                            
+                            
+                            foreach($datosllibros as $datos) {
+                                
+                                ?>
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="card d-block">
                                         <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                                            <h6 class="card-subtitle text-muted"><?php echo $datosllibros["autor"] ?></h6>
+                                            <h5 class="card-title"> <?php echo $datosllibros["titulo"] ?></h5>
                                         </div>
                                         <img class="img-fluid" src="assets/images/small/small-4.jpg"
                                             alt="Card image cap">
                                         <div class="card-body">
-                                            <p class="card-text">Some quick example text to build on the card title and
-                                                make
-                                                up the bulk of the card's content.</p>
-                                            <a href="details-book.php" class="card-link text-custom">Mas Informacion
-                                            </a>
+                                            <p class="card-text"><?php echo $datosllibros["fecha_vencimiento"] ?></p>
+                                          
                                         </div> <!-- end card-body-->
                                     </div> <!-- end card-->
                                 </div><!-- end col -->
-                                <div class="col-sm-6 col-lg-3">
-                                    <div class="card d-block">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-                                        </div>
-                                        <img class="img-fluid" src="assets/images/small/small-4.jpg"
-                                            alt="Card image cap">
-                                        <div class="card-body">
-                                            <p class="card-text">Some quick example text to build on the card title and
-                                                make
-                                                up the bulk of the card's content.</p>
-                                            <a href="javascript: void(0);" class="card-link text-custom">Card link</a>
-                                            <a href="javascript: void(0);" class="card-link text-custom">Another
-                                                link</a>
-                                        </div> <!-- end card-body-->
-                                    </div> <!-- end card-->
-                                </div><!-- end col -->
+                                <?php 
+                            }
+                        }
+                                ?>
+
+                               
                                 
                             </div>
                             <!-- end row -->

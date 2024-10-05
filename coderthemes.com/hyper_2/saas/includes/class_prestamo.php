@@ -49,6 +49,28 @@ class Prestamo extends conectarDB {
         $stmt->closeCursor();
         return $resultados;
     }
+    // Método para obtener el historial de préstamos de un usuario
+    public function librosPrestados_email($email) {
+        $sql = "SELECT l.titulo, l.autor, l.editorial, l.año_publicacion, l.isbn, l.edicion, p.fecha_prestamo, p.fecha_vencimiento, p.estado
+                FROM prestamos p
+                JOIN libros l ON p.idLibro = l.idLibro
+                JOIN usuarios u ON p.idUser = u.idUser
+                WHERE u.email = :email AND p.estado = 'Activo';"; // Elimina las comillas de :email
+        $stmt = $this->conn_db->prepare($sql);
+        $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+    
+        // Si no hay resultados, devolver false
+        if (empty($resultados)) {
+            return false;
+        }
+    
+        // Si hay resultados, devolverlos
+        return $resultados;
+    }
+    
 
     // Método para verificar si un libro está prestado
     public function verificarDisponibilidad($idLibro) {

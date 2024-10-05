@@ -1,3 +1,17 @@
+<?php
+
+// Verificar si la sesión no está activa antes de iniciar una nueva
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Iniciar la sesión si no está ya activa
+}
+require_once('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
+$usuario = new Usuario();
+$usuario = $usuario->datosUser_email($_SESSION['usuario_email']);
+
+
+
+?>
+
 <div class="leftside-menu">
 
     <!-- Brand Logo Light -->
@@ -53,7 +67,12 @@
                 </a>
             </li>
 
+        <?php
+        if (!($usuario["rol"]!="Admin" && $usuario["rol"]!="Root")) {
+  
 
+        
+        ?>
 
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false"
@@ -101,7 +120,9 @@
             </li>
 
             
-
+        <?php
+        }
+?>
 
 
 

@@ -97,20 +97,20 @@ $usuario = $usuario->datosUser_email($_SESSION['usuario_email']);
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated profile-dropdown">
                     <!-- item-->
                     <div class=" dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Welcome !</h6>
+                        <h6 class="text-overflow m-0">Bienvenido!</h6>
                     </div>
 
 
                     <!-- item-->
                     <a href="pages-profile-2.php" class="dropdown-item">
                         <i class="mdi mdi-account-circle me-1"></i>
-                        <span>My Account</span>
+                        <span>Mi Perfil</span>
                     </a>
 
                     <!-- item-->
                     <a href="action/destroy_session.php" class="dropdown-item">
                         <i class="mdi mdi-logout me-1"></i>
-                        <span>Logout</span>
+                        <span>Cerrar Sesion</span>
                     </a>
                 </div>
             </li>
