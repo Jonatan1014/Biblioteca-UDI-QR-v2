@@ -105,8 +105,23 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
 
 
                         <?php
+                        if (!$datos) {
+                            // Mostrar notificación si no hay libros prestados
+                            echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">
+                                        <strong class="me-auto">Notificación</strong>
+                                        <small>1 min</small>
+                                        <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        No tienes ningún libro registrado.
+                                    </div>
+                                </div>';
+                        } else {
                         // Iterar sobre los datos de los libros
                         foreach ($datos as $book) {
+                            if ($book['estado']== 'Disponible') {
                             echo '<div class="col-sm-6 col-lg-3">';
                             echo '    <div class="card d-block">';
 
@@ -133,6 +148,8 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
                             echo '    </div>';  // Cierre de la tarjeta
                             echo '</div>';  // Cierre de la columna
                         }
+                    }
+                    }
                         ?>
 
 
