@@ -54,13 +54,13 @@ $carrerasDisponibles = [
     </div>
 
     <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative">
-        <div class="container">
+        <div class="container"  style="opacity: 0.9;">
             <div class="row justify-content-center">
                 <div class="col-xxl-4 col-lg-5">
                     <div class="card">
                         <!-- Logo-->
                         <div class="card-header py-4 text-center bg-primary">
-                            <a href="index.html">
+                            <a href="https://web.udi.edu.co/">
                                 <span><img src="assets/images/logo_dark.png" alt="logo" height="30"></span>
                             </a>
                         </div>
@@ -132,8 +132,8 @@ $carrerasDisponibles = [
 
                     <div class="row mt-3">
                         <div class="col-12 text-center">
-                            <p class="text-white">¿Ya tienes una cuenta? <a href="login.php"
-                                    class="text-white ms-1"><b>Iniciar Sesión</b></a></p>
+                            <p class="form-label">¿Ya tienes una cuenta? <a href="login.php"
+                                    class="form-label ms-1"><b>Iniciar Sesión</b></a></p>
                         </div> <!-- end col-->
                     </div>
                     <!-- end row -->

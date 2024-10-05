@@ -97,11 +97,12 @@ $datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
 
                     <div class="row">
 
-                    
+
                         <div class="col-md-4">
                             <div class="card border-primary border">
                                 <div class="card-body">
                                     <h5 class="card-title text-primary">Special title treatment</h5>
+                                    <h7 class="card-title text-body-emphasis">Special title treatment</h7>
                                     <p class="card-text">With supporting text below as a natural lead-in to
                                         additional content.</p>
                                     <a href="javascript: void(0);" class="btn btn-primary btn-sm">Button</a>
