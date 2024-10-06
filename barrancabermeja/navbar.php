@@ -86,9 +86,16 @@ $usuario = $usuario->datosUser_email($_SESSION['usuario_email']);
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#"
                     role="button" aria-haspopup="false" aria-expanded="false">
-                    <span class="account-user-avatar">
-                        <img src="assets/images/users/avatar-1.jpg" alt="user-image" width="32" class="rounded-circle">
+                    <span class="avatar-md d-flex justify-content-center align-items-center" style="height: 100%;">
+                        <span
+                            class="avatar-title bg-primary rounded-circle d-flex justify-content-center align-items-center"
+                            style="width: 80%; height: 80%;">
+                            <?php echo substr($usuario["name"], 0, 3); ?>
+
+                        </span>
                     </span>
+
+                    <!-- Avatar Medium -->
                     <span class="d-lg-flex flex-column gap-1 d-none">
                         <h5 class="my-0"><?php echo $usuario["name"] ?></h5>
                         <h6 class="my-0 fw-normal"><?php echo $usuario["rol"] ?></h6>
