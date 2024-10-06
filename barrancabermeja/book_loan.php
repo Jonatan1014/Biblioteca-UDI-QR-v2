@@ -94,6 +94,15 @@ $datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
                             </div>
                         </div>
                     </div>
+                    <div class="app-search">
+                        <form>
+                            <div class="mb-2 w-100 position-relative">
+                                <input type="search" class="form-control"
+                                    placeholder="Buscar estudiantes...">
+                                <span class="mdi mdi-magnify search-icon"></span>
+                            </div>
+                        </form>
+                    </div>
 
                     <div class="row">
                         <?php

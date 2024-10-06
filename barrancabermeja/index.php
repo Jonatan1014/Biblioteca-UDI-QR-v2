@@ -21,6 +21,8 @@ require('includes/class_libroqr.php'); // Asegúrate de incluir la clase correct
 $libro = new Libroqr();
 
 $datos = $libro->listarLibros(); // Obtener los datos de los libros
+
+// var_dump($datos);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +97,7 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
                         <form>
                             <div class="mb-2 w-100 position-relative">
                                 <input type="search" class="form-control"
-                                    placeholder="People, groups &amp; messages...">
+                                    placeholder="Buscar libros...">
                                 <span class="mdi mdi-magnify search-icon"></span>
                             </div>
                         </form>
@@ -107,7 +109,7 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
                         <?php
                         $total_libros = $datos[0]['disponibles'];
                         // Mostrar notificación si no hay libros prestados
-                        if ($total_libros<0) {
+                        if ($total_libros==0) {
                             echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
                                     <div class="toast-header">
                                         <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">
