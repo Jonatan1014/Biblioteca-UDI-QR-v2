@@ -139,8 +139,6 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
 
                             // Cuerpo inferior de la tarjeta con resumen
                             echo '        <div class="card-body">';
-                            echo '            <p class="card-text">' . substr(htmlspecialchars($book['resena']), 0, 100) . '...</p>';  // Resumen del libro
-
                             // Formulario para enviar el idLibro por método POST
                             echo '            <form action="details-book.php" method="POST">';
                             echo '                <input type="hidden" name="idLibro" value="' . htmlspecialchars($book['idLibro']) . '">';

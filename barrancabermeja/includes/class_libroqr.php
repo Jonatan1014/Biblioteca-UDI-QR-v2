@@ -50,6 +50,32 @@ class Libroqr extends conectarDB {
         $stmt->closeCursor();
         return $resultado;
     }
+    // Método para obtener detalles de un libro por ID
+    public function Buscar_Libro_letter($tituloLibro) {
+        $sql = "SELECT * 
+                FROM libros 
+                WHERE titulo LIKE :tituloLibro";
+        
+        $stmt = $this->conn_db->prepare($sql);
+        
+        // Agregar comodines para permitir búsqueda parcial
+        $tituloLibro = '%' . $tituloLibro . '%';
+        
+        // Enlazar el parámetro
+        $stmt->bindParam(':tituloLibro', $tituloLibro, PDO::PARAM_STR);
+        
+        // Ejecutar la consulta
+        $stmt->execute();
+        
+        // Obtener todos los resultados
+        $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Cerrar el cursor
+        $stmt->closeCursor();
+        
+        return $resultado;
+    }
+    
 
      // Método para obtener detalles de un libro por SBN
      public function detallarLibro_ISBN($isbn) {
