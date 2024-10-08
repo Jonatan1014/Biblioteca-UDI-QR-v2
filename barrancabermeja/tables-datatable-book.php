@@ -150,7 +150,7 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                                                             <!-- Formulario para Editar -->
                                                             <form action="editar_book.php" method="POST"
                                                                 style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="<?php echo $datos["idLibro"] ?>">
+                                                                <input type="hidden" name="idLibro" value="<?php echo $datos["idLibro"] ?>">
                                                                 <button type="submit"
                                                                     class="btn btn-outline-info rounded-pill"><i
                                                                         class="uil-edit"></i> Edit</button>
@@ -159,7 +159,7 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                                                             <!-- Formulario para Eliminar -->
                                                             <form action="eliminar_libro.php" method="POST"
                                                                 style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="1">
+                                                                <input type="hidden" name="idLibro" value="<?php echo $datos["idLibro"] ?>">
                                                                 <button type="submit"
                                                                     class="btn btn-outline-danger rounded-pill"><i
                                                                         class="uil-trash"></i> Del</button>
