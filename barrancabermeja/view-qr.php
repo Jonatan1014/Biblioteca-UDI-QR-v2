@@ -111,8 +111,8 @@ $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una
                                         </div><!-- end col -->
                                         <div class="col-sm-4 offset-sm-2">
                                             <div class="mt-3 float-sm-end">
-                                                <p class="font-13"><strong>Publicacion </strong>
-                                                    <?php echo  $datosLibro ["año_publicacion"] ?> </p>
+                                                <p class="font-13"><strong>Publicacion </strong> <span
+                                                        class="float-end"><?php echo  $datosLibro ["año_publicacion"] ?></span></p>
                                                 <p class="font-13"><strong>Estado </strong> <span
                                                         class="badge bg-success float-end"><?php echo  $datosLibro ["estado"] ?></span>
                                                 </p>

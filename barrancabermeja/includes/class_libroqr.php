@@ -122,10 +122,10 @@ class Libroqr extends conectarDB {
         return $lastInsertId;
     }
 
-    public function modificarLibro($idLibro, $titulo, $autor, $editorial, $anio_publicacion, $isbn, $edicion, $idioma, $portada = null, $estado, $categoria) {
+    public function modificarLibro($idLibro, $titulo, $autor, $editorial, $anio_publicacion, $isbn, $edicion, $idioma, $portada = null, $estado, $categoria,$resena) {
         $sql = "UPDATE libros 
                 SET titulo = :titulo, autor = :autor, editorial = :editorial, año_publicacion = :anio_publicacion, 
-                    isbn = :isbn, edicion = :edicion, idioma = :idioma, estado = :estado, categoria = :categoria" . 
+                    isbn = :isbn, edicion = :edicion, idioma = :idioma, estado = :estado, categoria = :categoria, resena = :resena" . 
                     ($portada !== null ? ", portada = :portada" : "") . 
                 " WHERE idLibro = :idLibro";
     
@@ -139,6 +139,7 @@ class Libroqr extends conectarDB {
         $stmt->bindParam(':idioma', $idioma);
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':categoria', $categoria);
+        $stmt->bindParam(':resena', $resena);
         $stmt->bindParam(':idLibro', $idLibro, PDO::PARAM_INT);
     
         if ($portada !== null) {
