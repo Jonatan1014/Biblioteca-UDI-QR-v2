@@ -8,27 +8,50 @@ if (!isset($_SESSION['usuario_email'])) {
     exit();
 }
 
-require('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
-$usuario = new Usuario();
-$usuario = $usuario->datosUser_rol($_SESSION['usuario_email']); // Obtener los datos de los libros
-if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
-    header('Location: view-student.php');
+require('includes/class_usuario.php'); // Incluir la clase una vez
+$usuarioObj = new Usuario();
+$usuario = $usuarioObj->datosUser_rol($_SESSION['usuario_email']); // Obtener los datos del usuario
+
+// Verificar el rol del usuario
+if ($usuario["rol"] != "Admin" && $usuario["rol"] != "Root") {
+    header('Location: view-student.php'); // Redirigir si no es Admin o Root
     exit();
-
 }
-if (!empty($_POST['idUser'])) {
-    $idUser = intval($_POST['idUser']); // Asegúrate de validar el ID del libro
-    require('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
-    
-    
-    $user = new Usuario();
-    $user = $user->listarUsuarios();
-}else {
 
+// Verificar si se ha enviado un ID de usuario mediante POST
+if (!empty($_POST['idUser'])) {
+    $idUser = intval($_POST['idUser']); // Validar y convertir el ID de usuario a entero
+    
+    // Obtener la lista de usuarios
+    $usuarios = $usuarioObj->detallarUsuario($idUser); // Mantener el objeto usuario intacto
+} else {
+    // Redirigir si no se ha enviado un ID de usuario
     header('Location: tables-datatable.php');
     exit();
 }
+
+    $rol = [
+        'Root', 
+        'Admin', 
+        'Estudiante', 
+        ];
+
+    $estado = [
+        'Activo', 
+        'Inactivo',
+        ];
+
+    $carrera = [
+        'Programacion', 
+        'Matematicas', 
+        'Lectura Critica', 
+        "Psicologia", 
+        "Diseño Grafico", 
+        "Finanzas", 
+        "Otro",
+    ];
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -125,61 +148,105 @@ if (!empty($_POST['idUser'])) {
                                                                 <div class="mb-3">
                                                                     <label for="simpleinput"
                                                                         class="form-label">Nombre</label>
-                                                                    <input type="text" id="simpleinput"
+                                                                    <input type="text" name="name"
+                                                                        value="<?php echo htmlspecialchars($usuarios["name"]); ?>"
+                                                                        id="simpleinput" class="form-control">
+                                                                    <input type="hidden" name="idUser"
+                                                                        value="<?php echo htmlspecialchars($usuarios["idUser"]); ?>"
                                                                         class="form-control">
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="example-email"
                                                                         class="form-label">Correo</label>
-                                                                    <input type="email" id="example-email"
-                                                                        name="example-email" class="form-control"
+                                                                    <input type="email" id="example-email" name="email"
+                                                                        value="<?php echo htmlspecialchars($usuario["email"]); ?>"
+                                                                        class="form-control"
                                                                         placeholder="Correo Institucional">
                                                                 </div>
 
                                                                 <div class="mb-3">
                                                                     <label for="example-password"
                                                                         class="form-label">Contraseña</label>
-                                                                    <input type="password" id="example-password"
-                                                                        class="form-control">
+                                                                    <input type="password" name="password"
+                                                                        id="example-password" class="form-control">
                                                                 </div>
-                                                                
+
                                                             </div>
                                                             <!-- Segunda columna -->
                                                             <div class="col-lg-6">
                                                                 <div class="mb-3">
-                                                                    <label for="example-select" class="form-label">Rol</label>
-                                                                    <select class="form-select" id="example-select">
-                                                                        <option>1</option>
-                                                                        <option>2</option>
-                                                                        <option>3</option>
-                                                                        <option>4</option>
-                                                                        <option>5</option>
-                                                                    </select>
-                                                                </div>
-                                                            <div class="mb-3">
                                                                     <label for="example-select"
-                                                                        class="form-label">Carrera</label>
-                                                                    <select class="form-select" id="example-select">
-                                                                        <option>1</option>
-                                                                        <option>2</option>
-                                                                        <option>3</option>
-                                                                        <option>4</option>
-                                                                        <option>5</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="example-select"
-                                                                        class="form-label">Estado</label>
-                                                                    <select class="form-select" id="example-select">
-                                                                        <option>1</option>
-                                                                        <option>2</option>
-                                                                        <option>3</option>
-                                                                        <option>4</option>
-                                                                        <option>5</option>
+                                                                        class="form-label">Rol</label>
+                                                                    <select class="form-select" name="rol"
+                                                                        id="rol-select">
+                                                                        <!-- Mostrar la opción predeterminada -->
+                                                                        <option
+                                                                            value="<?php echo htmlspecialchars($usuario["rol"]); ?>">
+                                                                            <?php echo htmlspecialchars($usuario["rol"]); ?>
+                                                                        </option>
+
+                                                                        <!-- Mostrar las demás opciones, excluyendo la predeterminada -->
+                                                                        <?php foreach ($rol as $roludi) { 
+            if ($usuario["rol"] !== $roludi) {  // Comparar correctamente
+        ?>
+                                                                        <option
+                                                                            value="<?php echo htmlspecialchars($roludi); ?>">
+                                                                            <?php echo htmlspecialchars($roludi); ?>
+                                                                        </option>
+                                                                        <?php } } ?>
                                                                     </select>
                                                                 </div>
 
-                                                                
+                                                                <div class="mb-3">
+                                                                    <label for="example-select"
+                                                                        class="form-label">Carrera</label>
+                                                                    <select class="form-select" name="carrera"
+                                                                        id="carrera-select">
+                                                                        <!-- PHP para manejar el estado inicial de "Carrera" basado en el rol -->
+                                                                        <?php if ($usuario["rol"] == "Estudiante") { ?>
+                                                                        <option
+                                                                            value="<?php echo htmlspecialchars($usuario["carrera"]); ?>">
+                                                                            <?php echo htmlspecialchars($usuario["carrera"]); ?>
+                                                                        </option>
+                                                                        <?php foreach ($carrera as $carreraudi) { 
+                if ($usuario["carrera"] !== $carreraudi) {  // Mostrar las carreras normales si es estudiante
+            ?>
+                                                                        <option
+                                                                            value="<?php echo htmlspecialchars($carreraudi); ?>">
+                                                                            <?php echo htmlspecialchars($carreraudi); ?>
+                                                                        </option>
+                                                                        <?php } } ?>
+                                                                        <?php } else { ?>
+                                                                        <!-- Si el rol es Admin o Root, solo mostrar "Admin" en el campo Carrera -->
+                                                                        <option value="Admin">Admin</option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="mb-3">
+                                                                    <label for="example-select"
+                                                                        class="form-label">Estado</label>
+                                                                    <select class="form-select" name="estado"
+                                                                        id="example-select">
+                                                                        <!-- Mostrar la opción predeterminada -->
+                                                                        <option
+                                                                            value="<?php echo htmlspecialchars($usuario["estado"]); ?>">
+                                                                            <?php echo htmlspecialchars($usuario["estado"]); ?>
+                                                                        </option>
+
+                                                                        <!-- Mostrar las demás opciones, excluyendo la predeterminada -->
+                                                                        <?php foreach ($estado as $estadoudi) { 
+                                                                                        if ($usuario["estado"] !== $estadoudi) {  // Comparar correctamente
+                                                                                    ?>
+                                                                        <option
+                                                                            value="<?php echo htmlspecialchars($estadoudi); ?>">
+                                                                            <?php echo htmlspecialchars($estadoudi); ?>
+                                                                        </option>
+                                                                        <?php } } ?>
+                                                                    </select>
+                                                                </div>
+
+
                                                             </div>
                                                         </div>
                                                         <button type="submit" class="btn btn-info">Actualizar</button>
@@ -1070,6 +1137,36 @@ if (!empty($_POST['idUser'])) {
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+
+    <script>
+    document.getElementById('rol-select').addEventListener('change', function() {
+        const rol = this.value;
+        const carreraSelect = document.getElementById('carrera-select');
+
+        // Limpiar el contenido actual de las opciones de "Carrera"
+        carreraSelect.innerHTML = '';
+
+        if (rol === 'Estudiante') {
+            // Si el rol es "Estudiante", cargar las opciones de carreras
+            const carreras = ['Admi. Empresas', 'Ing. Sistemas', 'Diseño Grafico', 'Ing. Industrial',
+                'Psicologia'
+            ];
+            carreras.forEach(function(carrera) {
+                const option = document.createElement('option');
+                option.value = carrera;
+                option.textContent = carrera;
+                carreraSelect.appendChild(option);
+            });
+        } else {
+            // Si el rol es "Admin" o "Root", solo mostrar "Admin"
+            const option = document.createElement('option');
+            option.value = 'Admin';
+            option.textContent = 'Admin';
+            carreraSelect.appendChild(option);
+        }
+    });
+    </script>
+
 
 </body>
 

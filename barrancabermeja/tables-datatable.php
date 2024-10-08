@@ -143,7 +143,7 @@ $listUser = $listUser->listarUsuarios();
                                                             <!-- Formulario para Editar -->
                                                             <form action="editar_usuario.php" method="POST"
                                                                 style="display:inline-block;">
-                                                                <input type="hidden" name="id"
+                                                                <input type="hidden" name="idUser"
                                                                     value="<?= htmlspecialchars($user["idUser"]) ?>">
                                                                 <button type="submit"
                                                                     class="btn btn-outline-info rounded-pill">
@@ -164,33 +164,6 @@ $listUser = $listUser->listarUsuarios();
                                                         </td>
                                                     </tr>
                                                     <?php } // Cierre del foreach ?>
-
-                                                    <!-- Ejemplo de usuario fijo -->
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Alex Ruiz</td>
-                                                        <td>alex.ruiz@example.com</td>
-                                                        <td>10002</td>
-                                                        <td>Admin</td>
-                                                        <td>Activo</td>
-                                                        <td>
-                                                            <!-- Formulario para Editar -->
-                                                            <form action="editar_usuario.php" method="POST"
-                                                                style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="2">
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-warning">Editar</button>
-                                                            </form>
-
-                                                            <!-- Formulario para Eliminar -->
-                                                            <form action="eliminar_usuario.php" method="POST"
-                                                                style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="2">
-                                                                <button type="submit"
-                                                                    class="btn btn-sm btn-danger">Eliminar</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
 

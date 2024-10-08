@@ -8,43 +8,48 @@ if (!isset($_SESSION['usuario_email'])) {
     exit();
 }
 
-require('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
-$usuario = new Usuario();
-$usuario = $usuario->datosUser_rol($_SESSION['usuario_email']); // Obtener los datos de los libros
-if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
+require('includes/class_usuario.php'); // Incluir la clase correcta
+
+// Obtener la instancia del usuario
+$usuarioObj = new Usuario();
+$usuario = $usuarioObj->datosUser_rol($_SESSION['usuario_email']); // Obtener los datos del usuario
+
+// Verificar el rol del usuario
+if ($usuario["rol"] != "Admin" && $usuario["rol"] != "Root") {
+    // Redirigir a vista de estudiante si no tiene permisos de admin
     header('Location: view-student.php');
     exit();
-
 }
 
+// Verificar si se ha enviado el ID del libro por POST
 if (!empty($_POST['idLibro'])) {
-    $idlibro = intval($_POST['idLibro']); // Asegúrate de validar el ID del libro
-    require('includes/class_libroqr.php'); // Asegúrate de incluir la clase correcta
-    
-    
-    $libro = new Libroqr();
-    $datos = $libro->detallarLibro($idlibro);
-}else {
+    $idLibro = intval($_POST['idLibro']); // Validar y convertir a entero el ID del libro
 
+    // Incluir la clase para gestionar los libros
+    require('includes/class_libroqr.php');
+    
+    // Obtener los detalles del libro
+    $libroObj = new Libroqr();
+    $datos = $libroObj->detallarLibro($idLibro);
+} else {
+    // Redirigir si no se ha enviado el ID del libro
     header('Location: tables-datatable-book.php');
     exit();
 }
 
-// Definir las carreras disponibles
-$idioma = [
-    'Español',
-    'Ingles',
-];
+// Definir los valores disponibles para idioma y categoría
+$idioma = ['Español', 'Ingles'];
 $categoria = [
     'Programacion', 
     'Matematicas', 
     'Lectura Critica', 
     "Psicologia", 
     "Diseño Grafico", 
-    "Finanzas",
+    "Finanzas", 
     "Otro",
 ];
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
