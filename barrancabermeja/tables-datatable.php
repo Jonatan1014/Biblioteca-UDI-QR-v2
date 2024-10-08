@@ -1,4 +1,3 @@
-
 <?php
 session_start(); // Iniciar la sesión
 
@@ -15,9 +14,14 @@ $usuario = $usuario->datosUser_rol($_SESSION['usuario_email']); // Obtener los d
 if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
     header('Location: view-student.php');
     exit();
-
+    
 }
-?><!DOCTYPE html>
+
+$listUser = new Usuario();
+$listUser = $listUser->listarUsuarios();
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 
 
@@ -125,36 +129,43 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
                                                 </thead>
 
                                                 <tbody>
-                                                    <!-- Ejemplo de usuario 1 -->
+                                                    <!-- Mostrar la lista de usuarios -->
+                                                    <?php 
+        foreach ($listUser as $user) { ?>
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>Jonatan Cantillo</td>
-                                                        <td>jonatan.cantillo@example.com</td>
-                                                        <td>10001</td>
-                                                        <td>Estudiante</td>
-                                                        <td>Activo</td>
+                                                        <td><?= htmlspecialchars($user["idUser"]) ?></td>
+                                                        <td><?= htmlspecialchars($user["name"]) ?></td>
+                                                        <td><?= htmlspecialchars($user["email"]) ?></td>
+                                                        <td><?= htmlspecialchars($user["code_cc"]) ?></td>
+                                                        <td><?= htmlspecialchars($user["rol"]) ?></td>
+                                                        <td><?= htmlspecialchars($user["estado"]) ?></td>
                                                         <td>
                                                             <!-- Formulario para Editar -->
                                                             <form action="editar_usuario.php" method="POST"
                                                                 style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="1">
+                                                                <input type="hidden" name="id"
+                                                                    value="<?= htmlspecialchars($user["idUser"]) ?>">
                                                                 <button type="submit"
-                                                                    class="btn btn-outline-info rounded-pill"><i
-                                                                        class="uil-edit"></i> Edit</button>
+                                                                    class="btn btn-outline-info rounded-pill">
+                                                                    <i class="uil-edit"></i> Editar
+                                                                </button>
                                                             </form>
 
                                                             <!-- Formulario para Eliminar -->
-                                                            <form action="eliminar_usuario.php"
-                                                                method="POST" style="display:inline-block;">
-                                                                <button id="deleteBtn" type="submit"
-                                                                    class="btn btn-outline-danger rounded-pill"><i
-                                                                        class="uil-trash"></i>
-                                                                    Del</button>
+                                                            <form action="eliminar_usuario.php" method="POST"
+                                                                style="display:inline-block;">
+                                                                <input type="hidden" name="id"
+                                                                    value="<?= htmlspecialchars($user["idUser"]) ?>">
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-danger rounded-pill">
+                                                                    <i class="uil-trash"></i> Eliminar
+                                                                </button>
                                                             </form>
                                                         </td>
                                                     </tr>
+                                                    <?php } // Cierre del foreach ?>
 
-                                                    <!-- Ejemplo de usuario 2 -->
+                                                    <!-- Ejemplo de usuario fijo -->
                                                     <tr>
                                                         <td>2</td>
                                                         <td>Alex Ruiz</td>
@@ -180,10 +191,9 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
                                                             </form>
                                                         </td>
                                                     </tr>
-
-                                                    <!-- Añade más usuarios aquí -->
                                                 </tbody>
                                             </table>
+
 
 
                                         </div> <!-- end preview-->

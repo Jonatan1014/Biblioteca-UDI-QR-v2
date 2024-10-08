@@ -16,6 +16,18 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
     exit();
 
 }
+if (!empty($_POST['idUser'])) {
+    $idUser = intval($_POST['idUser']); // Asegúrate de validar el ID del libro
+    require('includes/class_usuario.php'); // Asegúrate de incluir la clase correcta
+    
+    
+    $user = new Usuario();
+    $user = $user->listarUsuarios();
+}else {
+
+    header('Location: tables-datatable.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
