@@ -11,6 +11,9 @@ $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una
 
 // var_dump($datosLibro);
 
+if ($datosLibro) {
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,6 +85,9 @@ $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una
                     </div>
                     <!-- end page title -->
 
+                    <?php
+                    if ($datosLibro) {
+                        ?>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -112,7 +118,8 @@ $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una
                                         <div class="col-sm-4 offset-sm-2">
                                             <div class="mt-3 float-sm-end">
                                                 <p class="font-13"><strong>Publicacion </strong> <span
-                                                        class="float-end"><?php echo  $datosLibro ["año_publicacion"] ?></span></p>
+                                                        class="float-end"><?php echo  $datosLibro ["año_publicacion"] ?></span>
+                                                </p>
                                                 <p class="font-13"><strong>Estado </strong> <span
                                                         class="badge bg-success float-end"><?php echo  $datosLibro ["estado"] ?></span>
                                                 </p>
@@ -173,6 +180,26 @@ $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una
                         </div> <!-- end col-->
                     </div>
                     <!-- end row -->
+
+                    <?php
+                        
+
+                    }else{
+                        echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">
+                    <strong class="me-auto">Notificación</strong>
+                    <small>1 min</small>
+                    <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    El libro  no existe.
+                </div>
+            </div>';
+                    }
+                    ?>
+
+
 
 
                 </div> <!-- container -->
