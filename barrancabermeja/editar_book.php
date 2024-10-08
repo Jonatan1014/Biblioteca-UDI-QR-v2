@@ -189,14 +189,16 @@ $categoria = [
 
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="example-date"
+                                                                            <label for="example-year"
                                                                                 class="form-label">Fecha de
-                                                                                publicacion</label>
+                                                                                publicación</label>
                                                                             <input class="form-control"
-                                                                                id="example-date"
-                                                                                value="<?php echo $datos["año_publicacion"] ?>"
-                                                                                type="date" name="ano">
+                                                                                id="example-year"
+                                                                                value="<?php echo htmlspecialchars($datos["año_publicacion"]); ?>"
+                                                                                type="number" name="ano" min="1900"
+                                                                                max="<?php echo date("Y"); ?>">
                                                                         </div>
+
                                                                         <div class="mb-3">
                                                                             <label for="example-select"
                                                                                 class="form-label">Idioma</label>
@@ -228,27 +230,34 @@ $categoria = [
                                                                                 class="form-label">Codigo ISBN</label>
                                                                             <input class="form-control"
                                                                                 id="example-number" type="number"
-                                                                                name="isbn" value="<?php echo $datos["isbn"] ?>" readonly>
+                                                                                name="isbn"
+                                                                                value="<?php echo $datos["isbn"] ?>"
+                                                                                readonly>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="example-number"
                                                                                 class="form-label"># Edicion</label>
                                                                             <input class="form-control"
-                                                                                id="example-number" value="<?php echo $datos["edicion"] ?>" type="number"
-                                                                                name="edicion">
+                                                                                id="example-number"
+                                                                                value="<?php echo $datos["edicion"] ?>"
+                                                                                type="number" name="edicion">
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="example-textarea"
                                                                                 class="form-label">Reseña del
                                                                                 libro</label>
-                                                                            <textarea class="form-control"
-                                                                                id="example-textarea" value="<?php echo $datos["resena"] ?>" rows="5"></textarea>
+                                                                            <textarea class="form-control" name="resena"
+                                                                                id="example-textarea" rows="5">
+                                                                                <?php echo htmlspecialchars($datos["resena"]); ?>
+                                                                            </textarea>
                                                                         </div>
+
                                                                         <div class="mb-3">
                                                                             <label for="example-fileinput"
                                                                                 class="form-label">Imagen de
                                                                                 portada</label>
-                                                                            <input type="file" id="example-fileinput"
+                                                                            <input type="file" name="portada"
+                                                                                id="example-fileinput"
                                                                                 class="form-control">
                                                                         </div>
                                                                     </div>
