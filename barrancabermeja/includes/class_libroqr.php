@@ -122,12 +122,13 @@ class Libroqr extends conectarDB {
         return $lastInsertId;
     }
 
-    // Método para actualizar detalles de un libro por ID
-    public function modificarLibro($idLibro, $titulo, $autor, $editorial, $anio_publicacion, $isbn, $edicion, $idioma, $estado, $categoria) {
+    public function modificarLibro($idLibro, $titulo, $autor, $editorial, $anio_publicacion, $isbn, $edicion, $idioma, $portada = null, $estado, $categoria) {
         $sql = "UPDATE libros 
                 SET titulo = :titulo, autor = :autor, editorial = :editorial, año_publicacion = :anio_publicacion, 
-                    isbn = :isbn, edicion = :edicion, idioma = :idioma, estado = :estado, categoria = :categoria 
-                WHERE idLibro = :idLibro";
+                    isbn = :isbn, edicion = :edicion, idioma = :idioma, estado = :estado, categoria = :categoria" . 
+                    ($portada !== null ? ", portada = :portada" : "") . 
+                " WHERE idLibro = :idLibro";
+    
         $stmt = $this->conn_db->prepare($sql);    
         $stmt->bindParam(':titulo', $titulo);
         $stmt->bindParam(':autor', $autor);
@@ -139,10 +140,14 @@ class Libroqr extends conectarDB {
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':categoria', $categoria);
         $stmt->bindParam(':idLibro', $idLibro, PDO::PARAM_INT);
-        $stmt->execute();
-        $stmt->closeCursor();
-        return true;
+    
+        if ($portada !== null) {
+            $stmt->bindParam(':portada', $portada, PDO::PARAM_LOB); // Enlaza el campo de la portada
+        }
+    
+        return $stmt->execute();
     }
+    
     // Método para actualizar detalles de un libro por ID
     public function actualizarEstadolibro($idLibro, $estado) {
         $sql = "UPDATE libros 

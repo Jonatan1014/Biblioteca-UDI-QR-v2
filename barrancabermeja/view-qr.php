@@ -1,13 +1,15 @@
 <?php
 
-if (isset($_GET['id'])) {
-    $idLibro = intval($_GET['id']); // Asegúrate de validar y sanitizar el ID
-    $datosLibro = $libro->detallarLibro($idLibro); // Suponiendo que tienes una función para obtener los detalles del libro
-
-} else {
+if (!isset($_GET['id'])) {
     header('Location: view-student.php');
     exit();
-}
+} 
+include("includes/class_libroqr.php");
+$idLibro = intval($_GET['id']); // Asegúrate de validar y sanitizar el ID
+$libro = new Libroqr(); // Incluir la clase para gestionar los libros
+$datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una función para obtener los detalles del libro
+
+// var_dump($datosLibro);
 
 ?>
 <!DOCTYPE html>
@@ -91,7 +93,7 @@ if (isset($_GET['id'])) {
                                             <img src="assets/images/logo-dark.png" alt="dark logo" height="22">
                                         </div>
                                         <div class="float-end">
-                                            <h4 class="m-0 d-print-none">Invoice</h4>
+                                            <h4 class="m-0 d-print-none">Informacion del libro</h4>
                                         </div>
                                     </div>
 
@@ -99,22 +101,21 @@ if (isset($_GET['id'])) {
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="float-end mt-3">
-                                                <p><b>Hello, Cooper Hobson</b></p>
-                                                <p class="text-muted font-13">Please find below a cost-breakdown for the
-                                                    recent work completed. Please make payment at your earliest
-                                                    convenience, and do not hesitate to contact me with any questions.
+                                                <p><b> <?php echo  $datosLibro ["titulo"] ?> </b></p>
+                                                <p class="text-muted font-13"> <?php echo  $datosLibro ["resena"] ?>
                                                 </p>
                                             </div>
 
                                         </div><!-- end col -->
                                         <div class="col-sm-4 offset-sm-2">
                                             <div class="mt-3 float-sm-end">
-                                                <p class="font-13"><strong>Order Date: </strong> &nbsp;&nbsp;&nbsp; Jan
-                                                    17, 2018</p>
-                                                <p class="font-13"><strong>Order Status: </strong> <span
-                                                        class="badge bg-success float-end">Paid</span></p>
-                                                <p class="font-13"><strong>Order ID: </strong> <span
-                                                        class="float-end">#123456</span></p>
+                                                <p class="font-13"><strong>Publicacion: </strong>
+                                                    <?php echo  $datosLibro ["año_publicacion"] ?> </p>
+                                                <p class="font-13"><strong>Estado del libro: </strong> <span
+                                                        class="badge bg-success float-end"><?php echo  $datosLibro ["estado"] ?></span>
+                                                </p>
+                                                <p class="font-13"><strong>ISBN: </strong> <span
+                                                        class="float-end"><?php echo  $datosLibro ["isbn"] ?></span></p>
                                             </div>
                                         </div><!-- end col -->
                                     </div>
@@ -143,66 +144,14 @@ if (isset($_GET['id'])) {
 
                                         <div class="col-sm-4">
                                             <div class="text-sm-end">
-                                                <img src="assets/images/barcode.png" alt="barcode-image"
-                                                    class="img-fluid me-2" />
+                                                <!-- Imagen (código QR del libro) -->
+                                                <?php echo '<img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($datosLibro["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($datosLibro['titulo']) . '" class="qr-code" width="150" height="150">'; ?>
                                             </div>
                                         </div> <!-- end col-->
                                     </div>
                                     <!-- end row -->
 
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="table-responsive">
-                                                <table class="table mt-4">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Item</th>
-                                                            <th>Quantity</th>
-                                                            <th>Unit Cost</th>
-                                                            <th class="text-end">Total</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>
-                                                                <b>Laptop</b> <br />
-                                                                Brand Model VGN-TXN27N/B
-                                                                11.1" Notebook PC
-                                                            </td>
-                                                            <td>1</td>
-                                                            <td>$1799.00</td>
-                                                            <td class="text-end">$1799.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>
-                                                                <b>Warranty</b> <br />
-                                                                Two Year Extended Warranty -
-                                                                Parts and Labor
-                                                            </td>
-                                                            <td>3</td>
-                                                            <td>$499.00</td>
-                                                            <td class="text-end">$1497.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>
-                                                                <b>LED</b> <br />
-                                                                80cm (32) HD Ready LED TV
-                                                            </td>
-                                                            <td>2</td>
-                                                            <td>$412.00</td>
-                                                            <td class="text-end">$824.00</td>
-                                                        </tr>
 
-                                                    </tbody>
-                                                </table>
-                                            </div> <!-- end table-responsive-->
-                                        </div> <!-- end col -->
-                                    </div>
-                                    <!-- end row -->
 
                                     <div class="row">
                                         <div class="col-sm-6">
@@ -231,8 +180,7 @@ if (isset($_GET['id'])) {
                                     <div class="d-print-none mt-4">
                                         <div class="text-end">
                                             <a href="javascript:window.print()" class="btn btn-primary"><i
-                                                    class="mdi mdi-printer"></i> Print</a>
-                                            <a href="javascript: void(0);" class="btn btn-info">Submit</a>
+                                                    class="mdi mdi-printer"></i> Imprmir</a>
                                         </div>
                                     </div>
                                     <!-- end buttons -->

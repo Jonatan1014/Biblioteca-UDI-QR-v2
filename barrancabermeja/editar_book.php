@@ -141,135 +141,119 @@ $categoria = [
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <div class="col-lg-12">
-                                                            <form action="" method="POST">
+                                                            <form action="action/update_book.php" method="POST"
+                                                                enctype="multipart/form-data">
                                                                 <div class="row">
                                                                     <!-- Primera columna -->
                                                                     <div class="col-lg-6">
                                                                         <div class="mb-3">
-                                                                            <label for="simpleinput"
+                                                                            <label for="titulo"
                                                                                 class="form-label">Titulo</label>
                                                                             <input type="text" name="titulo"
-                                                                                value="<?php echo $datos["titulo"] ?>"
-                                                                                id="simpleinput" class="form-control">
+                                                                                value="<?php echo htmlspecialchars($datos["titulo"]); ?>"
+                                                                                id="titulo" class="form-control">
                                                                             <input type="hidden" name="idLibro"
-                                                                                value="<?php echo $datos["idLibro"] ?>"
-                                                                                id="simpleinput" class="form-control">
+                                                                                value="<?php echo $datos["idLibro"]; ?>"
+                                                                                id="idLibro">
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="simpleinput"
+                                                                            <label for="autor"
                                                                                 class="form-label">Autor</label>
                                                                             <input type="text" name="autor"
-                                                                                value="<?php echo $datos["autor"] ?>"
-                                                                                id="simpleinput" class="form-control">
+                                                                                value="<?php echo htmlspecialchars($datos["autor"]); ?>"
+                                                                                id="autor" class="form-control">
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="simpleinput"
+                                                                            <label for="editorial"
                                                                                 class="form-label">Editorial</label>
                                                                             <input type="text" name="editorial"
-                                                                                value="<?php echo $datos["editorial"] ?>"
-                                                                                id="simpleinput" class="form-control">
+                                                                                value="<?php echo htmlspecialchars($datos["editorial"]); ?>"
+                                                                                id="editorial" class="form-control">
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="example-select"
+                                                                            <label for="categoria"
                                                                                 class="form-label">Tema o
                                                                                 Categoria</label>
                                                                             <select class="form-select" name="categoria"
-                                                                                id="example-select">
-                                                                                <!-- Mostrar la opción predeterminada -->
+                                                                                id="categoria">
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($datos["categoria"]); ?>">
                                                                                     <?php echo htmlspecialchars($datos["categoria"]); ?>
                                                                                 </option>
-
-                                                                                <!-- Mostrar las demás opciones, excluyendo la predeterminada -->
                                                                                 <?php foreach ($categoria as $carrera) { 
-                                                                                        if ($datos["categoria"] !== $carrera) {  // Comparar correctamente
-                                                                                    ?>
+                        if ($datos["categoria"] !== $carrera) { ?>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($carrera); ?>">
                                                                                     <?php echo htmlspecialchars($carrera); ?>
                                                                                 </option>
-                                                                                <?php } } ?>
+                                                                                <?php }} ?>
                                                                             </select>
-
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="example-year"
-                                                                                class="form-label">Fecha de
+                                                                            <label for="ano" class="form-label">Fecha de
                                                                                 publicación</label>
-                                                                            <input class="form-control"
-                                                                                id="example-year"
+                                                                            <input class="form-control" id="ano"
                                                                                 value="<?php echo htmlspecialchars($datos["año_publicacion"]); ?>"
                                                                                 type="number" name="ano" min="1900"
                                                                                 max="<?php echo date("Y"); ?>">
                                                                         </div>
-
                                                                         <div class="mb-3">
-                                                                            <label for="example-select"
+                                                                            <label for="idioma"
                                                                                 class="form-label">Idioma</label>
-                                                                            <select class="form-select"
-                                                                                id="example-select">
-                                                                                <!-- Mostrar la opción predeterminada -->
-                                                                                <option value="">
+                                                                            <select class="form-select" name="idioma"
+                                                                                id="idioma">
+                                                                                <option
+                                                                                    value="<?php echo htmlspecialchars($datos["idioma"]); ?>">
                                                                                     <?php echo htmlspecialchars($datos["idioma"]); ?>
                                                                                 </option>
-
-                                                                                <!-- Mostrar las demás opciones, excluyendo la predeterminada -->
                                                                                 <?php foreach ($idioma as $leng) { 
-                                                                                        if ($datos["idioma"] !== $leng) {  // Comparar correctamente
-                                                                                    ?>
+                        if ($datos["idioma"] !== $leng) { ?>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($leng); ?>">
                                                                                     <?php echo htmlspecialchars($leng); ?>
                                                                                 </option>
-                                                                                <?php } } ?>
+                                                                                <?php }} ?>
                                                                             </select>
-
                                                                         </div>
                                                                     </div>
                                                                     <!-- Segunda columna -->
                                                                     <div class="col-lg-6">
-
                                                                         <div class="mb-3">
-                                                                            <label for="example-number"
-                                                                                class="form-label">Codigo ISBN</label>
-                                                                            <input class="form-control"
-                                                                                id="example-number" type="number"
-                                                                                name="isbn"
-                                                                                value="<?php echo $datos["isbn"] ?>"
+                                                                            <label for="isbn" class="form-label">Codigo
+                                                                                ISBN</label>
+                                                                            <input class="form-control" id="isbn"
+                                                                                type="text" name="isbn"
+                                                                                value="<?php echo htmlspecialchars($datos["isbn"]); ?>"
                                                                                 readonly>
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="example-number"
-                                                                                class="form-label"># Edicion</label>
-                                                                            <input class="form-control"
-                                                                                id="example-number"
-                                                                                value="<?php echo $datos["edicion"] ?>"
+                                                                            <label for="edicion" class="form-label">#
+                                                                                Edicion</label>
+                                                                            <input class="form-control" id="edicion"
+                                                                                value="<?php echo htmlspecialchars($datos["edicion"]); ?>"
                                                                                 type="number" name="edicion">
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="example-textarea"
+                                                                            <label for="descripcion"
                                                                                 class="form-label">Reseña del
                                                                                 libro</label>
-                                                                            <textarea class="form-control" name="resena"
-                                                                                id="example-textarea" rows="5">
-                                                                                <?php echo htmlspecialchars($datos["resena"]); ?>
-                                                                            </textarea>
+                                                                            <textarea class="form-control"
+                                                                                name="descripcion" id="descripcion"
+                                                                                rows="5"><?php echo htmlspecialchars($datos["resena"]); ?></textarea>
                                                                         </div>
-
                                                                         <div class="mb-3">
-                                                                            <label for="example-fileinput"
+                                                                            <label for="portada"
                                                                                 class="form-label">Imagen de
                                                                                 portada</label>
                                                                             <input type="file" name="portada"
-                                                                                id="example-fileinput"
-                                                                                class="form-control">
+                                                                                id="portada" accept="image/*" class="form-control">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <button type="submit"
                                                                     class="btn btn-info">Actualizar</button>
                                                             </form>
+
                                                         </div>
                                                     </div>
                                                 </div>
