@@ -1,7 +1,7 @@
 <?php
 session_start(); // Iniciar la sesión
 
-// Verificar si el usuario ha iniciado sesión
+// Verificar si el usuarios ha iniciado sesión
 if (!isset($_SESSION['usuario_email'])) {
     // Si no ha iniciado sesión, redirigir a la página de inicio de sesión
     header('Location: login.php');
@@ -50,6 +50,8 @@ if (!empty($_POST['idUser'])) {
         "Finanzas", 
         "Otro",
     ];
+
+    // var_dump($usuarios);
 ?>
 
 
@@ -159,7 +161,7 @@ if (!empty($_POST['idUser'])) {
                                                                     <label for="example-email"
                                                                         class="form-label">Correo</label>
                                                                     <input type="email" id="example-email" name="email"
-                                                                        value="<?php echo htmlspecialchars($usuario["email"]); ?>"
+                                                                        value="<?php echo htmlspecialchars($usuarios["email"]); ?>"
                                                                         class="form-control"
                                                                         placeholder="Correo Institucional">
                                                                 </div>
@@ -181,13 +183,13 @@ if (!empty($_POST['idUser'])) {
                                                                         id="rol-select">
                                                                         <!-- Mostrar la opción predeterminada -->
                                                                         <option
-                                                                            value="<?php echo htmlspecialchars($usuario["rol"]); ?>">
-                                                                            <?php echo htmlspecialchars($usuario["rol"]); ?>
+                                                                            value="<?php echo htmlspecialchars($usuarios["rol"]); ?>">
+                                                                            <?php echo htmlspecialchars($usuarios["rol"]); ?>
                                                                         </option>
 
                                                                         <!-- Mostrar las demás opciones, excluyendo la predeterminada -->
                                                                         <?php foreach ($rol as $roludi) { 
-            if ($usuario["rol"] !== $roludi) {  // Comparar correctamente
+            if ($usuarios["rol"] !== $roludi) {  // Comparar correctamente
         ?>
                                                                         <option
                                                                             value="<?php echo htmlspecialchars($roludi); ?>">
@@ -203,13 +205,13 @@ if (!empty($_POST['idUser'])) {
                                                                     <select class="form-select" name="carrera"
                                                                         id="carrera-select">
                                                                         <!-- PHP para manejar el estado inicial de "Carrera" basado en el rol -->
-                                                                        <?php if ($usuario["rol"] == "Estudiante") { ?>
+                                                                        <?php if ($usuarios["rol"] == "Estudiante") { ?>
                                                                         <option
-                                                                            value="<?php echo htmlspecialchars($usuario["carrera"]); ?>">
-                                                                            <?php echo htmlspecialchars($usuario["carrera"]); ?>
+                                                                            value="<?php echo htmlspecialchars($usuarios["carrera"]); ?>">
+                                                                            <?php echo htmlspecialchars($usuarios["carrera"]); ?>
                                                                         </option>
                                                                         <?php foreach ($carrera as $carreraudi) { 
-                if ($usuario["carrera"] !== $carreraudi) {  // Mostrar las carreras normales si es estudiante
+                if ($usuarios["carrera"] !== $carreraudi) {  // Mostrar las carreras normales si es estudiante
             ?>
                                                                         <option
                                                                             value="<?php echo htmlspecialchars($carreraudi); ?>">
@@ -230,13 +232,13 @@ if (!empty($_POST['idUser'])) {
                                                                         id="example-select">
                                                                         <!-- Mostrar la opción predeterminada -->
                                                                         <option
-                                                                            value="<?php echo htmlspecialchars($usuario["estado"]); ?>">
-                                                                            <?php echo htmlspecialchars($usuario["estado"]); ?>
+                                                                            value="<?php echo htmlspecialchars($usuarios["estado"]); ?>">
+                                                                            <?php echo htmlspecialchars($usuarios["estado"]); ?>
                                                                         </option>
 
                                                                         <!-- Mostrar las demás opciones, excluyendo la predeterminada -->
                                                                         <?php foreach ($estado as $estadoudi) { 
-                                                                                        if ($usuario["estado"] !== $estadoudi) {  // Comparar correctamente
+                                                                                        if ($usuarios["estado"] !== $estadoudi) {  // Comparar correctamente
                                                                                     ?>
                                                                         <option
                                                                             value="<?php echo htmlspecialchars($estadoudi); ?>">
