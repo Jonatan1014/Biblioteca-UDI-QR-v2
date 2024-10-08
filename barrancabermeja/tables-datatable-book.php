@@ -17,6 +17,9 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
     exit();
 
 }
+require('includes/class_libroqr.php'); // Asegúrate de incluir la clase correcta
+$libro = new Libroqr();
+$libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
 ?><!DOCTYPE html>
 <html lang="en">
 
@@ -128,23 +131,26 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
                                                 </thead>
 
                                                 <tbody>
+                                                <?php foreach($libro as $datos){
+
+                                                 ?>
                                                     <!-- Libro 1 -->
                                                     <tr>
-                                                        <td>1</td>
-                                                        <td>La Sombra del Viento</td>
-                                                        <td>Carlos Ruiz Zafón</td>
-                                                        <td>Editorial Planeta</td>
-                                                        <td>2001</td>
-                                                        <td>9788408033645</td>
-                                                        <td>1</td>
-                                                        <td>Español</td>
-                                                        <td>Disponible</td>
-                                                        <td>Lectura Crítica</td>
+                                                        <td><?php echo $datos["idLibro"] ?></td>
+                                                        <td><?php echo $datos["titulo"] ?></td>
+                                                        <td><?php echo $datos["autor"] ?></td>
+                                                        <td><?php echo $datos["editorial"] ?></td>
+                                                        <td><?php echo $datos["año_publicacion"] ?></td>
+                                                        <td><?php echo $datos["isbn"] ?></td>
+                                                        <td><?php echo $datos["edicion"] ?></td>
+                                                        <td><?php echo $datos["idioma"] ?></td>
+                                                        <td><?php echo $datos["estado"] ?></td>
+                                                        <td><?php echo $datos["categoria"] ?></td>
                                                         <td>
                                                             <!-- Formulario para Editar -->
                                                             <form action="editar_book.php" method="POST"
                                                                 style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="1">
+                                                                <input type="hidden" name="id" value="<?php echo $datos["idLibro"] ?>">
                                                                 <button type="submit"
                                                                     class="btn btn-outline-info rounded-pill"><i
                                                                         class="uil-edit"></i> Edit</button>
@@ -160,105 +166,9 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
                                                             </form>
                                                         </td>
                                                     </tr>
+                                                    <?php  }?>
 
-                                                    <!-- Libro 2 -->
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>El Código Da Vinci</td>
-                                                        <td>Dan Brown</td>
-                                                        <td>Editorial Planeta</td>
-                                                        <td>2003</td>
-                                                        <td>9788408067602</td>
-                                                        <td>1</td>
-                                                        <td>Español</td>
-                                                        <td>Prestado</td>
-                                                        <td>Lectura Crítica</td>
-                                                        <td>
-                                                            <!-- Formulario para Editar -->
-                                                            <form action="editar_libro.php" method="POST"
-                                                                style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="2">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-info rounded-pill"><i
-                                                                        class="uil-edit"></i> Edit</button>
-                                                            </form>
-
-                                                            <!-- Formulario para Eliminar -->
-                                                            <form action="eliminar_libro.php" method="POST"
-                                                                style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="2">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-danger rounded-pill"><i
-                                                                        class="uil-trash"></i> Del</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-
-                                                    <!-- Libro 3 -->
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>1984</td>
-                                                        <td>George Orwell</td>
-                                                        <td>Editorial Penguin</td>
-                                                        <td>1949</td>
-                                                        <td>9780451524935</td>
-                                                        <td>2</td>
-                                                        <td>Inglés</td>
-                                                        <td>Disponible</td>
-                                                        <td>Lectura Crítica</td>
-                                                        <td>
-                                                            <!-- Formulario para Editar -->
-                                                            <form action="editar_libro.php" method="POST"
-                                                                style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="3">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-info rounded-pill"><i
-                                                                        class="uil-edit"></i> Edit</button>
-                                                            </form>
-
-                                                            <!-- Formulario para Eliminar -->
-                                                            <form action="eliminar_libro.php" method="POST"
-                                                                style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="3">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-danger rounded-pill"><i
-                                                                        class="uil-trash"></i> Del</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
-
-                                                    <!-- Libro 4 -->
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>Don Quijote de la Mancha</td>
-                                                        <td>Miguel de Cervantes</td>
-                                                        <td>Editorial Cátedra</td>
-                                                        <td>1605</td>
-                                                        <td>9788437604947</td>
-                                                        <td>1</td>
-                                                        <td>Español</td>
-                                                        <td>Disponible</td>
-                                                        <td>Lectura Crítica</td>
-                                                        <td>
-                                                            <!-- Formulario para Editar -->
-                                                            <form action="editar_book.php" method="POST"
-                                                                style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="4">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-info rounded-pill"><i
-                                                                        class="uil-edit"></i> Edit</button>
-                                                            </form>
-
-                                                            <!-- Formulario para Eliminar -->
-                                                            <form action="eliminar_libro.php" method="POST"
-                                                                style="display:inline-block;">
-                                                                <input type="hidden" name="id" value="4">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-danger rounded-pill"><i
-                                                                        class="uil-trash"></i> Del</button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
+                                                   
                                                 </tbody>
                                             </table>
 

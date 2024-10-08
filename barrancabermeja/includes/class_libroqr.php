@@ -39,6 +39,15 @@ class Libroqr extends conectarDB {
         $stmt->closeCursor();
         return $resultados;
     }    
+    // Método para listar todos los registros de la tabla 'libros'
+    public function listarLibros_todos() {
+        $sql = "SELECT * FROM libros";              
+        $stmt = $this->conn_db->prepare($sql);                        
+        $stmt->execute();            
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);            
+        $stmt->closeCursor();
+        return $resultados;
+    }    
 
     // Método para obtener detalles de un libro por ID
     public function detallarLibro($idLibro) {
@@ -50,6 +59,7 @@ class Libroqr extends conectarDB {
         $stmt->closeCursor();
         return $resultado;
     }
+    
     // Método para obtener detalles de un libro por ID
     public function Buscar_Libro_letter($tituloLibro) {
         $sql = "SELECT * 

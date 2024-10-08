@@ -108,6 +108,8 @@ $usuario = $usuario->datosUser_email($_SESSION['usuario_email']);
 
                                 <p class="text-muted mb-1 font-13"><strong>Codigo :</strong> <span
                                         class="ms-2"><?php echo $usuario["code_cc"] ?></span></p>
+                                <p class="text-muted mb-1 font-13"><strong>Carrera :</strong> <span
+                                        class="ms-2"><?php echo $usuario["carrera"] ?></span></p>
                             </div>
 
                             

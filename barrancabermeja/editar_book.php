@@ -17,6 +17,19 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
     exit();
 
 }
+
+if (!empty($_POST['idLibro'])) {
+    $idlibro = intval($_POST['idLibro']); // Asegúrate de validar el ID del libro
+    require('includes/class_libroqr.php'); // Asegúrate de incluir la clase correcta
+    
+    
+    $libro = new Libroqr();
+    $libro->detallarLibro($idlibro);
+}else {
+
+    header('Location: tables-datatable-book.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
