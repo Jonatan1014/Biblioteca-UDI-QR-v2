@@ -78,7 +78,7 @@ class Usuario extends conectarDB {
 
     // Método para obtener detalles de un usuario por email 
     public function datosUser_rol($email) {
-        $sql = "SELECT rol FROM usuarios WHERE email = :email";
+        $sql = "SELECT rol, estado FROM usuarios WHERE email = :email";
         $stmt = $this->conn_db->prepare($sql);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR); // Cambiado a PARAM_STR
         $stmt->execute();

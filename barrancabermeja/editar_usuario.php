@@ -17,6 +17,11 @@ if ($usuario["rol"] != "Admin" && $usuario["rol"] != "Root") {
     header('Location: view-student.php'); // Redirigir si no es Admin o Root
     exit();
 }
+if ($usuario["estado"]!="Activo") {
+    header('Location: inactivo_user.php');
+    exit();
+
+}
 
 // Verificar si se ha enviado un ID de usuario mediante POST
 if (!empty($_POST['idUser'])) {
@@ -143,7 +148,7 @@ if (!empty($_POST['idUser'])) {
                                         <div class="tab-pane show active" id="input-types-preview">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <form action="" method="POST">
+                                                    <form action="action/update_user.php" method="POST">
                                                         <div class="row">
                                                             <!-- Primera columna -->
                                                             <div class="col-lg-6">

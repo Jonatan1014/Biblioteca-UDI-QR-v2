@@ -17,6 +17,11 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
     exit();
 
 }
+if ($usuario["estado"]!="Activo") {
+    header('Location: inactivo_user.php');
+    exit();
+
+}
 require('includes/class_libroqr.php'); // Asegúrate de incluir la clase correcta
 $libro = new Libroqr();
 $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros

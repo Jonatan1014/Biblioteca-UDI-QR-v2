@@ -20,6 +20,11 @@ if ($usuario["rol"] != "Admin" && $usuario["rol"] != "Root") {
     header('Location: view-student.php');
     exit();
 }
+if ($usuario["estado"]!="Activo") {
+    header('Location: inactivo_user.php');
+    exit();
+
+}
 
 // Verificar si se ha enviado el ID del libro por POST
 if (!empty($_POST['idLibro'])) {

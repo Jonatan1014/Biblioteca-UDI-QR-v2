@@ -16,6 +16,11 @@ if ($usuario["rol"]!="Admin" && $usuario["rol"]!="Root") {
     exit();
 
 }
+if ($usuario["estado"]!="Activo") {
+    header('Location: inactivo_user.php');
+    exit();
+
+}
 if (empty($_POST['idLibro'])){
     header('Location: index.php');
     exit();
