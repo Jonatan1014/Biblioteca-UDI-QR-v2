@@ -102,19 +102,21 @@ $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una
                                         <div class="col-sm-6">
                                             <div class="float-end mt-3">
                                                 <p><b> <?php echo  $datosLibro ["titulo"] ?> </b></p>
-                                                <p class="text-muted font-13"> <?php echo  $datosLibro ["resena"] ?>
-                                                </p>
+                                                <p class="text-muted font-13"> <?php echo  $datosLibro ["resena"] ?></p>
+                                                <p class="text-muted font-13">Autor:
+                                                    <?php echo  $datosLibro ["autor"] ?></p>
+                                                <p class="text-muted font-13">Editorial:
+                                                    <?php echo  $datosLibro ["editorial"] ?></p>
                                             </div>
-
                                         </div><!-- end col -->
                                         <div class="col-sm-4 offset-sm-2">
                                             <div class="mt-3 float-sm-end">
-                                                <p class="font-13"><strong>Publicacion: </strong>
+                                                <p class="font-13"><strong>Publicacion </strong>
                                                     <?php echo  $datosLibro ["año_publicacion"] ?> </p>
-                                                <p class="font-13"><strong>Estado del libro: </strong> <span
+                                                <p class="font-13"><strong>Estado </strong> <span
                                                         class="badge bg-success float-end"><?php echo  $datosLibro ["estado"] ?></span>
                                                 </p>
-                                                <p class="font-13"><strong>ISBN: </strong> <span
+                                                <p class="font-13"><strong>ISBN </strong> <span
                                                         class="float-end"><?php echo  $datosLibro ["isbn"] ?></span></p>
                                             </div>
                                         </div><!-- end col -->
@@ -122,55 +124,36 @@ $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una
                                     <!-- end row -->
 
                                     <div class="row mt-4">
-                                        <div class="col-sm-4">
-                                            <h6>Billing Address</h6>
-                                            <address>
-                                                Lynne K. Higby<br>
-                                                795 Folsom Ave, Suite 600<br>
-                                                San Francisco, CA 94107<br>
-                                                <abbr title="Phone">P:</abbr> (123) 456-7890
-                                            </address>
+                                        <div class="col-sm-4 text-center">
+                                            <!-- Añadido text-center -->
+                                            <!-- Imagen (portada del libro) -->
+                                            <?php echo '<img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($datosLibro["portada"]) . '" alt="Portada de ' . htmlspecialchars($datosLibro['titulo']) . '" class="qr-code" style="max-width: 100%; height: auto;">'; ?>
                                         </div> <!-- end col-->
 
                                         <div class="col-sm-4">
-                                            <h6>Shipping Address</h6>
-                                            <address>
-                                                Cooper Hobson<br>
-                                                795 Folsom Ave, Suite 600<br>
-                                                San Francisco, CA 94107<br>
-                                                <abbr title="Phone">P:</abbr> (123) 456-7890
-                                            </address>
+                                            <br>
+                                            <br>
                                         </div> <!-- end col-->
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-4 text-center">
+                                            <!-- Añadido text-center -->
                                             <div class="text-sm-end">
                                                 <!-- Imagen (código QR del libro) -->
-                                                <?php echo '<img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($datosLibro["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($datosLibro['titulo']) . '" class="qr-code" width="150" height="150">'; ?>
+                                                <?php echo '<img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($datosLibro["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($datosLibro['titulo']) . '" class="qr-code" style="max-width: 60%; height: auto;">'; ?>
                                             </div>
                                         </div> <!-- end col-->
                                     </div>
                                     <!-- end row -->
 
-
-
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="clearfix pt-3">
-                                                <h6 class="text-muted">Notes:</h6>
-                                                <small>
-                                                    All accounts are to be paid within 7 days from receipt of
-                                                    invoice. To be paid by cheque or credit card or direct payment
-                                                    online. If account is not paid within 7 days the credits details
-                                                    supplied as confirmation of work undertaken will be charged the
-                                                    agreed quoted fee noted above.
-                                                </small>
+
                                             </div>
                                         </div> <!-- end col -->
                                         <div class="col-sm-6">
                                             <div class="float-end mt-3 mt-sm-0">
-                                                <p><b>Sub-total:</b> <span class="float-end">$4120.00</span></p>
-                                                <p><b>VAT (12.5):</b> <span class="float-end">$515.00</span></p>
-                                                <h3>$4635.00 USD</h3>
+
                                             </div>
                                             <div class="clearfix"></div>
                                         </div> <!-- end col -->
@@ -190,6 +173,7 @@ $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una
                         </div> <!-- end col-->
                     </div>
                     <!-- end row -->
+
 
                 </div> <!-- container -->
 
