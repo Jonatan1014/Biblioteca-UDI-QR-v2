@@ -100,9 +100,9 @@ $datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
                         </div>
                     </div>
                     <div class="app-search">
-                        <form>
+                        <form action="" method="post">
                             <div class="mb-2 w-100 position-relative">
-                                <input type="search" class="form-control"
+                                <input type="search" name="loan" class="form-control"
                                     placeholder="Buscar estudiantes...">
                                 <span class="mdi mdi-magnify search-icon"></span>
                             </div>
@@ -110,46 +110,11 @@ $datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
                     </div>
 
                     <div class="row">
-                        <?php
-foreach ($datos as $prestamoL) {
-    ?>
-                        <div class="col-md-4">
-                            <div class="card border-primary border">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary" style="text-align: center;">
-                                        <?php echo htmlspecialchars($prestamoL["titulo"]); ?>
-                                    </h5>
-                                    <h7 class="card-title text-body-emphasis">
-                                        ISBN: <?php echo htmlspecialchars($prestamoL["isbn"]); ?>
-                                    </h7>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="card-text mb-0"><?php echo htmlspecialchars($prestamoL["name"]); ?>
-                                        </p>
-                                        <p class="card-text mb-0"><?php echo htmlspecialchars($prestamoL["carrera"]); ?>
-                                        </p>
-                                    </div>
-                                    <br>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <form action="action/register_loan-return.php" method="post">
-                                            <input type="hidden" name="idLibro" value="<?php echo htmlspecialchars($prestamoL["idLibro"]); ?>">
-
-                                            <button class="btn btn-primary btn-sm">Regresar libro</button>
-                                        </form>
-                                        <div style="text-align: right;">
-                                            <?php echo htmlspecialchars($prestamoL["fecha_vencimiento"]); ?></p>
-
-                                        </div>
-                                    </div>
-
-                                </div> <!-- end card-body-->
-                            </div> <!-- end card-->
-                        </div> <!-- end col-->
-                        <?php
-}
-?>
-
-
+                        <div id="resultados" class="row">
+                            <!-- Aquí se insertarán los resultados -->
+                        </div>
                     </div>
+                    <!-- container -->
                     <!-- end row -->
 
 
@@ -1037,6 +1002,39 @@ foreach ($datos as $prestamoL) {
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        // Función para cargar todos los préstamos al iniciar
+        function cargarPrestamos(loan = '') {
+            $.ajax({
+                url: 'action/search_book_loan.php',
+                type: 'POST',
+                data: {
+                    loan: loan
+                },
+                success: function(response) {
+                    $('#resultados').html(response);
+                },
+                error: function() {
+                    $('#resultados').html(
+                        '<div class="alert alert-danger">Error al realizar la búsqueda.</div>'
+                    );
+                }
+            });
+        }
+
+        // Cargar todos los préstamos al iniciar la página
+        cargarPrestamos();
+
+        // Búsqueda dinámica
+        $('input[name="loan"]').on('keyup', function() {
+            var loan = $(this).val();
+            cargarPrestamos(loan);
+        });
+    });
+    </script>
+
 
 </body>
 

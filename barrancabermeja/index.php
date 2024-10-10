@@ -60,6 +60,11 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
 
     <!-- Icons css -->
     <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- escript jax -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
 </head>
 
 <body>
@@ -100,64 +105,18 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
                         </div>
                     </div>
                     <div class="app-search">
-                        <form>
+                        <form action="" method="POST">
                             <div class="mb-2 w-100 position-relative">
-                                <input type="search" class="form-control" placeholder="Buscar libros...">
+                                <input type="search" name="fruta" class="form-control" placeholder="Buscar libros...">
                                 <span class="mdi mdi-magnify search-icon"></span>
                             </div>
                         </form>
                     </div>
 
                     <div class="row">
-                        <?php
-    $total_libros = $datos[0]['disponibles'];
-    // Mostrar notificación si no hay libros disponibles
-    if ($total_libros == 0) {
-        echo '<div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <img src="assets/images/logo_udi.png" alt="brand-logo" height="16" class="me-1">
-                    <strong class="me-auto">Notificación</strong>
-                    <small>1 min</small>
-                    <button type="button" class="ms-2 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    No tienes ningún libro registrado.
-                </div>
-            </div>';
-    } else {
-        // Iterar sobre los datos de los libros
-        foreach ($datos as $book) {
-            if ($book['estado'] == 'Disponible') {
-                // Columna responsiva para diferentes tamaños de pantalla
-                echo '<div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">';  
-                echo '    <div class="card h-100 d-flex flex-column">';  // Ajuste de la tarjeta para ocupar toda la altura
-
-                // Parte superior de la tarjeta, título y autor
-                echo '        <div class="card-body">';
-                echo '            <h5 class="card-title">' . htmlspecialchars($book['titulo']) . '</h5>';  // Título del libro
-                echo '            <h6 class="card-subtitle text-muted">' . htmlspecialchars($book['autor']) . '</h6>';  // Autor del libro
-                echo '        </div>';
-
-                // Imagen (código QR del libro) centrada
-                echo '        <div class="d-flex justify-content-center">';  // Centrar la imagen
-                echo '            <img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($book["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($book['titulo']) . '" style="width: 150px; height: 150px;">';
-                echo '        </div>';
-
-                // Cuerpo inferior de la tarjeta con resumen y botón
-                echo '        <div class="card-body mt-auto">';  // Usar mt-auto para que el botón quede en la parte inferior
-                // Formulario para enviar el idLibro por método POST
-                echo '            <form action="details-book.php" method="POST">';
-                echo '                <input type="hidden" name="idLibro" value="' . htmlspecialchars($book['idLibro']) . '">';
-                echo '                <button type="submit" class="btn btn-primary w-100">Más Información</button>';  // Botón ocupa todo el ancho
-                echo '            </form>';
-                echo '        </div>';  // Cierre del cuerpo de la tarjeta
-
-                echo '    </div>';  // Cierre de la tarjeta
-                echo '</div>';  // Cierre de la columna
-            }
-        }
-    }
-    ?>
+                        <div id="resultados" class="row">
+                            <!-- Aquí se insertarán los resultados -->
+                        </div>
                     </div>
                     <!-- container -->
 
@@ -1059,6 +1018,40 @@ $datos = $libro->listarLibros(); // Obtener los datos de los libros
 
         <!-- App js -->
         <script src="assets/js/app.min.js"></script>
+
+        <script>
+        $(document).ready(function() {
+            // Función para cargar todos los libros al iniciar
+            function cargarLibros(fruta = '') {
+                $.ajax({
+                    url: 'action/search_book.php',
+                    type: 'POST',
+                    data: {
+                        fruta: fruta
+                    },
+                    success: function(response) {
+                        $('#resultados').html(response);
+                    },
+                    error: function() {
+                        $('#resultados').html(
+                            '<div class="alert alert-danger">Error al realizar la búsqueda.</div>'
+                            );
+                    }
+                });
+            }
+
+            // Cargar todos los libros al iniciar la página
+            cargarLibros();
+
+            // Función para hacer la búsqueda dinámica
+            $('input[name="fruta"]').on('keyup', function() {
+                var fruta = $(this).val();
+                cargarLibros(fruta); // Hacer la búsqueda en función del término ingresado
+            });
+        });
+        </script>
+
+
 
 </body>
 

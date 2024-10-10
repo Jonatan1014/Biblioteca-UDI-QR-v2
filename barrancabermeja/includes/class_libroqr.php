@@ -60,19 +60,20 @@ class Libroqr extends conectarDB {
         return $resultado;
     }
     
-    // Método para obtener detalles de un libro por ID
-    public function Buscar_Libro_letter($tituloLibro) {
+    // Método para buscar libros por título o autor
+    public function buscarLibroPorTituloOAutor($terminoBusqueda) {
         $sql = "SELECT * 
                 FROM libros 
-                WHERE titulo LIKE :tituloLibro";
+                WHERE LOWER(titulo) LIKE :terminoBusqueda 
+                OR LOWER(autor) LIKE :terminoBusqueda";
         
         $stmt = $this->conn_db->prepare($sql);
         
         // Agregar comodines para permitir búsqueda parcial
-        $tituloLibro = '%' . $tituloLibro . '%';
+        $terminoBusqueda = '%' . strtolower($terminoBusqueda) . '%';
         
         // Enlazar el parámetro
-        $stmt->bindParam(':tituloLibro', $tituloLibro, PDO::PARAM_STR);
+        $stmt->bindParam(':terminoBusqueda', $terminoBusqueda, PDO::PARAM_STR);
         
         // Ejecutar la consulta
         $stmt->execute();
@@ -85,6 +86,7 @@ class Libroqr extends conectarDB {
         
         return $resultado;
     }
+
     
 
      // Método para obtener detalles de un libro por SBN
