@@ -108,12 +108,16 @@ $datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
                             </div>
                         </form>
                     </div>
+                    
+
+
 
                     <div class="row">
                         <div id="resultados" class="row">
                             <!-- Aquí se insertarán los resultados -->
                         </div>
                     </div>
+
                     <!-- container -->
                     <!-- end row -->
 
@@ -1034,6 +1038,22 @@ $datos = $prestamo->listarPrestamos(); // Obtener los datos de los libros
         });
     });
     </script>
+    <script>
+    // Función para abrir el toast de confirmación
+    function confirmarDevolucion(idLibro) {
+        var toast = document.getElementById('toast-' + idLibro);
+        toast.classList.remove('hide');
+        toast.classList.add('show');
+    }
+
+    // Función para cerrar el toast
+    function cerrarToast(idLibro) {
+        var toast = document.getElementById('toast-' + idLibro);
+        toast.classList.remove('show');
+        toast.classList.add('hide');
+    }
+    </script>
+
 
 
 </body>
