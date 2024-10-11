@@ -142,8 +142,13 @@ $listUser = $listUser->listarUsuarios();
                                                         <td><?= htmlspecialchars($user["name"]) ?></td>
                                                         <td><?= htmlspecialchars($user["email"]) ?></td>
                                                         <td><?= htmlspecialchars($user["code_cc"]) ?></td>
-                                                        <td><?= htmlspecialchars($user["rol"]) ?></td>
-                                                        <td><?= htmlspecialchars($user["estado"]) ?></td>
+                                                        <td><?= htmlspecialchars($user["rol"]) ?></td>                                                        <?php if($user["estado"]=="Activo") { ?>
+                                                        <td><span class="badge bg-success">Activo</span></td>
+
+                                                        <?php }else{ ?>
+                                                        <td><span class="badge bg-danger">Inactivo</span></td>
+
+                                                        <?php }?>
                                                         <td>
                                                             <!-- Formulario para Editar -->
                                                             <form action="editar_usuario.php" method="POST"
@@ -157,15 +162,15 @@ $listUser = $listUser->listarUsuarios();
                                                             </form>
 
                                                             <!-- Formulario para Eliminar -->
-                                                            <form action="eliminar_usuario.php" method="POST"
+                                                            <!-- <form action="eliminar_usuario.php" method="POST"
                                                                 style="display:inline-block;">
                                                                 <input type="hidden" name="id"
-                                                                    value="<?= htmlspecialchars($user["idUser"]) ?>">
+                                                                    value="<?//= htmlspecialchars($user["idUser"]) ?>">
                                                                 <button type="submit"
                                                                     class="btn btn-outline-danger rounded-pill">
                                                                     <i class="uil-trash"></i> Eliminar
                                                                 </button>
-                                                            </form>
+                                                            </form> -->
                                                         </td>
                                                     </tr>
                                                     <?php } // Cierre del foreach ?>
