@@ -161,14 +161,14 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                                                                         class="uil-edit"></i> Edit</button>
                                                             </form>
 
-                                                            <!-- Formulario para Eliminar -->
+                                                            <!-- Formulario para Eliminar
                                                             <form action="eliminar_libro.php" method="POST"
                                                                 style="display:inline-block;">
-                                                                <input type="hidden" name="idLibro" value="<?php echo $datos["idLibro"] ?>">
+                                                                <input type="hidden" name="idLibro" value="<?php //echo $datos["idLibro"] ?>">
                                                                 <button type="submit"
                                                                     class="btn btn-outline-danger rounded-pill"><i
                                                                         class="uil-trash"></i> Del</button>
-                                                            </form>
+                                                            </form> -->
                                                         </td>
                                                     </tr>
                                                     <?php  }?>

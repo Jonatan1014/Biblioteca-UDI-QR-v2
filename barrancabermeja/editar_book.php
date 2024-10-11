@@ -44,6 +44,7 @@ if (!empty($_POST['idLibro'])) {
 
 // Definir los valores disponibles para idioma y categoría
 $idioma = ['Español', 'Ingles'];
+$estado = ['Prestado', 'Disponible','Inactivo'];
 $categoria = [
     'Programacion', 
     'Matematicas', 
@@ -186,7 +187,7 @@ $categoria = [
                                                                                     <?php echo htmlspecialchars($datos["categoria"]); ?>
                                                                                 </option>
                                                                                 <?php foreach ($categoria as $carrera) { 
-                        if ($datos["categoria"] !== $carrera) { ?>
+                                                                                         if ($datos["categoria"] !== $carrera) { ?>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($carrera); ?>">
                                                                                     <?php echo htmlspecialchars($carrera); ?>
@@ -239,6 +240,24 @@ $categoria = [
                                                                                 type="number" name="edicion">
                                                                         </div>
                                                                         <div class="mb-3">
+                                                                            <label for="estado"
+                                                                                class="form-label link-info">Estado</label>
+                                                                            <select class="form-select" name="estado"
+                                                                                id="estado">
+                                                                                <option
+                                                                                    value="<?php echo htmlspecialchars($datos["estado"]); ?>">
+                                                                                    <?php echo htmlspecialchars($datos["estado"]); ?>
+                                                                                </option>
+                                                                                <?php foreach ($estado as $estadoudi) { 
+                                                                                         if ($datos["estado"] !== $estadoudi) { ?>
+                                                                                <option
+                                                                                    value="<?php echo htmlspecialchars($estadoudi); ?>">
+                                                                                    <?php echo htmlspecialchars($estadoudi); ?>
+                                                                                </option>
+                                                                                <?php }} ?>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="mb-3">
                                                                             <label for="descripcion"
                                                                                 class="form-label">Reseña del
                                                                                 libro</label>
@@ -251,7 +270,8 @@ $categoria = [
                                                                                 class="form-label">Imagen de
                                                                                 portada</label>
                                                                             <input type="file" name="portada"
-                                                                                id="portada" accept="image/*" class="form-control">
+                                                                                id="portada" accept="image/*"
+                                                                                class="form-control">
                                                                         </div>
                                                                     </div>
                                                                 </div>

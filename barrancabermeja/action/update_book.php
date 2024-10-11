@@ -50,7 +50,7 @@ function redimensionarImagen($archivo, $maxWidth, $maxHeight) {
 if (validarCamposRequeridos([
     $_POST['idLibro'], $_POST['titulo'], $_POST['autor'], $_POST['editorial'], 
     $_POST['categoria'], $_POST['ano'], $_POST['idioma'], 
-    $_POST['isbn'], $_POST['edicion'], $_POST['descripcion']
+    $_POST['isbn'], $_POST['edicion'], $_POST['estado'], $_POST['descripcion']
 ])) {    
     // Asignar las variables de entrada
     $idLibro = $_POST['idLibro'];
@@ -63,7 +63,7 @@ if (validarCamposRequeridos([
     $isbn = $_POST['isbn'];
     $edicion = $_POST['edicion'];
     $resena = $_POST['descripcion'];
-    $estado = 'Disponible'; // O el estado que desees
+    $estado = $_POST['estado']; // O el estado que desees
 
     $portada = null; // Inicializar la portada como null
 
