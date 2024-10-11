@@ -149,7 +149,16 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                                                         <td><?php echo $datos["isbn"] ?></td>
                                                         <td><?php echo $datos["edicion"] ?></td>
                                                         <td><?php echo $datos["idioma"] ?></td>
-                                                        <td><?php echo $datos["estado"] ?></td>
+                                                        <?php if($datos["estado"]=="Disponible") { ?>
+                                                            <td><span class="badge bg-success">Disponible</span></td>
+                                                        
+                                                        <?php }elseif($datos["estado"]=="Prestado") { ?>
+                                                            <td><span class="badge bg-info">Prestado</span></td>
+                                                            
+                                                        <?php }else{?>
+                                                            <td><span class="badge bg-danger">Inactivo</span></td>
+
+                                                        <?php }?>
                                                         <td><?php echo $datos["categoria"] ?></td>
                                                         <td>
                                                             <!-- Formulario para Editar -->
