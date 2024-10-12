@@ -239,17 +239,19 @@ $categoria = [
                                                                                 value="<?php echo htmlspecialchars($datos["edicion"]); ?>"
                                                                                 type="number" name="edicion">
                                                                         </div>
+                                                                        <!-- Otros campos -->
                                                                         <div class="mb-3">
                                                                             <label for="estado"
                                                                                 class="form-label link-info">Estado</label>
                                                                             <select class="form-select" name="estado"
-                                                                                id="estado">
+                                                                                id="estado"
+                                                                                <?php echo ($datos["estado"] === 'Prestado') ? 'disabled' : ''; ?>>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($datos["estado"]); ?>">
                                                                                     <?php echo htmlspecialchars($datos["estado"]); ?>
                                                                                 </option>
                                                                                 <?php foreach ($estado as $estadoudi) { 
-                                                                                         if ($datos["estado"] !== $estadoudi) { ?>
+                        if ($datos["estado"] !== $estadoudi) { ?>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($estadoudi); ?>">
                                                                                     <?php echo htmlspecialchars($estadoudi); ?>
@@ -257,6 +259,7 @@ $categoria = [
                                                                                 <?php }} ?>
                                                                             </select>
                                                                         </div>
+                                                                        <!-- Otros campos -->
                                                                         <div class="mb-3">
                                                                             <label for="descripcion"
                                                                                 class="form-label">Reseña del
