@@ -32,6 +32,20 @@ $idioma = [
     'Español',
     'Ingles',
 ];
+$ubicacionE = [
+    'E1',
+    'E2',
+    'E3',
+    'E4',
+    'E5',
+    'E6',
+];
+$ubicacionF = [
+    'F1',
+    'F2',
+    'F3',
+    'F4',
+];
 $categoria = [
     'Programacion', 
     'Matematicas', 
@@ -131,7 +145,8 @@ $categoria = [
                                         <div class="tab-pane show active" id="input-types-preview">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <form action="action/register_book.php" method="POST" enctype="multipart/form-data">
+                                                    <form action="action/register_book.php" method="POST"
+                                                        enctype="multipart/form-data">
                                                         <div class="row">
                                                             <!-- Primera columna -->
                                                             <div class="col-lg-6">
@@ -139,24 +154,25 @@ $categoria = [
                                                                     <label for="simpleinput"
                                                                         class="form-label">Titulo</label>
                                                                     <input type="text" name="titulo" id="simpleinput"
-                                                                        class="form-control">
+                                                                        class="form-control" required >
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="simpleinput"
                                                                         class="form-label">Autor</label>
                                                                     <input type="text" name="autor" id="simpleinput"
-                                                                        class="form-control">
+                                                                        class="form-control" required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="simpleinput"
                                                                         class="form-label">Editorial</label>
                                                                     <input type="text" name="editorial" id="simpleinput"
-                                                                        class="form-control">
+                                                                        class="form-control"  required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="example-select" class="form-label">Tema
                                                                         o Categoria</label>
-                                                                    <select class="form-select" name="categoria" id="example-select">
+                                                                    <select class="form-select" name="categoria"
+                                                                        id="example-select" required>
                                                                         <option value="">Seleccione un tema</option>
                                                                         <!-- Opción predeterminada -->
                                                                         <?php foreach ($categoria as $carrera): ?>
@@ -171,12 +187,13 @@ $categoria = [
                                                                     <label for="example-date" class="form-label">Fecha
                                                                         de publicacion</label>
                                                                     <input class="form-control" id="example-date"
-                                                                        type="date" name="ano">
+                                                                        type="date" name="ano" required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="example-select"
                                                                         class="form-label">Idioma</label>
-                                                                    <select class="form-select" name="idioma" id="example-select">
+                                                                    <select class="form-select" name="idioma"
+                                                                        id="example-select" required>
                                                                         <!-- Opción predeterminada -->
                                                                         <?php foreach ($idioma as $carrera): ?>
                                                                         <option
@@ -194,25 +211,66 @@ $categoria = [
                                                                     <label for="example-number"
                                                                         class="form-label">Codigo ISBN</label>
                                                                     <input class="form-control" id="example-number"
-                                                                        type="number" name="isbn">
+                                                                        type="number" name="isbn" required>
                                                                 </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="mb-3">
+                                                                            <label for="estanteria"
+                                                                                class="form-label">Estantería</label>
+                                                                            <select class="form-select"
+                                                                                name="estanteria" id="estanteria" required>
+                                                                                <!-- Opción predeterminada -->
+                                                                                <option value="">Seleccione una estanteria
+                                                                                </option>
+                                                                                <?php foreach ($ubicacionE as $locatione): ?>
+                                                                                    
+                                                                                <option
+                                                                                    value="<?php echo htmlspecialchars($locatione); ?>">
+                                                                                    <?php echo htmlspecialchars($locatione); ?>
+                                                                                </option>
+                                                                                <?php endforeach; ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6">
+                                                                        <div class="mb-3">
+                                                                            <label for="fila"
+                                                                                class="form-label">Fila</label>
+                                                                            <select class="form-select" name="fila"
+                                                                                id="fila" required>
+                                                                                <option value="">Seleccione una fila
+                                                                                </option>
+                                                                                <!-- Opción predeterminada -->
+                                                                                <?php foreach ($ubicacionF as $locationf): ?>
+                                                                                <option
+                                                                                    value="<?php echo htmlspecialchars($locationf); ?>">
+                                                                                    <?php echo htmlspecialchars($locationf); ?>
+                                                                                </option>
+                                                                                <?php endforeach; ?>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
                                                                 <div class="mb-3">
                                                                     <label for="example-number" class="form-label">#
                                                                         Edicion</label>
                                                                     <input class="form-control" id="example-number"
-                                                                        type="number" name="edicion">
+                                                                        type="number" name="edicion" required>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="example-textarea"
                                                                         class="form-label">Reseña del libro</label>
-                                                                    <textarea class="form-control" name="descripcion" id="example-textarea"
-                                                                        rows="5"></textarea>
+                                                                    <textarea class="form-control" name="descripcion"
+                                                                        id="example-textarea" rows="5" required></textarea>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <label for="example-fileinput"
                                                                         class="form-label">Imagen de portada</label>
-                                                                    <input type="file" name="portada" accept="image/*" id="example-fileinput"
-                                                                        class="form-control">
+                                                                    <input type="file" name="portada" accept="image/*"
+                                                                        id="example-fileinput" class="form-control"  required>
                                                                 </div>
                                                             </div>
                                                         </div>

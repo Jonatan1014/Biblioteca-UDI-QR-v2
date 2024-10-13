@@ -30,7 +30,8 @@ CREATE TABLE libros (
     qr_code LONGBLOB,                             -- Código QR en formato imagen
     estado ENUM('Disponible', 'Prestado', 'Inactivo') DEFAULT 'Disponible',  -- Estado del libro
     categoria ENUM('Programacion', 'Matematicas', 'Lectura Critica', "Psicologia", "Diseño Grafico", "Finanzas","Otro") DEFAULT 'Otro',  -- Estado del libro
-    resena LONGTEXT 
+    resena LONGTEXT,
+    ubicacion VARCHAR(50)
 );
 
 -- Tabla de préstamos

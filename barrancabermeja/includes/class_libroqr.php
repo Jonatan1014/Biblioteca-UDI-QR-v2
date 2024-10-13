@@ -163,6 +163,17 @@ class Libroqr extends conectarDB {
         $stmt->closeCursor();
         return true;
     }
+    // Método para actualizar detalles de un libro por ID
+    public function obtenerEstado($idLibro) {
+        $sql = "SELECT estado 
+                FROM  libros 
+                WHERE idLibro = :idLibro";
+        $stmt = $this->conn_db->prepare($sql);    
+        $stmt->bindParam(':idLibro', $idLibro, PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt->closeCursor();
+        return true;
+    }
 
     // Método para eliminar un libro por ID
     public function eliminarLibro($idLibro) {
