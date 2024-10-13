@@ -182,6 +182,10 @@ $datos = $libro->detallarLibro($_POST['idLibro']); // Obtener los datos de un li
                                                     <h5 class="mb-1">Edición:</h5>
                                                     <h7 class="text-muted"> <?php echo $datos['edicion']?> </h7>
                                                     <!-- Variable para la edición -->
+                                                    <!-- Edición del libro -->
+                                                    <h5 class="mb-1">Ubicacion:</h5>
+                                                    <h7 class="text-muted"> <?php echo $datos['ubicacion']?> </h7>
+                                                    <!-- Variable para la edición -->
                                                 </div>
 
                                                 <!-- end div-->

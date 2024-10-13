@@ -26,10 +26,13 @@ if ($result->num_rows > 0) {
             echo '<div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4">';
             echo '    <div class="card h-100 d-flex flex-column">';
             
-            // Parte superior de la tarjeta (título y autor)
+            // Parte superior de la tarjeta (título y autor con ubicación)
             echo '        <div class="card-body">';
             echo '            <h5 class="card-title">' . htmlspecialchars($book['titulo']) . '</h5>';
-            echo '            <h6 class="card-subtitle text-muted">' . htmlspecialchars($book['autor']) . '</h6>';
+            echo '            <div class="d-flex justify-content-between align-items-center">';
+            echo '                <h6 class="card-subtitle text-muted mb-0">' . htmlspecialchars($book['autor']) . '</h6>';
+            echo '                <span class="text-muted">' . htmlspecialchars($book['ubicacion']) . '</span>'; // Asegúrate de que la ubicación está disponible en $book
+            echo '            </div>';
             echo '        </div>';
             
             // Imagen QR centrada
@@ -44,9 +47,10 @@ if ($result->num_rows > 0) {
             echo '                <button type="submit" class="btn btn-primary w-100">Más Información</button>';
             echo '            </form>';
             echo '        </div>';  // Fin del cuerpo de la tarjeta
-
+            
             echo '    </div>';  // Fin de la tarjeta
             echo '</div>';  // Fin de la columna
+            
         }
     }
 } else {

@@ -1,4 +1,3 @@
-
 <?php
 session_start(); // Iniciar la sesión
 
@@ -25,7 +24,8 @@ if ($usuario["estado"]!="Activo") {
 require('includes/class_libroqr.php'); // Asegúrate de incluir la clase correcta
 $libro = new Libroqr();
 $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 
@@ -112,7 +112,7 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    
+
                                     <!-- <h4 class="header-title">Scroll - Vertical</h4> -->
 
                                     <div class="tab-content">
@@ -127,16 +127,17 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                                                         <th>Editorial</th>
                                                         <th>Año Publicado</th>
                                                         <th>ISBN</th>
+                                                        <th>Estado</th>
+                                                        <th>Ubicacion</th>
                                                         <th>Edición</th>
                                                         <th>Idioma</th>
-                                                        <th>Estado</th>
                                                         <th>Categoría</th>
                                                         <th>Acciones</th>
                                                     </tr>
                                                 </thead>
 
                                                 <tbody>
-                                                <?php foreach($libro as $datos){
+                                                    <?php foreach($libro as $datos){
 
                                                  ?>
                                                     <!-- Libro 1 -->
@@ -147,24 +148,25 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                                                         <td><?php echo $datos["editorial"] ?></td>
                                                         <td><?php echo $datos["año_publicacion"] ?></td>
                                                         <td><?php echo $datos["isbn"] ?></td>
+                                                        <?php if($datos["estado"]=="Disponible") { ?>
+                                                        <td><span class="badge bg-success">Disponible</span></td>
+
+                                                        <?php }elseif($datos["estado"]=="Prestado") { ?>
+                                                        <td><span class="badge bg-info">Prestado</span></td>
+
+                                                        <?php }else{?>
+                                                        <td><span class="badge bg-danger">Inactivo</span></td>
+                                                        <?php }?>
+                                                        <td><?php echo $datos["ubicacion"] ?></td>
                                                         <td><?php echo $datos["edicion"] ?></td>
                                                         <td><?php echo $datos["idioma"] ?></td>
-                                                        <?php if($datos["estado"]=="Disponible") { ?>
-                                                            <td><span class="badge bg-success">Disponible</span></td>
-                                                        
-                                                        <?php }elseif($datos["estado"]=="Prestado") { ?>
-                                                            <td><span class="badge bg-info">Prestado</span></td>
-                                                            
-                                                        <?php }else{?>
-                                                            <td><span class="badge bg-danger">Inactivo</span></td>
-
-                                                        <?php }?>
                                                         <td><?php echo $datos["categoria"] ?></td>
                                                         <td>
                                                             <!-- Formulario para Editar -->
                                                             <form action="editar_book.php" method="POST"
                                                                 style="display:inline-block;">
-                                                                <input type="hidden" name="idLibro" value="<?php echo $datos["idLibro"] ?>">
+                                                                <input type="hidden" name="idLibro"
+                                                                    value="<?php echo $datos["idLibro"] ?>">
                                                                 <button type="submit"
                                                                     class="btn btn-outline-info rounded-pill"><i
                                                                         class="uil-edit"></i> Edit</button>
@@ -182,7 +184,7 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                                                     </tr>
                                                     <?php  }?>
 
-                                                   
+
                                                 </tbody>
                                             </table>
 

@@ -171,7 +171,7 @@ $categoria = [
                                                                                 class="form-label">Titulo</label>
                                                                             <input type="text" name="titulo"
                                                                                 value="<?php echo htmlspecialchars($datos["titulo"]); ?>"
-                                                                                id="titulo" class="form-control">
+                                                                                id="titulo" class="form-control" required >
                                                                             <input type="hidden" name="idLibro"
                                                                                 value="<?php echo $datos["idLibro"]; ?>"
                                                                                 id="idLibro">
@@ -181,21 +181,21 @@ $categoria = [
                                                                                 class="form-label">Autor</label>
                                                                             <input type="text" name="autor"
                                                                                 value="<?php echo htmlspecialchars($datos["autor"]); ?>"
-                                                                                id="autor" class="form-control">
+                                                                                id="autor" class="form-control" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="editorial"
                                                                                 class="form-label">Editorial</label>
                                                                             <input type="text" name="editorial"
                                                                                 value="<?php echo htmlspecialchars($datos["editorial"]); ?>"
-                                                                                id="editorial" class="form-control">
+                                                                                id="editorial" class="form-control" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="categoria"
                                                                                 class="form-label">Tema o
                                                                                 Categoria</label>
                                                                             <select class="form-select" name="categoria"
-                                                                                id="categoria">
+                                                                                id="categoria" required>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($datos["categoria"]); ?>">
                                                                                     <?php echo htmlspecialchars($datos["categoria"]); ?>
@@ -215,13 +215,13 @@ $categoria = [
                                                                             <input class="form-control" id="ano"
                                                                                 value="<?php echo htmlspecialchars($datos["año_publicacion"]); ?>"
                                                                                 type="number" name="ano" min="1900"
-                                                                                max="<?php echo date("Y"); ?>">
+                                                                                max="<?php echo date("Y"); ?>" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="idioma"
                                                                                 class="form-label">Idioma</label>
                                                                             <select class="form-select" name="idioma"
-                                                                                id="idioma">
+                                                                                id="idioma" required>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($datos["idioma"]); ?>">
                                                                                     <?php echo htmlspecialchars($datos["idioma"]); ?>
@@ -284,11 +284,11 @@ $categoria = [
                                                                                         </option>
                                                                                         <?php foreach ($ubicacionF as $ubicacionf) { 
                                                                                                 if (explode('-', $datos["ubicacion"])[1] !== $ubicacionf) { 
-                                                                                                    $ubicacionSimple = explode('-', $ubicacionf)[0]; // Solo tomar la primera parte
+                                                                                                     // Solo tomar la primera parte
                                                                                             ?>
                                                                                         <option
-                                                                                            value="<?php echo htmlspecialchars($ubicacionSimple); ?>">
-                                                                                            <?php echo htmlspecialchars($ubicacionSimple); ?>
+                                                                                            value="<?php echo htmlspecialchars($ubicacionf); ?>">
+                                                                                            <?php echo htmlspecialchars($ubicacionf); ?>
                                                                                         </option>
                                                                                         <?php }} ?>
                                                                                     </select>
@@ -301,21 +301,21 @@ $categoria = [
                                                                                 Edicion</label>
                                                                             <input class="form-control" id="edicion"
                                                                                 value="<?php echo htmlspecialchars($datos["edicion"]); ?>"
-                                                                                type="number" name="edicion">
+                                                                                type="number" name="edicion" required>
                                                                         </div>
                                                                         <!-- Otros campos -->
                                                                         <div class="mb-3">
                                                                             <label for="estado"
                                                                                 class="form-label link-info">Estado</label>
                                                                             <select class="form-select" name="estado"
-                                                                                id="estado"
+                                                                                id="estado" required>
                                                                                 <?php echo ($datos["estado"] === 'Prestado') ? 'disabled' : ''; ?>>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($datos["estado"]); ?>">
                                                                                     <?php echo htmlspecialchars($datos["estado"]); ?>
                                                                                 </option>
                                                                                 <?php foreach ($estado as $estadoudi) { 
-                        if ($datos["estado"] !== $estadoudi) { ?>
+                                                                                if ($datos["estado"] !== $estadoudi) { ?>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($estadoudi); ?>">
                                                                                     <?php echo htmlspecialchars($estadoudi); ?>

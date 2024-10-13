@@ -8,7 +8,7 @@ if (isset($_POST['loan'])) {
         exit();
     }
 
-    $sql = "SELECT libros.titulo, libros.isbn, usuarios.name, usuarios.carrera, prestamos.fecha_vencimiento, prestamos.idLibro
+    $sql = "SELECT libros.titulo, libros.isbn, usuarios.name, usuarios.carrera, prestamos.fecha_vencimiento, prestamos.idLibro, libros.ubicacion
             FROM prestamos
             INNER JOIN libros ON prestamos.idLibro = libros.idLibro
             INNER JOIN usuarios ON prestamos.idUser = usuarios.idUser
@@ -19,7 +19,7 @@ if (isset($_POST['loan'])) {
     $stmt = $conn->prepare($sql);
 
     $likeTerm = '%' . $loan . '%';
-    $stmt->bind_param('sss', $likeTerm, $likeTerm, $likeTerm);
+    $stmt->bind_param('sss', $likeTerm, $likeTerm , $likeTerm);
 
     $stmt->execute();
     $result = $stmt->get_result();
@@ -33,9 +33,13 @@ if (isset($_POST['loan'])) {
             <h5 class="card-title text-primary" style="text-align: center;">
                 <?php echo htmlspecialchars($row["titulo"]); ?>
             </h5>
-            <h7 class="card-title text-body-emphasis">
-                ISBN: <?php echo htmlspecialchars($row["isbn"]); ?>
-            </h7>
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h7 class="card-title text-body-emphasis">
+                    ISBN: <?php echo htmlspecialchars($row["isbn"]); ?>
+                </h7>
+                <span class="text-muted" > <?php echo htmlspecialchars($row['ubicacion']) ?> </span>
+            </div>
             <div class="d-flex justify-content-between align-items-center">
                 <p class="card-text mb-0"><?php echo htmlspecialchars($row["name"]); ?></p>
                 <p class="card-text mb-0"><?php echo htmlspecialchars($row["carrera"]); ?></p>
