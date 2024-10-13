@@ -120,9 +120,20 @@ if ($datosLibro) {
                                                 <p class="font-13"><strong>Publicacion </strong> <span
                                                         class="float-end"><?php echo  $datosLibro ["año_publicacion"] ?></span>
                                                 </p>
-                                                <p class="font-13"><strong>Estado </strong> <span
-                                                        class="badge bg-success float-end"><?php echo  $datosLibro ["estado"] ?></span>
-                                                </p>
+                                                <?php if($datosLibro["estado"]=="Disponible") { ?>
+                                                    <p class="font-13"><strong>Estado </strong> <span
+                                                    class="badge bg-success float-end"><?php echo  $datosLibro ["estado"] ?></span>
+
+                                                        <?php }elseif($datosLibro["estado"]=="Prestado") { ?>
+                                                            <p class="font-13"><strong>Estado </strong> <span
+                                                        class="badge bg-info float-end"><?php echo  $datosLibro ["estado"] ?></span>
+                                                      
+
+                                                        <?php }else{?>
+                                                       
+                                                        <p class="font-13"><strong>Estado </strong> <span
+                                                        class="badge bg-danger float-end"><?php echo  $datosLibro ["estado"] ?></span>
+                                                        <?php }?>
                                                 <p class="font-13"><strong>ISBN </strong> <span
                                                         class="float-end"><?php echo  $datosLibro ["isbn"] ?></span></p>
                                             </div>
