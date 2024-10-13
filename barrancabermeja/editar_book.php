@@ -171,7 +171,8 @@ $categoria = [
                                                                                 class="form-label">Titulo</label>
                                                                             <input type="text" name="titulo"
                                                                                 value="<?php echo htmlspecialchars($datos["titulo"]); ?>"
-                                                                                id="titulo" class="form-control" required >
+                                                                                id="titulo" class="form-control"
+                                                                                required>
                                                                             <input type="hidden" name="idLibro"
                                                                                 value="<?php echo $datos["idLibro"]; ?>"
                                                                                 id="idLibro">
@@ -181,14 +182,16 @@ $categoria = [
                                                                                 class="form-label">Autor</label>
                                                                             <input type="text" name="autor"
                                                                                 value="<?php echo htmlspecialchars($datos["autor"]); ?>"
-                                                                                id="autor" class="form-control" required>
+                                                                                id="autor" class="form-control"
+                                                                                required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="editorial"
                                                                                 class="form-label">Editorial</label>
                                                                             <input type="text" name="editorial"
                                                                                 value="<?php echo htmlspecialchars($datos["editorial"]); ?>"
-                                                                                id="editorial" class="form-control" required>
+                                                                                id="editorial" class="form-control"
+                                                                                required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="categoria"
@@ -253,22 +256,22 @@ $categoria = [
                                                                                         class="form-label">Estantería</label>
                                                                                     <select class="form-select"
                                                                                         name="estanteria"
-                                                                                        id="estanteria" required>
+                                                                                        id="estanteria" required
+                                                                                        <?php echo ($datos["estado"] === 'Prestado' || $datos["estado"] === 'Inactivo') ? 'disabled' : ''; ?>>
                                                                                         <option
                                                                                             value="<?php echo htmlspecialchars(explode('-', $datos["ubicacion"])[0]); ?>">
                                                                                             <?php echo htmlspecialchars(explode('-', $datos["ubicacion"])[0]); ?>
                                                                                         </option>
                                                                                         <?php foreach ($ubicacionE as $ubicacione) { 
-                                                                                                if (explode('-', $datos["ubicacion"])[0] !== $ubicacione) { 
-                                                                                                    $ubicacionSimple = explode('-', $ubicacione)[0]; // Solo tomar la primera parte
-                                                                                            ?>
+                    if (explode('-', $datos["ubicacion"])[0] !== $ubicacione) { 
+                        $ubicacionSimple = explode('-', $ubicacione)[0]; // Solo tomar la primera parte
+                ?>
                                                                                         <option
                                                                                             value="<?php echo htmlspecialchars($ubicacionSimple); ?>">
                                                                                             <?php echo htmlspecialchars($ubicacionSimple); ?>
                                                                                         </option>
                                                                                         <?php }} ?>
                                                                                     </select>
-
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-lg-6">
@@ -276,26 +279,25 @@ $categoria = [
                                                                                     <label for="fila"
                                                                                         class="form-label">Fila</label>
                                                                                     <select class="form-select"
-                                                                                        name="fila"
-                                                                                        id="fila" required>
+                                                                                        name="fila" id="fila" required
+                                                                                        <?php echo ($datos["estado"] === 'Prestado' || $datos["estado"] === 'Inactivo') ? 'disabled' : ''; ?>>
                                                                                         <option
                                                                                             value="<?php echo htmlspecialchars(explode('-', $datos["ubicacion"])[1]); ?>">
                                                                                             <?php echo htmlspecialchars(explode('-', $datos["ubicacion"])[1]); ?>
                                                                                         </option>
                                                                                         <?php foreach ($ubicacionF as $ubicacionf) { 
-                                                                                                if (explode('-', $datos["ubicacion"])[1] !== $ubicacionf) { 
-                                                                                                     // Solo tomar la primera parte
-                                                                                            ?>
+                    if (explode('-', $datos["ubicacion"])[1] !== $ubicacionf) { 
+                ?>
                                                                                         <option
                                                                                             value="<?php echo htmlspecialchars($ubicacionf); ?>">
                                                                                             <?php echo htmlspecialchars($ubicacionf); ?>
                                                                                         </option>
                                                                                         <?php }} ?>
                                                                                     </select>
-
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+
                                                                         <div class="mb-3">
                                                                             <label for="edicion" class="form-label">#
                                                                                 Edicion</label>
@@ -308,14 +310,14 @@ $categoria = [
                                                                             <label for="estado"
                                                                                 class="form-label link-info">Estado</label>
                                                                             <select class="form-select" name="estado"
-                                                                                id="estado" required>
+                                                                                id="estado"
                                                                                 <?php echo ($datos["estado"] === 'Prestado') ? 'disabled' : ''; ?>>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($datos["estado"]); ?>">
                                                                                     <?php echo htmlspecialchars($datos["estado"]); ?>
                                                                                 </option>
                                                                                 <?php foreach ($estado as $estadoudi) { 
-                                                                                if ($datos["estado"] !== $estadoudi) { ?>
+            if ($datos["estado"] !== $estadoudi) { ?>
                                                                                 <option
                                                                                     value="<?php echo htmlspecialchars($estadoudi); ?>">
                                                                                     <?php echo htmlspecialchars($estadoudi); ?>
@@ -323,6 +325,7 @@ $categoria = [
                                                                                 <?php }} ?>
                                                                             </select>
                                                                         </div>
+
                                                                         <!-- Otros campos -->
                                                                         <div class="mb-3">
                                                                             <label for="descripcion"
