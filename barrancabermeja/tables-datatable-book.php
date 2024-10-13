@@ -125,7 +125,7 @@ $libro = $libro->listarLibros_todos(); // Obtener los datos de los libros
                                                         <th>Título</th>
                                                         <th>Autor</th>
                                                         <th>Editorial</th>
-                                                        <th>Año Publicado</th>
+                                                        <th>Plublcacion</th>
                                                         <th>ISBN</th>
                                                         <th>Estado</th>
                                                         <th>Ubicacion</th>
