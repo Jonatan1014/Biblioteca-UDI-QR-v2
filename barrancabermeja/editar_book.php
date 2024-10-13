@@ -45,6 +45,20 @@ if (!empty($_POST['idLibro'])) {
 // Definir los valores disponibles para idioma y categoría
 $idioma = ['Español', 'Ingles'];
 $estado = ['Prestado', 'Disponible','Inactivo'];
+$ubicacionE = [
+    'E1',
+    'E2',
+    'E3',
+    'E4',
+    'E5',
+    'E6',
+];
+$ubicacionF = [
+    'F1',
+    'F2',
+    'F3',
+    'F4',
+];
 $categoria = [
     'Programacion', 
     'Matematicas', 
@@ -231,6 +245,56 @@ $categoria = [
                                                                                 type="text" name="isbn"
                                                                                 value="<?php echo htmlspecialchars($datos["isbn"]); ?>"
                                                                                 readonly>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-6">
+                                                                                <div class="mb-3">
+                                                                                    <label for="estanteria"
+                                                                                        class="form-label">Estantería</label>
+                                                                                    <select class="form-select"
+                                                                                        name="estanteria"
+                                                                                        id="estanteria" required>
+                                                                                        <option
+                                                                                            value="<?php echo htmlspecialchars(explode('-', $datos["ubicacion"])[0]); ?>">
+                                                                                            <?php echo htmlspecialchars(explode('-', $datos["ubicacion"])[0]); ?>
+                                                                                        </option>
+                                                                                        <?php foreach ($ubicacionE as $ubicacione) { 
+                                                                                                if (explode('-', $datos["ubicacion"])[0] !== $ubicacione) { 
+                                                                                                    $ubicacionSimple = explode('-', $ubicacione)[0]; // Solo tomar la primera parte
+                                                                                            ?>
+                                                                                        <option
+                                                                                            value="<?php echo htmlspecialchars($ubicacionSimple); ?>">
+                                                                                            <?php echo htmlspecialchars($ubicacionSimple); ?>
+                                                                                        </option>
+                                                                                        <?php }} ?>
+                                                                                    </select>
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-6">
+                                                                                <div class="mb-3">
+                                                                                    <label for="fila"
+                                                                                        class="form-label">Fila</label>
+                                                                                    <select class="form-select"
+                                                                                        name="fila"
+                                                                                        id="fila" required>
+                                                                                        <option
+                                                                                            value="<?php echo htmlspecialchars(explode('-', $datos["ubicacion"])[1]); ?>">
+                                                                                            <?php echo htmlspecialchars(explode('-', $datos["ubicacion"])[1]); ?>
+                                                                                        </option>
+                                                                                        <?php foreach ($ubicacionF as $ubicacionf) { 
+                                                                                                if (explode('-', $datos["ubicacion"])[1] !== $ubicacionf) { 
+                                                                                                    $ubicacionSimple = explode('-', $ubicacionf)[0]; // Solo tomar la primera parte
+                                                                                            ?>
+                                                                                        <option
+                                                                                            value="<?php echo htmlspecialchars($ubicacionSimple); ?>">
+                                                                                            <?php echo htmlspecialchars($ubicacionSimple); ?>
+                                                                                        </option>
+                                                                                        <?php }} ?>
+                                                                                    </select>
+
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="edicion" class="form-label">#

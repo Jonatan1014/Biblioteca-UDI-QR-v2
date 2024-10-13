@@ -102,9 +102,10 @@ class Libroqr extends conectarDB {
    
 
     // Método para agregar un nuevo libro
-    public function agregarLibro($titulo, $autor, $editorial, $ano, $isbn, $edicion, $idioma, $portada, $qr_code, $estado,$categoria, $resena) {
-        $sql = "INSERT INTO libros (titulo, autor, editorial, año_publicacion, isbn, edicion, idioma, portada, qr_code, estado, categoria,resena)
-                VALUES (:titulo, :autor, :editorial, :anio_publicacion, :isbn, :edicion, :idioma, :portada, :qr_code, :estado, :categoria, :resena)";
+    public function agregarLibro($titulo, $autor, $editorial, $ano, $isbn, $edicion, $idioma, $portada, $qr_code, $estado, $categoria, $resena, $ubicacion) {
+        $sql = "INSERT INTO libros (titulo, autor, editorial, año_publicacion, isbn, edicion, idioma, portada, qr_code, estado, categoria, resena, ubicacion)
+                VALUES (:titulo, :autor, :editorial, :anio_publicacion, :isbn, :edicion, :idioma, :portada, :qr_code, :estado, :categoria, :resena, :ubicacion)";
+        
         $stmt = $this->conn_db->prepare($sql);
         $stmt->bindParam(':titulo', $titulo);
         $stmt->bindParam(':autor', $autor);
@@ -118,16 +119,20 @@ class Libroqr extends conectarDB {
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':categoria', $categoria);
         $stmt->bindParam(':resena', $resena);
+        $stmt->bindParam(':ubicacion', $ubicacion);
+    
         $stmt->execute();
         $lastInsertId = $this->conn_db->lastInsertId();
         $stmt->closeCursor();
+        
         return $lastInsertId;
     }
+    
 
-    public function modificarLibro($idLibro, $titulo, $autor, $editorial, $anio_publicacion, $isbn, $edicion, $idioma, $portada = null, $estado, $categoria,$resena) {
+    public function modificarLibro($idLibro, $titulo, $autor, $editorial, $anio_publicacion, $isbn, $edicion, $idioma, $portada = null, $estado, $categoria,$resena,$ubicacion) {
         $sql = "UPDATE libros 
                 SET titulo = :titulo, autor = :autor, editorial = :editorial, año_publicacion = :anio_publicacion, 
-                    isbn = :isbn, edicion = :edicion, idioma = :idioma, estado = :estado, categoria = :categoria, resena = :resena" . 
+                    isbn = :isbn, edicion = :edicion, idioma = :idioma, estado = :estado, categoria = :categoria, resena = :resena, ubicacion = :ubicacion" . 
                     ($portada !== null ? ", portada = :portada" : "") . 
                 " WHERE idLibro = :idLibro";
     
@@ -142,6 +147,7 @@ class Libroqr extends conectarDB {
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':categoria', $categoria);
         $stmt->bindParam(':resena', $resena);
+        $stmt->bindParam(':ubicacion', $ubicacion);
         $stmt->bindParam(':idLibro', $idLibro, PDO::PARAM_INT);
     
         if ($portada !== null) {

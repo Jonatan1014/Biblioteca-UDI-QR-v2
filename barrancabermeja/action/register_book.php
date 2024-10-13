@@ -54,7 +54,7 @@ function redimensionarImagen($archivo, $maxWidth, $maxHeight) {
 if (validarCamposRequeridos([
     $_POST['titulo'], $_POST['autor'], $_POST['editorial'], 
     $_POST['categoria'], $_POST['ano'], $_POST['idioma'], 
-    $_POST['isbn'], $_POST['edicion'], $_POST['descripcion'], 
+    $_POST['isbn'], $_POST['edicion'], $_POST['descripcion'], $_POST['estanteria'], $_POST['fila'],
     $_FILES['portada']['tmp_name'] // Verificar que se haya subido una portada
 ])) {    
     // Asignar las variables de entrada
@@ -67,7 +67,9 @@ if (validarCamposRequeridos([
     $isbn = $_POST['isbn'];
     $edicion = $_POST['edicion'];
     $resena = $_POST['descripcion'];
+    $ubicacion = $_POST['estanteria'].'-'.$_POST['fila'];
     $estado = 'Disponible'; // O el estado que desees
+   
 
     // Función para generar código QR
     function generarCodigoQR($url) {
@@ -91,7 +93,7 @@ if (validarCamposRequeridos([
     try {
         // Verificar si el ISBN ya está registrado
         $libro_existente = $Libro_class->verificarDuplicados($isbn);
-
+        
         if ($libro_existente) {
             echo "<script>alert('Error: El libro ya está registrado.'); window.location.href = '../form-elements.php';</script>";
             exit();
@@ -107,8 +109,9 @@ if (validarCamposRequeridos([
         $operar = $Libro_class->agregarLibro(
             $titulo, $autor, $editorial, $ano, $isbn, 
             $edicion, $idioma, $portada, $codigoQR, 
-            $estado, $categoria, $resena
+            $estado, $categoria, $resena, $ubicacion
         );
+        
 
         if ($operar) {
             echo "<script>alert('Libro registrado correctamente'); window.location.href = '../form-elements.php';</script>";

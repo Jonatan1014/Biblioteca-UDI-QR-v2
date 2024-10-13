@@ -35,7 +35,7 @@ if (validarCamposRequeridos([
         $operar = $Libro_class->modificarLibro(
             $idLibro, $titulo, $autor, $editorial, $ano, $isbn, 
             $edicion, $idioma, $portada, // Puedes enviar null si no hay portada nueva
-            $estado, $categoria, $resena
+            $estado, $categoria, $resena, $ubicacion
         );
 
         if ($operar) {
