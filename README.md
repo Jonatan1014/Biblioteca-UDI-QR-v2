@@ -81,8 +81,11 @@ Aquí tienes algunos puntos clave con sus respectivas capturas de pantalla:
 4. **Visualización del QR Generado**:
    - ![Código QR](imagesdoc/QRGenerate.png)
 
-5. **Búsqueda Dinámica de Libros**:
-   - ![Búsqueda de Libros](imagesdoc/SearchDinamic.mp4)
+5. **Visualización de formulario de prestamo**:
+   - ![Código QR](imagesdoc/LoanRegister.png)
+
+6. **Búsqueda Dinámica de Libros**:
+   - ![Búsqueda de Libros](imagesdoc/SearchDinamic.gif)
 
 ---
 
