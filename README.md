@@ -50,6 +50,7 @@ git clone https://github.com/Jonatan1014/Biblioteca-UDI-QR-v2.git
 2. **Configura XAMPP**:
    - Descarga e instala [XAMPP](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.12/xampp-windows-x64-8.2.12-0-VS16-installer.exe).
    - Inicia la aplicacion. Entra en donde dice `Config` de `Apache` y busca `PHP (php.ini)`. Abre el archivo y ejecuta `CTRL + b` y busca `extension=gd` y quita el `;` del principio de la linea. Guarda y cierra el archivo. Reinicia el servidor de Apache.
+   - ![php.ini](imagesdoc/php.ini.png)
    - Coloca los archivos del repositorio en `xampp/htdocs`.
 3. **Intalacion de Composer**
    - Descarga e instala [Composer](https://getcomposer.org/download/).
@@ -72,16 +73,16 @@ Aquí tienes algunos puntos clave con sus respectivas capturas de pantalla:
    - ![Inicio de Sesión](imagesdoc/LogIn.png)
 
 2. **Vista Principal - Admin**:
-   - ![Vista Admin](imagesdoc/HomeRoot.png.png)
+   - ![Vista Admin](imagesdoc/HomeRoot.png)
 
 3. **Registro de Nuevo Libro con QR**:
    - ![Registro de Libro](imagesdoc/BookRegister.png)
 
 4. **Visualización del QR Generado**:
-   - ![Código QR](imagesdoc)
+   - ![Código QR](imagesdoc/QRGenerate.png)
 
 5. **Búsqueda Dinámica de Libros**:
-   - ![Búsqueda de Libros](imagesdoc)
+   - ![Búsqueda de Libros](imagesdoc/SearchDinamic.mp4)
 
 ---
 
