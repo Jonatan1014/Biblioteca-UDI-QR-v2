@@ -63,7 +63,6 @@ git clone https://github.com/Jonatan1014/Biblioteca-UDI-QR-v2.git
    - Entrar a `Biblioteca-UDI-QR-V2/barrancabermeja` y abrir una terminal.
    ```
    composer require endroid/qr-code
-
    ```
 
 4. **Configura la Base de Datos**:
