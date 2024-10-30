@@ -100,7 +100,7 @@ if (validarCamposRequeridos([
         }
 
         // URL que deseas convertir en QR
-        $url = "https://6jq4113s-443.use2.devtunnels.ms/biblioteca-udi/barrancabermeja/view-qr.php?id=" . $isbn;
+        $url = "localhost/biblioteca-udi-qr-v2/barrancabermeja/view-qr.php?id=" . $isbn;
 
         // Llamar a la función para generar el código QR
         $codigoQR = generarCodigoQR($url);
