@@ -156,27 +156,31 @@ if (!$datos) {
         // Mostrar la tarjeta con la información del libro
         ?>
                                 <div class="col-sm-6 col-lg-3">
-                                    <div class="card d-block">
-                                        <div class="card-body">
-                                            <h5 class="card-title">
-                                                <?php echo htmlspecialchars($datosllibros["titulo"]); ?>
-                                            </h5>
-                                            <h6 class="card-subtitle text-muted">
-                                                <?php echo htmlspecialchars($datosllibros["autor"]); ?>
-                                            </h6>
-                                        </div>
-                                        <img class="img-fluid" src="assets/images/small/small-4.jpg"
-                                            alt="Card image cap">
-                                        <div class="card-body">
-                                            <p class="card-text">Fecha de devolución:
-                                                <?php echo htmlspecialchars($datosllibros["fecha_vencimiento"]); ?>
-                                            </p>
-                                            <p class="card-text">Tiempo restante:
-                                                <?php echo $mensaje_dias_restantes; ?>
-                                            </p>
-                                        </div> <!-- end card-body-->
-                                    </div> <!-- end card-->
-                                </div><!-- end col -->
+    <div class="card d-block">
+        <div class="card-body">
+            <h5 class="card-title">
+                <?php echo htmlspecialchars($datosllibros["titulo"]); ?>
+            </h5>
+            <h6 class="card-subtitle text-muted">
+                <?php echo htmlspecialchars($datosllibros["autor"]); ?>
+            </h6>
+        </div>
+        <div class="d-flex justify-content-center"> <!-- Centro de imagen -->
+            <?php
+            echo '<img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($datosllibros["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($datosllibros['titulo']) . '" style="width: 150px; height: 150px;">';
+            ?>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Fecha de devolución:
+                <?php echo htmlspecialchars($datosllibros["fecha_vencimiento"]); ?>
+            </p>
+            <p class="card-text">Tiempo restante:
+                <?php echo $mensaje_dias_restantes; ?>
+            </p>
+        </div> <!-- end card-body-->
+    </div> <!-- end card-->
+</div><!-- end col -->
+
                                 <?php
     }
 }

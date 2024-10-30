@@ -48,7 +48,7 @@ class Prestamo extends conectarDB {
     }
     // Método para obtener el historial de préstamos de un usuario
     public function librosPrestados_email($email) {
-        $sql = "SELECT l.titulo, l.autor, l.editorial, l.año_publicacion, l.isbn, l.edicion, p.fecha_prestamo, p.fecha_vencimiento, p.estado
+        $sql = "SELECT l.titulo, l.autor, l.qr_code, l.editorial, l.año_publicacion, l.isbn, l.edicion, p.fecha_prestamo, p.fecha_vencimiento, p.estado
                 FROM prestamos p
                 JOIN libros l ON p.idLibro = l.idLibro
                 JOIN usuarios u ON p.idUser = u.idUser
