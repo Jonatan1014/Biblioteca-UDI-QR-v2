@@ -31,7 +31,7 @@ El sistema permite que tanto estudiantes como administradores gestionen y consul
 ## 🎯 Puntos Clave
 
 1. **Inicio de Sesión y Roles**:
-   - Distintos permisos y funcionalidades según el rol del usuario.
+   - Distintos permisos y funcionalidades según el rol del usuario. Ademas de activacion o inactivacion de usuarios.
 2. **Código QR**:
    - Cada libro tiene un QR único que redirige a la página con su información completa.
 3. **Registro de Ubicación Física**:
