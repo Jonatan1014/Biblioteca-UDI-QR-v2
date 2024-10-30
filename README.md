@@ -58,11 +58,19 @@ git clone https://github.com/Jonatan1014/Biblioteca-UDI-QR-v2.git
    - Install for all users.
    - Dar permisos de administrador a composer.
    - Paso a paso de instalacion: `Next`, `Add this PHP to your path`, `Next`, `Next`, `Install`, `Next`, `Finish`.
-3. **Configura la Base de Datos**:
+5. **Instalacion de librerias**:
+   - Para instalar las librerias `QrCode` y `PngWriter` para la trata de imagenes y genrar codigo QR ejecute los sigientes comandos.
+   - Entrar a `Biblioteca-UDI-QR-V2/barrancabermeja` y abrir una terminal.
+   ```
+   composer require endroid/qr-code
+
+   ```
+
+4. **Configura la Base de Datos**:
    - Inicia Apache y MySQL en XAMPP.
    - Abre `phpMyAdmin` y crea una base de datos llamada `libroqr`.
    - Importa el archivo `estructura_bd.sql` (ubicado en `BIBLIOTECA-UDI-QR-V2/barrancabermeja/includes/CRUD/estructura bd.sql`).
-4. **Ejecutar la aplicacion**:
+5. **Ejecutar la aplicacion**:
    - Abre un navegador y accede a `localhost/Biblioteca-UDI-QR-V2/barrancabermeja`.
 
 ## 📷 Imágenes del Sistema
