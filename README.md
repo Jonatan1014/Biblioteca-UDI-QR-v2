@@ -43,7 +43,10 @@ El sistema permite que tanto estudiantes como administradores gestionen y consul
 
 ## 🛠 Instalación
 
-1. **Clona el repositorio**: `git clone https://github.com/Jonatan1014/Biblioteca-UDI-QR-v2.git`
+1. **Clona el repositorio**: 
+```
+git clone https://github.com/Jonatan1014/Biblioteca-UDI-QR-v2.git
+```
 2. **Configura XAMPP**:
    - Descarga e instala [XAMPP](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.12/xampp-windows-x64-8.2.12-0-VS16-installer.exe).
    - Coloca los archivos del repositorio en `xampp/htdocs`.
