@@ -43,33 +43,41 @@ El sistema permite que tanto estudiantes como administradores gestionen y consul
 
 ## 🛠 Instalación
 
-1. **Clona el repositorio**: `git clone https://github.com/usuario/biblioteca-udi.git`
+1. **Clona el repositorio**: `git clone https://github.com/Jonatan1014/Biblioteca-UDI-QR-v2.git`
 2. **Configura XAMPP**:
-   - Descarga e instala [XAMPP](https://www.apachefriends.org/es/index.html).
-   - Coloca los archivos en `xampp/htdocs/biblioteca-udi`.
+   - Descarga e instala [XAMPP](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.2.12/xampp-windows-x64-8.2.12-0-VS16-installer.exe).
+   - Coloca los archivos del repositorio en `xampp/htdocs`.
+3. **Intalacion de Composer**
+   - Descarga e instala [Composer](https://getcomposer.org/download/).
+   - Ejecuta el archivo `Composer-Setup.exe`.
+   - Install for all users.
+   - Dar permisos de administrador a composer.
+   - Paso a paso de instalacion: `Next`, `Add this PHP to your path`, `Next`, `Next`, `Install`, `Next`, `Finish`.
 3. **Configura la Base de Datos**:
    - Inicia Apache y MySQL en XAMPP.
    - Abre `phpMyAdmin` y crea una base de datos llamada `libroqr`.
-   - Importa el archivo `estructura_bd.sql` (ubicado en `biblioteca-udi/barrancabermeja/includes/crud`).
+   - Importa el archivo `estructura_bd.sql` (ubicado en `BIBLIOTECA-UDI-QR-V2/barrancabermeja/includes/CRUD/estructura bd.sql`).
+4. **Ejecutar la aplicacion**:
+   - Abre un navegador y accede a `localhost/Biblioteca-UDI-QR-V2/barrancabermeja`.
 
 ## 📷 Imágenes del Sistema
 
 Aquí tienes algunos puntos clave con sus respectivas capturas de pantalla:
 
-1. **Inicio de Sesión y Roles**:
-   - ![Inicio de Sesión](ruta/a/la/imagen/inicio_sesion.png)
+1. **Inicio de Sesión**:
+   - ![Inicio de Sesión](imagesdoc/LogIn.png)
 
 2. **Vista Principal - Admin**:
-   - ![Vista Admin](ruta/a/la/imagen/vista_admin.png)
+   - ![Vista Admin](imagesdoc/HomeRoot.png.png)
 
 3. **Registro de Nuevo Libro con QR**:
-   - ![Registro de Libro](ruta/a/la/imagen/registro_libro.png)
+   - ![Registro de Libro](imagesdoc/BookRegister.png)
 
 4. **Visualización del QR Generado**:
-   - ![Código QR](ruta/a/la/imagen/codigo_qr.png)
+   - ![Código QR](imagesdoc)
 
 5. **Búsqueda Dinámica de Libros**:
-   - ![Búsqueda de Libros](ruta/a/la/imagen/busqueda_libros.png)
+   - ![Búsqueda de Libros](imagesdoc)
 
 ---
 
