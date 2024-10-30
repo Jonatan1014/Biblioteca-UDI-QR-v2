@@ -1,7 +1,3 @@
-Aquí tienes un ejemplo de README para tu proyecto en GitHub, con toda la información relevante y un apartado para imágenes:
-
----
-
 # Biblioteca UDI - Sistema de Administración de Libros 📚
 
 Este proyecto es un sistema de administración de libros desarrollado para la **Biblioteca de la Universidad de Desarrollo e Investigación (UDI)** en Barrancabermeja. Su objetivo es mejorar la eficiencia en la gestión de préstamos y la localización de libros, integrando el uso de **códigos QR** para facilitar el acceso a la información de cada libro.
