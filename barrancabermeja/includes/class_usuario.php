@@ -125,23 +125,25 @@ class Usuario extends conectarDB {
         return $lastInsertId;
     }
 
-    // Método para actualizar detalles de un usuario
     public function modificarUsuario($idUser, $name, $email, $password, $rol, $carrera, $estado) {
-        $sql = "UPDATE usuarios 
-                SET name = :name, email = :email, password = :password, rol = :rol, carrera = :carrera, estado = :estado
-                WHERE idUser = :idUser";
+        // Inicia la consulta de actualización
+        $sql = "UPDATE usuarios SET name = ?, email = ?, rol = ?, carrera = ?, estado = ?";
+        
+        // Agrega la actualización de la contraseña solo si se proporciona
+        $params = [$name, $email, $rol, $carrera, $estado];
+        if ($password !== null) {
+            $sql .= ", password = ?";
+            $params[] = password_hash($password, PASSWORD_DEFAULT); // Asegúrate de encriptar la contraseña
+        }
+        
+        $sql .= " WHERE idUser = ?";
+        $params[] = $idUser;
+        
+        // Ejecuta la consulta
         $stmt = $this->conn_db->prepare($sql);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', password_hash($password, PASSWORD_BCRYPT));  // Encriptar la contraseña
-        $stmt->bindParam(':rol', $rol);
-        $stmt->bindParam(':carrera', $carrera);
-        $stmt->bindParam(':estado', $estado);
-        $stmt->bindParam(':idUser', $idUser, PDO::PARAM_INT);
-        $stmt->execute();
-        $stmt->closeCursor();
-        return true;
+        return $stmt->execute($params);
     }
+    
 
     // Método para eliminar un usuario por ID
     public function eliminarUsuario($idUser) {
