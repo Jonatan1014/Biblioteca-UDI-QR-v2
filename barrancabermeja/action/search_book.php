@@ -1,11 +1,10 @@
 <?php
-// Conectar a la base de datos
-$conn = mysqli_connect('localhost', 'root', '', 'libroqr');
-
-if ($conn->connect_error) {
-    echo "Error al conectar a la base de datos";
-    exit;
-}
+$conn = new mysqli(
+    getenv('DB_HOST') ?: 'localhost', 
+    getenv('DB_USER') ?: 'root', 
+    getenv('DB_PASS') ?: '', 
+    getenv('DB_NAME') ?: 'libroqr'
+) or die("Error DB: " . (getenv('APP_ENV') === 'development' ? $conn->connect_error : "Service unavailable"));
 
 // Si se recibe el término de búsqueda, usarlo para filtrar, si no, mostrar todos los libros
 $fruta = isset($_POST['fruta']) ? mysqli_real_escape_string($conn, $_POST['fruta']) : '';
