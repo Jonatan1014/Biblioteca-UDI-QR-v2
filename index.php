@@ -5,6 +5,6 @@
 		$uri = 'http://';
 	}
 	$uri .= $_SERVER['HTTP_HOST'];
-	header('Location: '.$uri.'/barrancabermeja/');
+	header('Location: '.$uri.'/Biblioteca-UDI-QR-v2/barrancabermeja/');
 	exit;
 ?>
