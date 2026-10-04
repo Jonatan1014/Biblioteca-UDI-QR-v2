@@ -1,12 +1,18 @@
 <?php
+require_once '../includes/settings.php';
+
 if (isset($_POST['loan'])) {
     $loan = $_POST['loan'];
-    $conn = new mysqli('localhost', 'root', '', 'libroqr');
 
-    if ($conn->connect_error) {
-        echo 'Error de conexión';
+    // PHP 8.1+ lanza excepción al fallar la conexión (no usa connect_error)
+    try {
+        $conn = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME, DB_PORT);
+    } catch (mysqli_sql_exception $e) {
+        http_response_code(503);
+        echo '<div class="alert alert-danger">Error de conexión con la base de datos.</div>';
         exit();
     }
+    $conn->set_charset('utf8mb4');
 
     $sql = "SELECT libros.titulo, libros.isbn, usuarios.name, usuarios.carrera, prestamos.fecha_vencimiento, prestamos.idLibro, libros.ubicacion
             FROM prestamos
