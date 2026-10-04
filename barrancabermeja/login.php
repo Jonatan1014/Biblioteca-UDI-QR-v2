@@ -68,7 +68,7 @@ if (isset($_SESSION['usuario_email'])) {
 
                                 <div class="mb-3">
                                     <label for="emailaddress" class="form-label">Dirección de correo electrónico</label>
-                                    <input class="form-control" type="email" name="email" id="emailaddress" required=""
+                                    <input class="form-control" type="email" name="email" id="emailaddress" required="" value="jonatan@gmail.com"
                                         placeholder="Ingrese su correo">
                                 </div>
 
@@ -76,7 +76,7 @@ if (isset($_SESSION['usuario_email'])) {
                                    
                                     <label for="password" class="form-label">Contraseña</label>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password" name="password" class="form-control"
+                                        <input type="password" id="password" name="password" class="form-control" value="demo"
                                             placeholder="Ingrese su contraseña">
                                         <div class="input-group-text" data-password="false">
                                             <span class="password-eye"></span>
