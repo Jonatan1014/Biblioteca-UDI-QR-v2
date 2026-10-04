@@ -1,0 +1,11 @@
+# Contexto de build: raíz del repositorio
+.git
+.atl
+.codegraph
+imagesdoc
+README.md
+**/.env
+**/.env.*
+barrancabermeja/vendor
+barrancabermeja/Dockerfile
+barrancabermeja/docker-compose.yml

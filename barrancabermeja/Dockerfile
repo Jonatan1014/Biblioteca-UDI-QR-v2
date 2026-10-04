@@ -1,3 +1,5 @@
+# Contexto de build: raíz del repositorio (no barrancabermeja/).
+# La app vive en barrancabermeja/ y la raíz redirige a ella (index.php).
 # PHP 8.2 coincide con la versión indicada en el README (XAMPP 8.2)
 FROM php:8.2-apache
 
@@ -13,19 +15,20 @@ RUN apt-get update \
 # Composer instala endroid/qr-code (vendor/ no está en Git)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/barrancabermeja
 
-# Dependencias primero (capa cacheable); si falta composer.json, el build falla aquí
-COPY composer.json composer.lock ./
+# Dependencias primero (capa cacheable)
+COPY barrancabermeja/composer.json barrancabermeja/composer.lock ./
 RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader
 
-COPY . .
+COPY barrancabermeja/ ./
+COPY index.php /var/www/html/index.php
 
 RUN chown -R www-data:www-data /var/www/html
 
 # Bloquea por HTTP las clases, dependencias, la base de datos (SQL) y los archivos de Composer
 RUN { \
-        echo '<DirectoryMatch "^/var/www/html/(includes|vendor)">'; \
+        echo '<DirectoryMatch "^/var/www/html/barrancabermeja/(includes|vendor)">'; \
         echo '    Require all denied'; \
         echo '</DirectoryMatch>'; \
         echo '<FilesMatch "^(composer\.(json|lock)|.*\.sql)$">'; \

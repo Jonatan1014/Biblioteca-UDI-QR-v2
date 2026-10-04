@@ -3,13 +3,15 @@
 # Opcionales: APP_PORT (8080), DB_NAME (libroqr), DB_USER (app)
 services:
   app:
-    build: .
+    build:
+      context: ..
+      dockerfile: barrancabermeja/Dockerfile
     ports:
       - "${APP_PORT:-8080}:80"
     environment:
       DB_HOST: db
       DB_PORT: 3306
-      APP_URL: ${APP_URL:-http://localhost:8080}
+      APP_URL: ${APP_URL:-http://localhost:8080/barrancabermeja}
       DB_NAME: ${DB_NAME:-libroqr}
       DB_USER: ${DB_USER:-app}
       DB_PASS: ${DB_PASS:?Define DB_PASS en el archivo .env}
