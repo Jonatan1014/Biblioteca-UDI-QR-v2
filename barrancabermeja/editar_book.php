@@ -343,6 +343,17 @@ $categoria = [
                                                                                 id="portada" accept="image/*"
                                                                                 class="form-control">
                                                                         </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="portada_url"
+                                                                                class="form-label">O URL de la
+                                                                                portada</label>
+                                                                            <input type="url" name="portada_url"
+                                                                                id="portada_url" class="form-control"
+                                                                                placeholder="https://ejemplo.com/portada.jpg">
+                                                                            <small class="text-muted">Déjalo vacío
+                                                                                para conservar la portada
+                                                                                actual.</small>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <button type="submit"

@@ -263,7 +263,16 @@ $categoria = [
                                                                     <label for="portada" class="form-label">Imagen de
                                                                         portada</label>
                                                                     <input type="file" name="portada" accept="image/*"
-                                                                        id="portada" class="form-control" required>
+                                                                        id="portada" class="form-control">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="portada_url" class="form-label">O URL
+                                                                        de la portada</label>
+                                                                    <input type="url" name="portada_url"
+                                                                        id="portada_url" class="form-control"
+                                                                        placeholder="https://ejemplo.com/portada.jpg">
+                                                                    <small class="text-muted">Si subes un archivo,
+                                                                        se usa el archivo y se ignora la URL.</small>
                                                                 </div>
                                                             </div>
                                                         </div>

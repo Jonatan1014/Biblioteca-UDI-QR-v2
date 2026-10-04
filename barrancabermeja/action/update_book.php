@@ -1,5 +1,6 @@
 <?php 
 require_once '../includes/class_libroqr.php';
+require_once '../includes/portada.php';
 
 // Verificar que los campos requeridos estén presentes y no vacíos
 function validarCamposRequeridos($campos) {
@@ -9,42 +10,6 @@ function validarCamposRequeridos($campos) {
         }
     }
     return true;
-}
-
-// Función para redimensionar la imagen
-function redimensionarImagen($archivo, $maxWidth, $maxHeight) {
-    list($width, $height) = getimagesize($archivo);
-    $ratio = $width / $height;
-
-    if ($width > $maxWidth || $height > $maxHeight) {
-        if ($ratio > 1) {
-            $width = $maxWidth;
-            $height = $maxWidth / $ratio;
-        } else {
-            $height = $maxHeight;
-            $width = $maxHeight * $ratio;
-        }
-    } else {
-        // Si la imagen ya está dentro de los límites, no redimensionar
-        return file_get_contents($archivo);
-    }
-
-    // Crear una nueva imagen redimensionada
-    $src = imagecreatefromstring(file_get_contents($archivo));
-    $dst = imagecreatetruecolor($width, $height);
-    imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
-
-    // Guardar la imagen redimensionada en un buffer
-    ob_start();
-    imagejpeg($dst);
-    $imagenRedimensionada = ob_get_contents();
-    ob_end_clean();
-
-    // Liberar memoria
-    imagedestroy($src);
-    imagedestroy($dst);
-
-    return $imagenRedimensionada;
 }
 
 if (validarCamposRequeridos([
@@ -66,26 +31,13 @@ if (validarCamposRequeridos([
     $estado = $_POST['estado']; // O el estado que desees
     $ubicacion = $_POST['estanteria'].'-'.$_POST['fila']; // O el estado que desees
 
-    $portada = null; // Inicializar la portada como null
-
-    // Manejar la subida de la portada como binario
-    if (is_uploaded_file($_FILES['portada']['tmp_name'])) {
-        // Comprobar si hubo algún error en la carga
-        if ($_FILES['portada']['error'] !== UPLOAD_ERR_OK) {
-            echo "Error al subir la imagen: " . $_FILES['portada']['error'];
-            exit();
-        }
-
-        // Redimensionar la imagen antes de guardarla
-        $portada = redimensionarImagen($_FILES['portada']['tmp_name'], 800, 800); // Cambia 800, 800 por el tamaño máximo que desees
-    } else {
-        $portada = null; // Si no se subió una imagen, puedes establecerla como null o como quieras manejarlo
-    }
-
     // Instanciar la clase Libroqr
     $Libro_class = new Libroqr();
 
     try {
+        // Portada como binario: archivo subido o URL; null conserva la portada actual
+        $portada = obtenerPortada($_FILES['portada'] ?? [], $_POST['portada_url'] ?? '');
+
         // Ejecutar la operación de modificar libro
         $operar = $Libro_class->modificarLibro(
             $idLibro, $titulo, $autor, $editorial, $ano, $isbn, 

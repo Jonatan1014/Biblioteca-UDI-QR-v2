@@ -4,6 +4,7 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
 require_once '../includes/class_libroqr.php';
+require_once '../includes/portada.php';
 
 // Verificar que los campos requeridos estén presentes y no vacíos
 function validarCamposRequeridos($campos) {
@@ -15,48 +16,11 @@ function validarCamposRequeridos($campos) {
     return true;
 }
 
-// Función para redimensionar la imagen
-function redimensionarImagen($archivo, $maxWidth, $maxHeight) {
-    list($width, $height) = getimagesize($archivo);
-    $ratio = $width / $height;
-
-    if ($width > $maxWidth || $height > $maxHeight) {
-        if ($ratio > 1) {
-            $width = $maxWidth;
-            $height = $maxWidth / $ratio;
-        } else {
-            $height = $maxHeight;
-            $width = $maxHeight * $ratio;
-        }
-    } else {
-        // Si la imagen ya está dentro de los límites, no redimensionar
-        return file_get_contents($archivo);
-    }
-
-    // Crear una nueva imagen redimensionada
-    $src = imagecreatefromstring(file_get_contents($archivo));
-    $dst = imagecreatetruecolor($width, $height);
-    imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, imagesx($src), imagesy($src));
-
-    // Guardar la imagen redimensionada en un buffer
-    ob_start();
-    imagejpeg($dst);
-    $imagenRedimensionada = ob_get_contents();
-    ob_end_clean();
-
-    // Liberar memoria
-    imagedestroy($src);
-    imagedestroy($dst);
-
-    return $imagenRedimensionada;
-}
-
 if (validarCamposRequeridos([
-    $_POST['titulo'], $_POST['autor'], $_POST['editorial'], 
-    $_POST['categoria'], $_POST['ano'], $_POST['idioma'], 
-    $_POST['isbn'], $_POST['edicion'], $_POST['descripcion'], $_POST['estanteria'], $_POST['fila'],
-    $_FILES['portada']['tmp_name'] // Verificar que se haya subido una portada
-])) {    
+    $_POST['titulo'], $_POST['autor'], $_POST['editorial'],
+    $_POST['categoria'], $_POST['ano'], $_POST['idioma'],
+    $_POST['isbn'], $_POST['edicion'], $_POST['descripcion'], $_POST['estanteria'], $_POST['fila']
+])) {
     // Asignar las variables de entrada
     $titulo = $_POST['titulo'];
     $autor = $_POST['autor'];
@@ -78,19 +42,17 @@ if (validarCamposRequeridos([
         return $writer->write($qrCode)->getString();
     }
     
-    // Manejar la subida de la portada como binario
-    if (is_uploaded_file($_FILES['portada']['tmp_name'])) {
-        // Redimensionar la imagen antes de guardarla
-        $portada = redimensionarImagen($_FILES['portada']['tmp_name'], 800, 800); // Cambia 800, 800 por el tamaño máximo que desees
-    } else {
-        echo "<script>alert('Error al cargar la portada.'); window.location.href = '../form-elements.php';</script>";
-        exit();
-    }
-
     // Instanciar la clase Libroqr
     $Libro_class = new Libroqr();
 
     try {
+        // Portada como binario: archivo subido o URL (redimensionada)
+        $portada = obtenerPortada($_FILES['portada'] ?? [], $_POST['portada_url'] ?? '');
+        if ($portada === null) {
+            echo "<script>alert('Debes subir una imagen o pegar la URL de la portada.'); window.location.href = '../form-elements.php';</script>";
+            exit();
+        }
+
         // Verificar si el ISBN ya está registrado
         $libro_existente = $Libro_class->verificarDuplicados($isbn);
         
