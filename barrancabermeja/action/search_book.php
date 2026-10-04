@@ -1,4 +1,6 @@
 <?php
+require_once '../includes/portada.php';
+
 $conn = new mysqli(
     getenv('DB_HOST') ?: 'localhost', 
     getenv('DB_USER') ?: 'root', 
@@ -34,9 +36,23 @@ if ($result->num_rows > 0) {
             echo '            </div>';
             echo '        </div>';
             
-            // Imagen QR centrada
+            // Muestra la portada; al hacer clic cambia al código QR (y viceversa)
+            $idLibroCard = (int) $book['idLibro'];
+            $tienePortada = srcPortada($book) !== null;
+            $tieneQR = !empty($book["qr_code"]);
             echo '        <div class="d-flex justify-content-center">';
-            echo '            <img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($book["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($book['titulo']) . '" style="width: 150px; height: 150px;">';
+            if ($tienePortada) {
+                $clicPortada = $tieneQR
+                    ? ' onclick="this.classList.add(\'d-none\'); document.getElementById(\'qr-' . $idLibroCard . '\').classList.remove(\'d-none\');" style="cursor: pointer;"'
+                    : ' style="width: 150px; height: 150px; object-fit: cover;"';
+                $estiloPortada = $tieneQR ? ' style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;"' : '';
+                echo '            <img id="portada-' . $idLibroCard . '" class="img-fluid" src="' . htmlspecialchars(srcPortada($book)) . '" alt="Portada de ' . htmlspecialchars($book['titulo']) . '"' . $estiloPortada . $clicPortada . '>';
+            }
+            if ($tieneQR) {
+                $clicQR = ' onclick="this.classList.add(\'d-none\'); document.getElementById(\'portada-' . $idLibroCard . '\').classList.remove(\'d-none\');" style="width: 150px; height: 150px; cursor: pointer;"';
+                $claseQR = $tienePortada ? 'img-fluid d-none' : 'img-fluid';
+                echo '            <img id="qr-' . $idLibroCard . '" class="' . $claseQR . '" src="data:image/jpeg;base64,' . base64_encode($book["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($book['titulo']) . '"' . ($tienePortada ? $clicQR : ' style="width: 150px; height: 150px;"') . '>';
+            }
             echo '        </div>';
             
             // Parte inferior con resumen y botón
