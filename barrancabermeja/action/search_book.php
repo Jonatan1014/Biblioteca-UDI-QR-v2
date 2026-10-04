@@ -1,5 +1,8 @@
 <?php
+require_once __DIR__ . '/../includes/auth.php';
+requerirAdmin();
 require_once '../includes/portada.php';
+require_once '../includes/qr.php';
 
 $conn = new mysqli(
     getenv('DB_HOST') ?: 'localhost', 
@@ -39,7 +42,8 @@ if ($result->num_rows > 0) {
             // Muestra la portada; al hacer clic cambia al código QR (y viceversa)
             $idLibroCard = (int) $book['idLibro'];
             $tienePortada = srcPortada($book) !== null;
-            $tieneQR = !empty($book["qr_code"]);
+            $srcQR = srcQR($book);
+            $tieneQR = $srcQR !== null;
             echo '        <div class="d-flex justify-content-center">';
             if ($tienePortada) {
                 $clicPortada = $tieneQR
@@ -51,7 +55,7 @@ if ($result->num_rows > 0) {
             if ($tieneQR) {
                 $clicQR = ' onclick="this.classList.add(\'d-none\'); document.getElementById(\'portada-' . $idLibroCard . '\').classList.remove(\'d-none\');" style="width: 150px; height: 150px; cursor: pointer;"';
                 $claseQR = $tienePortada ? 'img-fluid d-none' : 'img-fluid';
-                echo '            <img id="qr-' . $idLibroCard . '" class="' . $claseQR . '" src="data:image/jpeg;base64,' . base64_encode($book["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($book['titulo']) . '"' . ($tienePortada ? $clicQR : ' style="width: 150px; height: 150px;"') . '>';
+                echo '            <img id="qr-' . $idLibroCard . '" class="' . $claseQR . '" src="' . $srcQR . '" alt="Código QR de ' . htmlspecialchars($book['titulo']) . '"' . ($tienePortada ? $clicQR : ' style="width: 150px; height: 150px;"') . '>';
             }
             echo '        </div>';
             

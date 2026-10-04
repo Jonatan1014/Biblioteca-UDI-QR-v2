@@ -22,7 +22,8 @@ if ($usuario["estado"]!="Activo") {
 }
 
 
-require('includes/class_prestamo.php'); // Asegúrate de incluir la clase correcta
+require('includes/class_prestamo.php');
+require_once('includes/qr.php'); // Asegúrate de incluir la clase correcta
 
 $prestamo = new Prestamo();
 
@@ -167,7 +168,7 @@ if (!$datos) {
         </div>
         <div class="d-flex justify-content-center"> <!-- Centro de imagen -->
             <?php
-            echo '<img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($datosllibros["qr_code"]) . '" alt="Código QR de ' . htmlspecialchars($datosllibros['titulo']) . '" style="width: 150px; height: 150px;">';
+            echo '<img class="img-fluid" src="' . srcQR($datosllibros) . '" alt="Código QR de ' . htmlspecialchars($datosllibros['titulo']) . '" style="width: 150px; height: 150px;">';
             ?>
         </div>
         <div class="card-body">

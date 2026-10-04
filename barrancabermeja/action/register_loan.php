@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../includes/auth.php';
+requerirAdmin();
 require_once '../includes/class_libroqr.php';
 require_once '../includes/class_usuario.php';
 require_once '../includes/class_prestamo.php'; // Asume que tienes una clase para gestionar los préstamos

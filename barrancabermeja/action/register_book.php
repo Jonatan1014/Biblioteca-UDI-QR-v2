@@ -1,10 +1,13 @@
 <?php 
+require_once __DIR__ . '/../includes/auth.php';
+requerirAdmin();
 require '../vendor/autoload.php'; // Asegúrate de incluir el autoload de composer
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 
 require_once '../includes/class_libroqr.php';
 require_once '../includes/portada.php';
+require_once '../includes/qr.php';
 
 // Verificar que los campos requeridos estén presentes y no vacíos
 function validarCamposRequeridos($campos) {
@@ -62,7 +65,7 @@ if (validarCamposRequeridos([
         }
 
         // URL que deseas convertir en QR
-        $url = "localhost/biblioteca-udi-qr-v2/barrancabermeja/view-qr.php?id=" . $isbn;
+        $url = urlQR($isbn);
 
         // Llamar a la función para generar el código QR
         $codigoQR = generarCodigoQR($url);

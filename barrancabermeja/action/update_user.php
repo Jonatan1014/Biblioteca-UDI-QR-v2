@@ -1,4 +1,6 @@
 <?php 
+require_once __DIR__ . '/../includes/auth.php';
+requerirAdmin();
 require_once '../includes/class_usuario.php';
 
 // Verificar que los campos requeridos estén presentes y no vacíos
