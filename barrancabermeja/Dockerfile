@@ -2,16 +2,32 @@
 FROM php:8.2-apache
 
 # pdo_mysql es el driver que usa conn.php; mysqli lo usa action/search_book.php
-# gd genera y redimensiona las imágenes (portadas y códigos QR)
+# gd genera y redimensiona las imágenes (portadas y códigos QR); unzip lo usa Composer
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpng-dev libjpeg62-turbo-dev libwebp-dev \
+    && apt-get install -y --no-install-recommends libpng-dev libjpeg62-turbo-dev libwebp-dev unzip \
     && docker-php-ext-configure gd --with-jpeg --with-webp \
     && docker-php-ext-install -j"$(nproc)" gd pdo_mysql mysqli \
     && rm -rf /var/lib/apt/lists/* \
     && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
+# Composer instala endroid/qr-code (vendor/ no está en Git)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 COPY . /var/www/html/
 
-RUN chown -R www-data:www-data /var/www/html
+RUN cd /var/www/html \
+    && composer install --no-dev --no-interaction --no-progress --optimize-autoloader \
+    && chown -R www-data:www-data /var/www/html
+
+# Bloquea por HTTP las clases, dependencias, la base de datos (SQL) y los archivos de Composer
+RUN { \
+        echo '<DirectoryMatch "^/var/www/html/(includes|vendor)">'; \
+        echo '    Require all denied'; \
+        echo '</DirectoryMatch>'; \
+        echo '<FilesMatch "^(composer\.(json|lock)|.*\.sql)$">'; \
+        echo '    Require all denied'; \
+        echo '</FilesMatch>'; \
+    } > /etc/apache2/conf-available/bloqueos.conf \
+    && a2enconf bloqueos
 
 EXPOSE 80
