@@ -13,11 +13,15 @@ RUN apt-get update \
 # Composer instala endroid/qr-code (vendor/ no está en Git)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-COPY . /var/www/html/
+WORKDIR /var/www/html
 
-RUN cd /var/www/html \
-    && composer install --no-dev --no-interaction --no-progress --optimize-autoloader \
-    && chown -R www-data:www-data /var/www/html
+# Dependencias primero (capa cacheable); si falta composer.json, el build falla aquí
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader
+
+COPY . .
+
+RUN chown -R www-data:www-data /var/www/html
 
 # Bloquea por HTTP las clases, dependencias, la base de datos (SQL) y los archivos de Composer
 RUN { \
