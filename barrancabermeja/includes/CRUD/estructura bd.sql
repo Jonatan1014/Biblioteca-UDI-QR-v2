@@ -26,8 +26,9 @@ CREATE TABLE libros (
     isbn VARCHAR(13) UNIQUE NOT NULL,             -- ISBN único del libro
     edicion INT NOT NULL,             -- ISBN único del libro
     idioma ENUM('Español', 'Ingles') DEFAULT 'Español',  -- Estado del libro
-    portada LONGBLOB,                             -- Imagen de la portada del libro
-    qr_code LONGBLOB,                             -- Código QR en formato imagen
+    portada LONGBLOB,                             -- Imagen de la portada del libro (binario)
+    portada_url VARCHAR(500) NULL,                -- URL de la portada (se usa si no hay imagen en "portada")
+    qr_code LONGBLOB,                           -- Código QR en formato imagen
     estado ENUM('Disponible', 'Prestado', 'Inactivo') DEFAULT 'Disponible',  -- Estado del libro
     categoria ENUM('Programacion', 'Matematicas', 'Lectura Critica', "Psicologia", "Diseño Grafico", "Finanzas","Otro") DEFAULT 'Otro',  -- Estado del libro
     resena LONGTEXT,
@@ -50,7 +51,8 @@ CREATE TABLE prestamos (
 -- =====================================================
 -- Datos de ejemplo (demo)
 -- Todos los usuarios usan el mismo hash de contraseña que los usuarios semilla.
--- ISBN ficticios: solo para pruebas.
+-- Libros reales con ISBN verificados; portadas desde Open Library (covers.openlibrary.org).
+-- Autor, editorial y año son referenciales.
 -- =====================================================
 
 -- Usuarios de ejemplo (idUser 1 y 2 ya existen arriba)
@@ -63,17 +65,17 @@ INSERT INTO usuarios (code_cc, name, email, password, rol, carrera, estado) VALU
 ("808080", "Sofia Herrera", "sofia@gmail.com", "$2y$10$WAKO01BM0Y601/egwX4WHODjMx2mmG1mO51p7xnEcqWm7VX5mPzJ.", "Admin", "Admin", "Activo");
 
 -- Libros de ejemplo (idLibro 1 a 10)
-INSERT INTO libros (titulo, autor, editorial, año_publicacion, isbn, edicion, idioma, portada, qr_code, estado, categoria, resena, ubicacion) VALUES
-("Clean Code", "Robert C. Martin", "Prentice Hall", 2008, "9780000000001", 1, "Ingles", NULL, NULL, "Disponible", "Programacion", "Guia sobre como escribir codigo limpio y mantenible.", "Estante A-1"),
-("Calculo de una variable", "James Stewart", "Cengage Learning", 2012, "9780000000002", 7, "Español", NULL, NULL, "Prestado", "Matematicas", "Texto base para cursos de calculo diferencial e integral.", "Estante B-2"),
-("Lectura critica para la universidad", "Ana Martinez", "Editorial UDI", 2019, "9780000000003", 2, "Español", NULL, NULL, "Disponible", "Lectura Critica", "Estrategias para leer, analizar y argumentar textos academicos.", "Estante C-1"),
-("Psicologia del desarrollo humano", "John W. Santrock", "McGraw-Hill", 2018, "9780000000004", 14, "Español", NULL, NULL, "Prestado", "Psicologia", "Recorrido por el desarrollo humano desde la infancia hasta la vejez.", "Estante C-3"),
-("Teoria del color para disenadores", "Juan Pablo Ortiz", "Editorial Creativa", 2015, "9780000000005", 1, "Español", NULL, NULL, "Inactivo", "Diseño Grafico", "Fundamentos del color aplicados al diseño grafico. Ejemplar dado de baja.", "Estante D-1"),
-("Finanzas corporativas: un enfoque practico", "Carlos Mejia", "Ediciones Finanzas", 2017, "9780000000006", 3, "Español", NULL, NULL, "Disponible", "Finanzas", "Decisiones de inversion, financiamiento y valoracion de empresas.", "Estante E-2"),
-("Python para principiantes", "Mariana Lopez", "Editorial Tecnologica", 2021, "9780000000007", 1, "Español", NULL, NULL, "Disponible", "Programacion", "Introduccion a Python con ejercicios practicos.", "Estante A-3"),
-("Algoritmos y estructuras de datos", "Luis Joyanes Aguilar", "McGraw-Hill", 2010, "9780000000008", 2, "Español", NULL, NULL, "Prestado", "Programacion", "Listas, pilas, colas, arboles y grafos con ejemplos en pseudocodigo.", "Estante A-4"),
-("Matematicas discretas y sus aplicaciones", "Kenneth H. Rosen", "McGraw-Hill", 2018, "9780000000009", 8, "Español", NULL, NULL, "Disponible", "Matematicas", "Logica, conjuntos, combinatoria y teoria de grafos.", "Estante B-1"),
-("The Design of Everyday Things", "Don Norman", "Basic Books", 2013, "9780000000010", 2, "Ingles", NULL, NULL, "Disponible", "Diseño Grafico", "Principios de usabilidad y diseño centrado en el usuario.", "Estante D-2");
+INSERT INTO libros (titulo, autor, editorial, año_publicacion, isbn, edicion, idioma, portada, portada_url, qr_code, estado, categoria, resena, ubicacion) VALUES
+("Clean Code", "Robert C. Martin", "Prentice Hall", 2008, "9780132350884", 1, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780132350884-L.jpg", NULL, "Disponible", "Programacion", "Guía práctica sobre cómo escribir código limpio, legible y mantenible.", "Estante A-1"),
+("Introduction to Algorithms", "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein", "The MIT Press", 2009, "9780262033848", 3, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780262033848-L.jpg", NULL, "Prestado", "Programacion", "Referencia clásica sobre algoritmos y estructuras de datos, con análisis de complejidad.", "Estante A-4"),
+("How to Read a Book", "Mortimer J. Adler, Charles Van Doren", "Simon and Schuster", 1972, "9780671212094", 1, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780671212094-L.jpg", NULL, "Disponible", "Lectura Critica", "Método para leer, comprender y analizar textos; base de la lectura crítica.", "Estante C-1"),
+("Thinking, Fast and Slow", "Daniel Kahneman", "Farrar, Straus and Giroux", 2013, "9780374533557", 1, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780374533557-L.jpg", NULL, "Prestado", "Psicologia", "Recorrido por los dos sistemas de pensamiento y los sesgos cognitivos.", "Estante C-3"),
+("Don't Make Me Think", "Steve Krug", "New Riders", 2005, "9780321344755", 2, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780321344755-L.jpg", NULL, "Inactivo", "Diseño Grafico", "Principios de usabilidad para interfaces web. Ejemplar dado de baja.", "Estante D-1"),
+("The Intelligent Investor", "Benjamin Graham", "Harper Business", 2003, "9780060555665", 1, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780060555665-L.jpg", NULL, "Disponible", "Finanzas", "Clásico sobre inversión en valor y gestión disciplinada del riesgo.", "Estante E-2"),
+("Python Crash Course", "Eric Matthes", "No Starch Press", 2019, "9781593279288", 2, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9781593279288-L.jpg", NULL, "Disponible", "Programacion", "Introducción práctica a Python con proyectos de juegos, visualización de datos y aplicaciones web.", "Estante A-3"),
+("The Pragmatic Programmer", "Andrew Hunt, David Thomas", "Addison-Wesley", 2019, "9780135957059", 2, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780135957059-L.jpg", NULL, "Prestado", "Programacion", "Consejos prácticos para mejorar como desarrollador de software.", "Estante A-2"),
+("Discrete Mathematics and Its Applications", "Kenneth H. Rosen", "McGraw-Hill", 2012, "9780073383095", 7, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780073383095-L.jpg", NULL, "Disponible", "Matematicas", "Lógica, conjuntos, combinatoria, grafos y teoría de números con aplicaciones en computación.", "Estante B-1"),
+("The Design of Everyday Things", "Don Norman", "Basic Books", 2013, "9780465050659", 1, "Ingles", NULL, "https://covers.openlibrary.org/b/isbn/9780465050659-L.jpg", NULL, "Disponible", "Diseño Grafico", "Principios de diseño centrado en el usuario: visibilidad, retroalimentación y mapeos.", "Estante D-2");
 
 -- Préstamos de ejemplo (idUser e idLibro según los inserts anteriores)
 INSERT INTO prestamos (idUser, idLibro, fecha_prestamo, fecha_vencimiento, fecha_devolucion, estado) VALUES
