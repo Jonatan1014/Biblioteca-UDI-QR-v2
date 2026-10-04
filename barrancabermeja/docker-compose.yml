@@ -1,3 +1,6 @@
+# Variables requeridas en .env (junto a este archivo):
+#   DB_PASS, DB_ROOT_PASSWORD
+# Opcionales: APP_PORT (8080), DB_NAME (libroqr), DB_USER (app)
 services:
   app:
     build: .
@@ -24,7 +27,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       # Crea las tablas la primera vez que se inicializa el volumen
-      - ./barrancabermeja/includes/CRUD:/docker-entrypoint-initdb.d:ro
+      - ./includes/CRUD:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
       interval: 10s

@@ -1,11 +1,6 @@
-.git
-.atl
-.codegraph
 .env
 .env.*
 **/.env
-imagesdoc
-README.md
 Dockerfile
 docker-compose.yml
 .dockerignore
