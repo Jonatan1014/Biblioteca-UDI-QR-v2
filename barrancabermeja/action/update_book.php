@@ -40,9 +40,10 @@ if (validarCamposRequeridos([
 
         // Ejecutar la operación de modificar libro
         $operar = $Libro_class->modificarLibro(
-            $idLibro, $titulo, $autor, $editorial, $ano, $isbn, 
+            $idLibro, $titulo, $autor, $editorial, $ano, $isbn,
             $edicion, $idioma, $portada, // Puedes enviar null si no hay portada nueva
-            $estado, $categoria, $resena, $ubicacion
+            $estado, $categoria, $resena, $ubicacion,
+            urlPortada($_FILES['portada'] ?? [], $_POST['portada_url'] ?? '')
         );
 
         if ($operar) {

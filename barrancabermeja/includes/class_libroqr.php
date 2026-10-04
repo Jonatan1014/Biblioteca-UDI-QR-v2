@@ -102,9 +102,9 @@ class Libroqr extends conectarDB {
    
 
     // Método para agregar un nuevo libro
-    public function agregarLibro($titulo, $autor, $editorial, $ano, $isbn, $edicion, $idioma, $portada, $qr_code, $estado, $categoria, $resena, $ubicacion) {
-        $sql = "INSERT INTO libros (titulo, autor, editorial, año_publicacion, isbn, edicion, idioma, portada, qr_code, estado, categoria, resena, ubicacion)
-                VALUES (:titulo, :autor, :editorial, :anio_publicacion, :isbn, :edicion, :idioma, :portada, :qr_code, :estado, :categoria, :resena, :ubicacion)";
+    public function agregarLibro($titulo, $autor, $editorial, $ano, $isbn, $edicion, $idioma, $portada, $qr_code, $estado, $categoria, $resena, $ubicacion, $portada_url = null) {
+        $sql = "INSERT INTO libros (titulo, autor, editorial, año_publicacion, isbn, edicion, idioma, portada, portada_url, qr_code, estado, categoria, resena, ubicacion)
+                VALUES (:titulo, :autor, :editorial, :anio_publicacion, :isbn, :edicion, :idioma, :portada, :portada_url, :qr_code, :estado, :categoria, :resena, :ubicacion)";
         
         $stmt = $this->conn_db->prepare($sql);
         $stmt->bindParam(':titulo', $titulo);
@@ -115,6 +115,7 @@ class Libroqr extends conectarDB {
         $stmt->bindParam(':edicion', $edicion, PDO::PARAM_INT);
         $stmt->bindParam(':idioma', $idioma);
         $stmt->bindParam(':portada', $portada, PDO::PARAM_LOB);
+        $stmt->bindParam(':portada_url', $portada_url);
         $stmt->bindParam(':qr_code', $qr_code, PDO::PARAM_LOB);
         $stmt->bindParam(':estado', $estado);
         $stmt->bindParam(':categoria', $categoria);
@@ -129,11 +130,12 @@ class Libroqr extends conectarDB {
     }
     
 
-    public function modificarLibro($idLibro, $titulo, $autor, $editorial, $anio_publicacion, $isbn, $edicion, $idioma, $portada = null, $estado, $categoria,$resena,$ubicacion) {
-        $sql = "UPDATE libros 
-                SET titulo = :titulo, autor = :autor, editorial = :editorial, año_publicacion = :anio_publicacion, 
-                    isbn = :isbn, edicion = :edicion, idioma = :idioma, estado = :estado, categoria = :categoria, resena = :resena, ubicacion = :ubicacion" . 
-                    ($portada !== null ? ", portada = :portada" : "") . 
+    public function modificarLibro($idLibro, $titulo, $autor, $editorial, $anio_publicacion, $isbn, $edicion, $idioma, $portada = null, $estado, $categoria,$resena,$ubicacion, $portada_url = null) {
+        $sql = "UPDATE libros
+                SET titulo = :titulo, autor = :autor, editorial = :editorial, año_publicacion = :anio_publicacion,
+                    isbn = :isbn, edicion = :edicion, idioma = :idioma, estado = :estado, categoria = :categoria, resena = :resena, ubicacion = :ubicacion" .
+                    ($portada !== null ? ", portada = :portada" : "") .
+                    ($portada_url !== null ? ", portada_url = :portada_url" : "") .
                 " WHERE idLibro = :idLibro";
     
         $stmt = $this->conn_db->prepare($sql);    
@@ -153,7 +155,10 @@ class Libroqr extends conectarDB {
         if ($portada !== null) {
             $stmt->bindParam(':portada', $portada, PDO::PARAM_LOB); // Enlaza el campo de la portada
         }
-    
+        if ($portada_url !== null) {
+            $stmt->bindParam(':portada_url', $portada_url);
+        }
+
         return $stmt->execute();
     }
     

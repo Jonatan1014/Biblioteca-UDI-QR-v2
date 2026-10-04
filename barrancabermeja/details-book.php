@@ -26,6 +26,7 @@ if (empty($_POST['idLibro'])){
     exit();
 } 
 require('includes/class_libroqr.php');
+require_once('includes/portada.php');
 $libro = new Libroqr();
 $datos = $libro->detallarLibro($_POST['idLibro']); // Obtener los datos de un libro específico
 ?>
@@ -124,8 +125,10 @@ $datos = $libro->detallarLibro($_POST['idLibro']); // Obtener los datos de un li
 
                                     <div class="col-sm-6 col-lg-3">
                                         <div class="card">
-                                            <?php // Imagen (código QR del libro)
-                                                echo '<img class="card-img-top" src="data:image/jpeg;base64,' . base64_encode($datos["portada"]) . '" alt="Código QR de ' . htmlspecialchars($datos['titulo']) . '" style="width: 100%; height: 400px; object-fit: cover;">';
+                                            <?php // Imagen de portada (binario guardado o URL)
+                                                if ($srcPortada = srcPortada($datos)) {
+                                                    echo '<img class="card-img-top" src="' . htmlspecialchars($srcPortada) . '" alt="Portada de ' . htmlspecialchars($datos['titulo']) . '" style="width: 100%; height: 400px; object-fit: cover;">';
+                                                }
                                             ?>
 
 

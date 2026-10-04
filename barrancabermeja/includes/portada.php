@@ -81,3 +81,17 @@ function obtenerPortada(array $archivo, string $url): ?string {
 
     return redimensionarImagen($binario, PORTADA_MAX_LADO, PORTADA_MAX_LADO);
 }
+
+// URL a guardar en "portada_url": solo cuando la portada viene de la URL (no hay archivo)
+function urlPortada(array $archivo, string $url): ?string {
+    $usaArchivo = ($archivo['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK;
+    return (!$usaArchivo && trim($url) !== '') ? trim($url) : null;
+}
+
+// Fuente para <img src>: la imagen guardada en la base, o la URL si no hay binario
+function srcPortada(array $libro): ?string {
+    if (!empty($libro['portada'])) {
+        return 'data:image/jpeg;base64,' . base64_encode($libro['portada']);
+    }
+    return !empty($libro['portada_url']) ? $libro['portada_url'] : null;
+}

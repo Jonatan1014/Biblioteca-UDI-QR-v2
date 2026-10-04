@@ -5,6 +5,7 @@ if (!isset($_GET['id'])) {
     exit();
 } 
 include("includes/class_libroqr.php");
+include_once("includes/portada.php");
 $idLibro = intval($_GET['id']); // Asegúrate de validar y sanitizar el ID
 $libro = new Libroqr(); // Incluir la clase para gestionar los libros
 $datosLibro = $libro->detallarLibro_ISBN($idLibro); // Suponiendo que tienes una función para obtener los detalles del libro
@@ -145,7 +146,9 @@ if ($datosLibro) {
                                         <div class="col-sm-4 text-center">
                                             <!-- Añadido text-center -->
                                             <!-- Imagen (portada del libro) -->
-                                            <?php echo '<img class="img-fluid" src="data:image/jpeg;base64,' . base64_encode($datosLibro["portada"]) . '" alt="Portada de ' . htmlspecialchars($datosLibro['titulo']) . '" class="qr-code" style="max-width: 100%; height: auto;">'; ?>
+                                            <?php if ($srcPortada = srcPortada($datosLibro)) {
+                                                echo '<img class="img-fluid" src="' . htmlspecialchars($srcPortada) . '" alt="Portada de ' . htmlspecialchars($datosLibro['titulo']) . '" style="max-width: 100%; height: auto;">';
+                                            } ?>
                                         </div> <!-- end col-->
 
                                         <div class="col-sm-4">

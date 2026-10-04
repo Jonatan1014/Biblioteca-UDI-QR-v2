@@ -69,9 +69,10 @@ if (validarCamposRequeridos([
 
         // Ejecutar la operación de agregar libro
         $operar = $Libro_class->agregarLibro(
-            $titulo, $autor, $editorial, $ano, $isbn, 
-            $edicion, $idioma, $portada, $codigoQR, 
-            $estado, $categoria, $resena, $ubicacion
+            $titulo, $autor, $editorial, $ano, $isbn,
+            $edicion, $idioma, $portada, $codigoQR,
+            $estado, $categoria, $resena, $ubicacion,
+            urlPortada($_FILES['portada'] ?? [], $_POST['portada_url'] ?? '')
         );
         
 
